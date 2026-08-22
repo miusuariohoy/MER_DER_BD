@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Guia interactiva: MER · DER · Base de Datos · Dia</title>
+<style>
+:root{
+  --verde:#0b6623; --verde-claro:#e8f5ec; --celeste:#d6eaf8;
+  --gris:#f4f4f4; --borde:#bbb; --texto:#222;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0; color:var(--texto);
+  font-family:"Segoe UI",Arial,Helvetica,sans-serif; line-height:1.5;
+  background:#fff;
+}
+/* ---------- Barra de navegacion ---------- */
+nav{
+  position:sticky; top:0; z-index:50;
+  background:var(--verde); display:flex; align-items:center;
+  gap:.25rem; padding:.55rem 1rem; flex-wrap:wrap;
+  box-shadow:0 2px 6px rgba(0,0,0,.25);
+}
+nav .logo{
+  color:#fff; font-weight:bold; margin-right:1rem;
+  letter-spacing:.5px;
+}
+nav a{
+  color:#eafbe9; text-decoration:none; padding:.35rem .8rem;
+  border-radius:6px; font-weight:600; font-size:.95rem;
+}
+nav a:hover{background:rgba(255,255,255,.18)}
+nav a.activo{background:#fff; color:var(--verde)}
+/* ---------- Secciones ---------- */
+main{max-width:900px; margin:0 auto; padding:1rem}
+section{scroll-margin-top:64px; padding-top:.5rem}
+h1{
+  background:var(--verde); color:#fff; padding:.45rem .8rem;
+  border-radius:8px; font-size:1.25rem; margin-top:2.2rem;
+}
+h2{color:var(--verde); font-size:1.08rem; margin-top:1.6rem}
+p, li{font-size:.98rem}
+ul{padding-left:1.3rem}
+code{
+  background:var(--gris); padding:.05rem .35rem; border-radius:4px;
+  font-family:Consolas,"Courier New",monospace; font-size:.88em;
+}
+pre.codigo{
+  background:var(--gris); border:1px solid var(--borde);
+  border-radius:8px; padding:.8rem 1rem; overflow-x:auto;
+  font-family:Consolas,"Courier New",monospace; font-size:.82rem;
+  line-height:1.45;
+}
+pre.codigo .kw{color:#0645ad; font-weight:bold}
+pre.codigo .cm{color:#2e7d32}
+table.datos{
+  border-collapse:collapse; width:100%; margin:.6rem 0;
+}
+table.datos th{
+  background:var(--verde); color:#fff; text-align:left;
+  padding:.4rem .6rem; font-size:.92rem;
+}
+table.datos td{
+  border:1px solid var(--borde); padding:.38rem .6rem;
+  font-size:.92rem;
+}
+table.datos tr:nth-child(even) td{background:#f7f7f7}
+figure{margin:.8rem 0; text-align:center}
+figcaption{font-size:.85rem; color:#555; margin-top:.2rem}
+.grid-sim{
+  display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:1rem; margin:.8rem 0;
+}
+.card{
+  border:1px solid var(--borde); border-radius:10px;
+  padding:.7rem .8rem; background:#fcfcfc;
+}
+.card h3{margin:.1rem 0 .4rem; font-size:.98rem; color:var(--verde)}
+.card p{font-size:.86rem; margin:.3rem 0 0}
+.nota{
+  background:#fff8dc; border-left:4px solid #c8a200;
+  padding:.55rem .8rem; border-radius:0 8px 8px 0;
+  font-size:.92rem; margin:.8rem 0;
+}
+/* ---------- Cajas DER ---------- */
+.der-wrap{display:flex; gap:.6rem; justify-content:center; align-items:flex-start; flex-wrap:wrap; margin:1rem 0}
+.tblbox{border:1px solid #333; min-width:150px; font-size:.78rem; font-family:Consolas,monospace}
+.tblbox h4{
+  margin:0; background:var(--celeste); border-bottom:1px solid #333;
+  text-align:center; padding:.3rem; font-size:.85rem;
+}
+.tblbox div{padding:.15rem .5rem; border-top:1px dashed #ccc}
+.pk{font-weight:bold; text-decoration:underline}
+.fk{font-style:italic; color:#8a6d00}
+.conector{
+  align-self:center; font-family:Consolas,monospace; font-size:.8rem;
+  color:#333; white-space:pre-line; text-align:center;
+}
+/* ---------- Ejercicios ---------- */
+.ejercicio{
+  border:1px solid var(--borde); border-radius:10px;
+  padding:.9rem 1rem; margin:1.1rem 0; background:#fdfdfd;
+}
+.ejercicio h2{margin-top:.2rem}
+textarea{
+  width:100%; min-height:90px; resize:vertical;
+  font-family:Consolas,monospace; font-size:.85rem;
+  border:1px solid var(--borde); border-radius:8px; padding:.5rem;
+}
+label{display:block; font-size:.88rem; font-weight:600; margin:.6rem 0 .25rem}
+.btnrow{margin-top:.6rem; display:flex; gap:.5rem; flex-wrap:wrap}
+button{
+  background:var(--verde); color:#fff; border:none;
+  padding:.45rem .95rem; border-radius:8px; cursor:pointer;
+  font-weight:600; font-size:.9rem;
+}
+button.secundario{background:#666}
+button:hover{filter:brightness(1.12)}
+.estado{font-size:.82rem; color:#2e7d32; margin-left:.4rem}
+.config{
+  background:var(--verde-claro); border:1px solid var(--verde);
+  border-radius:10px; padding:.8rem 1rem; margin:1rem 0;
+}
+.config input[type=email], .config input[type=text]{
+  padding:.4rem .5rem; border:1px solid var(--borde);
+  border-radius:6px; min-width:min(320px,70vw);
+}
+footer{text-align:center; color:#777; font-size:.85rem; padding:1.5rem 0 2.5rem}
+@media (max-width:600px){ .conector{width:100%} }
+</style>
+</head>
+<body>
+
+<nav>
+  <span class="logo">Guia E-R</span>
+  <a href="#mer">MER</a>
+  <a href="#der">DER</a>
+  <a href="#bd">BD</a>
+  <a href="#dia">Dia</a>
+  <a href="#ejercicios">Ejercicios</a>
+</nav>
+
+<main>
+<!-- ============================ MER ============================ -->
+<section id="mer">
+  <h1>Parte 1 &middot; MER: Modelo Entidad-Relacion</h1>
+  <p>El <strong>MER</strong> es una representacion <em>conceptual</em> de la base de datos:
+  permite identificar entidades, atributos, relaciones y cardinalidades
+  <strong>antes</strong> de escribir una sola linea de SQL. Caso de ejemplo de toda
+  la guia: una <strong>tienda</strong> donde los clientes compran productos.</p>
+
+  <div class="grid-sim">
+    <div class="card">
+      <h3>Entidad &rarr; rectangulo</h3>
+      <svg viewBox="0 0 230 92" role="img" aria-label="Entidad">
+        <rect x="45" y="23" width="140" height="46" fill="#d6eaf8" stroke="#000" stroke-width="1.4"/>
+        <text x="115" y="51" text-anchor="middle" font-weight="bold" font-size="13">CLIENTE</text>
+      </svg>
+      <p>Objeto del que queremos guardar informacion. Nombre en MAYUSCULAS:
+      CLIENTE, PRODUCTO, ALUMNO, MATERIA, LIBRO.</p>
+    </div>
+    <div class="card">
+      <h3>Atributo &rarr; ovalo</h3>
+      <svg viewBox="0 0 230 132" role="img" aria-label="Atributo">
+        <ellipse cx="115" cy="30" rx="42" ry="16" fill="#f2f2f2" stroke="#000" stroke-width="1.4"/>
+        <text x="115" y="34" text-anchor="middle" font-size="11">nombre</text>
+        <line x1="115" y1="46" x2="115" y2="66" stroke="#000" stroke-width="1.4"/>
+        <rect x="45" y="66" width="140" height="44" fill="#d6eaf8" stroke="#000" stroke-width="1.4"/>
+        <text x="115" y="93" text-anchor="middle" font-weight="bold" font-size="12">CLIENTE</text>
+      </svg>
+      <p>Caracteristica de la entidad, dibujada arriba y conectada con una linea.</p>
+    </div>
+    <div class="card">
+      <h3>Atributo clave &rarr; ovalo subrayado</h3>
+      <svg viewBox="0 0 230 132" role="img" aria-label="Clave">
+        <ellipse cx="115" cy="30" rx="52" ry="16" fill="#f2f2f2" stroke="#000" stroke-width="1.4"/>
+        <text x="115" y="34" text-anchor="middle" font-size="11" text-decoration="underline">id_cliente</text>
+        <line x1="115" y1="46" x2="115" y2="66" stroke="#000" stroke-width="1.4"/>
+        <rect x="45" y="66" width="140" height="44" fill="#d6eaf8" stroke="#000" stroke-width="1.4"/>
+        <text x="115" y="93" text-anchor="middle" font-weight="bold" font-size="12">CLIENTE</text>
+      </svg>
+      <p>Identifica de forma unica a cada entidad. En la base se convierte en la
+      <strong>PRIMARY KEY</strong>.</p>
+    </div>
+    <div class="card">
+      <h3>Atributo multivaluado &rarr; doble ovalo</h3>
+      <svg viewBox="0 0 230 134" role="img" aria-label="Multivaluado">
+        <ellipse cx="115" cy="32" rx="54" ry="19" fill="#f2f2f2" stroke="#000" stroke-width="1.4"/>
+        <ellipse cx="115" cy="32" rx="47" ry="13" fill="none" stroke="#000" stroke-width="1"/>
+        <text x="115" y="36" text-anchor="middle" font-size="11">telefono</text>
+        <line x1="115" y1="51" x2="115" y2="68" stroke="#000" stroke-width="1.4"/>
+        <rect x="45" y="68" width="140" height="44" fill="#d6eaf8" stroke="#000" stroke-width="1.4"/>
+        <text x="115" y="95" text-anchor="middle" font-weight="bold" font-size="12">CLIENTE</text>
+      </svg>
+      <p>Puede tener varios valores para la misma entidad: un cliente con
+      dos telefonos.</p>
+    </div>
+    <div class="card">
+      <h3>Atributo derivado &rarr; ovalo punteado</h3>
+      <svg viewBox="0 0 230 150" role="img" aria-label="Derivado">
+        <ellipse cx="115" cy="24" rx="66" ry="15" fill="#f2f2f2" stroke="#000" stroke-width="1.4"/>
+        <text x="115" y="28" text-anchor="middle" font-size="10.5">fecha_nacimiento</text>
+        <line x1="115" y1="39" x2="115" y2="58" stroke="#000" stroke-width="1.4" stroke-dasharray="4 4"/>
+        <ellipse cx="115" cy="74" rx="36" ry="15" fill="#fff" stroke="#000" stroke-width="1.4" stroke-dasharray="4 4"/>
+        <text x="115" y="78" text-anchor="middle" font-size="11">edad</text>
+        <line x1="115" y1="89" x2="115" y2="106" stroke="#000" stroke-width="1.4"/>
+        <rect x="45" y="106" width="140" height="40" fill="#d6eaf8" stroke="#000" stroke-width="1.4"/>
+        <text x="115" y="131" text-anchor="middle" font-weight="bold" font-size="12">CLIENTE</text>
+      </svg>
+      <p>Se calcula a partir de otro dato: la edad sale de la fecha de
+      nacimiento. No se guarda.</p>
+    </div>
+    <div class="card">
+      <h3>Relacion &rarr; rombo</h3>
+      <svg viewBox="0 0 300 102" role="img" aria-label="Relacion">
+        <rect x="8" y="30" width="110" height="42" fill="#d6eaf8" stroke="#000" stroke-width="1.4"/>
+        <text x="63" y="56" text-anchor="middle" font-weight="bold" font-size="12">CLIENTE</text>
+        <line x1="118" y1="51" x2="128" y2="51" stroke="#000" stroke-width="1.4"/>
+        <polygon points="185,20 240,51 185,82 130,51" fill="#fcf3cf" stroke="#000" stroke-width="1.4"/>
+        <text x="185" y="55" text-anchor="middle" font-weight="bold" font-size="11.5">COMPRA</text>
+        <line x1="242" y1="51" x2="252" y2="51" stroke="#000" stroke-width="1.4"/>
+        <rect x="252" y="30" width="42" height="42" fill="#d6eaf8" stroke="#000" stroke-width="1.4"/>
+        <text x="273" y="56" text-anchor="middle" font-weight="bold" font-size="7.5">PROD.</text>
+      </svg>
+      <p>Accion o asociacion entre entidades: COMPRA, TIENE, CURSA,
+      PERTENECE, REALIZA...</p>
+    </div>
+    <div class="card">
+      <h3>Cardinalidad &rarr; sobre la linea</h3>
+      <svg viewBox="0 0 300 190" role="img" aria-label="Cardinalidades">
+        <rect x="10" y="12" width="100" height="30" fill="#d6eaf8" stroke="#000"/>
+        <text x="60" y="31" text-anchor="middle" font-size="10" font-weight="bold">PERSONA</text>
+        <line x1="110" y1="27" x2="190" y2="27" stroke="#000" stroke-width="1.3"/>
+        <text x="150" y="22" text-anchor="middle" font-weight="bold">1 : 1</text>
+        <rect x="190" y="12" width="100" height="30" fill="#d6eaf8" stroke="#000"/>
+        <text x="240" y="31" text-anchor="middle" font-size="10" font-weight="bold">DNI</text>
+        <rect x="10" y="80" width="100" height="30" fill="#d6eaf8" stroke="#000"/>
+        <text x="60" y="99" text-anchor="middle" font-size="10" font-weight="bold">CLIENTE</text>
+        <line x1="110" y1="95" x2="190" y2="95" stroke="#000" stroke-width="1.3"/>
+        <text x="150" y="90" text-anchor="middle" font-weight="bold">1 : N</text>
+        <rect x="190" y="80" width="100" height="30" fill="#d6eaf8" stroke="#000"/>
+        <text x="240" y="99" text-anchor="middle" font-size="10" font-weight="bold">COMPRA</text>
+        <rect x="10" y="148" width="100" height="30" fill="#d6eaf8" stroke="#000"/>
+        <text x="60" y="167" text-anchor="middle" font-size="10" font-weight="bold">CLIENTE</text>
+        <line x1="110" y1="163" x2="190" y2="163" stroke="#000" stroke-width="1.3"/>
+        <text x="150" y="158" text-anchor="middle" font-weight="bold">N : M</text>
+        <rect x="190" y="148" width="100" height="30" fill="#d6eaf8" stroke="#000"/>
+        <text x="240" y="167" text-anchor="middle" font-size="10" font-weight="bold">PRODUCTO</text>
+      </svg>
+      <p>Cuantas instancias de A se relacionan con cuantas de B: uno a uno,
+      uno a muchos, muchos a muchos.</p>
+    </div>
+  </div>
+  <h2>Resumen de la simbologia</h2>
+  <table class="datos">
+    <tr><th>Simbolo</th><th>Representa</th></tr>
+    <tr><td>Rectangulo</td><td>Entidad</td></tr>
+    <tr><td>Rombo</td><td>Relacion</td></tr>
+    <tr><td>Ovalo</td><td>Atributo</td></tr>
+    <tr><td>Ovalo subrayado</td><td>Atributo clave (PRIMARY KEY)</td></tr>
+    <tr><td>Doble ovalo</td><td>Atributo multivaluado</td></tr>
+    <tr><td>Ovalo punteado</td><td>Atributo derivado</td></tr>
+    <tr><td>1:1 / 1:N / N:M</td><td>Cardinalidades sobre la linea</td></tr>
+  </table>
+
+  <h2>Ejemplo completo de MER (vertical)</h2>
+  <figure>
+    <svg viewBox="0 0 320 330" role="img" aria-label="MER completo de la tienda" style="max-width:340px">
+      <ellipse cx="160" cy="22" rx="44" ry="14" fill="#f2f2f2" stroke="#000" stroke-width="1.3"/>
+      <text x="160" y="26" text-anchor="middle" font-size="10.5">nombre</text>
+      <line x1="160" y1="36" x2="160" y2="46" stroke="#000" stroke-width="1.3"/>
+      <ellipse cx="160" cy="60" rx="52" ry="14" fill="#f2f2f2" stroke="#000" stroke-width="1.3"/>
+      <text x="160" y="64" text-anchor="middle" font-size="10.5" text-decoration="underline">id_cliente</text>
+      <line x1="160" y1="74" x2="160" y2="88" stroke="#000" stroke-width="1.3"/>
+      <rect x="94" y="88" width="132" height="42" fill="#d6eaf8" stroke="#000" stroke-width="1.4"/>
+      <text x="160" y="114" text-anchor="middle" font-weight="bold" font-size="12">CLIENTE</text>
+      <line x1="160" y1="130" x2="160" y2="168" stroke="#000" stroke-width="1.4"/>
+      <text x="170" y="152" font-weight="bold" font-size="12">N</text>
+      <polygon points="160,168 216,199 160,230 104,199" fill="#fcf3cf" stroke="#000" stroke-width="1.4"/>
+      <text x="160" y="203" text-anchor="middle" font-weight="bold" font-size="11">COMPRA</text>
+      <ellipse cx="55" cy="192" rx="38" ry="14" fill="#f2f2f2" stroke="#000" stroke-width="1.3"/>
+      <text x="55" y="196" text-anchor="middle" font-size="10">fecha</text>
+      <line x1="92" y1="188" x2="108" y2="196" stroke="#000" stroke-width="1.2"/>
+      <ellipse cx="268" cy="192" rx="44" ry="14" fill="#f2f2f2" stroke="#000" stroke-width="1.3"/>
+      <text x="268" y="196" text-anchor="middle" font-size="10">cantidad</text>
+      <line x1="228" y1="188" x2="212" y2="196" stroke="#000" stroke-width="1.2"/>
+      <line x1="160" y1="230" x2="160" y2="268" stroke="#000" stroke-width="1.4"/>
+      <text x="170" y="252" font-weight="bold" font-size="12">M</text>
+      <rect x="89" y="268" width="142" height="42" fill="#d6eaf8" stroke="#000" stroke-width="1.4"/>
+      <text x="160" y="294" text-anchor="middle" font-weight="bold" font-size="12">PRODUCTO</text>
+      <ellipse cx="62" cy="320" rx="40" ry="12" fill="#f2f2f2" stroke="#000" stroke-width="1.3"/>
+      <text x="62" y="324" text-anchor="middle" font-size="9.5">nombre</text>
+      <line x1="88" y1="310" x2="118" y2="300" stroke="#000" stroke-width="1.1"/>
+      <ellipse cx="255" cy="320" rx="38" ry="12" fill="#f2f2f2" stroke="#000" stroke-width="1.3"/>
+      <text x="255" y="324" text-anchor="middle" font-size="9.5">precio</text>
+      <line x1="234" y1="310" x2="204" y2="300" stroke="#000" stroke-width="1.1"/>
+    </svg>
+    <figcaption>Atributos arriba, CLIENTE, linea con N al rombo COMPRA (con
+    fecha y cantidad), linea con M hasta PRODUCTO y sus atributos abajo.</figcaption>
+  </figure>
+</section>
+<!-- ============================ DER ============================ -->
+<section id="der">
+  <h1>Parte 2 &middot; DER: diagrama relacional</h1>
+  <p>El <strong>DER</strong> pasa del dibujo conceptual a las <strong>tablas</strong>
+  reales, como en MySQL Workbench: cada entidad se convierte en una caja con
+  sus campos adentro, marcando quien es PK y quien FK. La relacion N:M se
+  transforma en una <strong>tabla intermedia</strong> con las dos claves
+  foraneas mas los atributos del rombo.</p>
+
+  <div class="der-wrap">
+    <div class="tblbox">
+      <h4>clientes</h4>
+      <div><span class="pk">dni</span> PK INT</div>
+      <div>nombre VARCHAR(50)</div>
+      <div>apellido VARCHAR(50)</div>
+      <div>telefono VARCHAR(20)</div>
+    </div>
+    <div class="conector">1&#9472;&#9472;N
+cliente_dni</div>
+    <div class="tblbox">
+      <h4>compras (intermedia)</h4>
+      <div><span class="pk">id_compra</span> PK AI INT</div>
+      <div><span class="fk">cliente_dni</span> FK INT</div>
+      <div><span class="fk">producto_cod</span> FK INT</div>
+      <div>fecha DATE</div>
+      <div>cantidad INT</div>
+    </div>
+    <div class="conector">N&#9472;&#9472;1
+producto_cod</div>
+    <div class="tblbox">
+      <h4>productos</h4>
+      <div><span class="pk">codigo</span> PK AI INT</div>
+      <div>nombre VARCHAR(50)</div>
+      <div>precio DECIMAL(10,2)</div>
+      <div>stock INT</div>
+    </div>
+  </div>
+
+  <ul>
+    <li><strong>PK = PRIMARY KEY:</strong> identifica cada fila, nunca se repite ni queda vacia.</li>
+    <li><strong>FK = FOREIGN KEY:</strong> apunta a la PK de otra tabla y une los datos.</li>
+    <li><strong>AI = AUTO_INCREMENT:</strong> MySQL numera solo.</li>
+    <li>Lectura de las lineas: un cliente (1) aparece en N compras; un producto (1) aparece en N compras.</li>
+  </ul>
+</section>
+<!-- ============================ BD ============================ -->
+<section id="bd">
+  <h1>Parte 3 &middot; BD: creacion en MySQL</h1>
+
+  <h2>Paso 1: crear la base de datos</h2>
+  <p>Una base de datos es la carpeta logica que agrupa las tablas del
+  sistema. Se crea una sola vez; <code>USE</code> indica con cual trabajamos:</p>
+<pre class="codigo"><span class="cm">-- Crea la base (si no existe) y entra en ella</span>
+<span class="kw">CREATE DATABASE</span> IF NOT EXISTS tiendita;
+<span class="kw">USE</span> tiendita;</pre>
+
+  <h2>Paso 2: crear una tabla</h2>
+  <p>Cada entidad del diagrama se convierte en una tabla. Entre parentesis
+  se listan las columnas: <strong>NOMBRE, TIPO y restricciones</strong>,
+  separadas por comas (la ultima sin coma):</p>
+<pre class="codigo"><span class="kw">CREATE TABLE</span> clientes (
+    dni     INT,
+    nombre  VARCHAR(50),
+    precio  DECIMAL(10,2),
+    fecha   DATE,
+    <span class="kw">PRIMARY KEY</span> (dni)
+);</pre>
+
+  <table class="datos">
+    <tr><th>Tipo</th><th>Para que sirve</th><th>Ejemplo</th></tr>
+    <tr><td>INT</td><td>Numeros enteros</td><td>dni, stock, cantidad</td></tr>
+    <tr><td>DECIMAL(10,2)</td><td>Decimales exactos</td><td>precio</td></tr>
+    <tr><td>VARCHAR(n)</td><td>Texto corto variable</td><td>nombre, telefono</td></tr>
+    <tr><td>DATE</td><td>Fecha AAAA-MM-DD</td><td>fecha_nacimiento</td></tr>
+    <tr><td>AUTO_INCREMENT</td><td>MySQL numera solo</td><td>id_compra</td></tr>
+  </table>
+
+  <ul>
+    <li><code>PRIMARY KEY</code>: identifica cada fila.</li>
+    <li><code>NOT NULL</code>: obliga a cargar siempre ese dato.</li>
+    <li><code>FOREIGN KEY ... REFERENCES</code>: conecta con la PK de otra tabla.</li>
+  </ul>
+  <h2>Script completo: base TIENDITA</h2>
+  <p>Guardalo como <code>tiendita.sql</code>: crea la base, las tres tablas,
+  carga datos de prueba y arma la boleta con un JOIN.</p>
+<pre class="codigo">CREATE DATABASE IF NOT EXISTS tiendita;
+USE tiendita;
+
+CREATE TABLE clientes (
+    dni INT PRIMARY KEY,
+    nombre VARCHAR(50) NOT NULL,
+    apellido VARCHAR(50) NOT NULL,
+    telefono VARCHAR(20)
+);
+
+CREATE TABLE productos (
+    codigo INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(50) NOT NULL,
+    precio DECIMAL(10,2) NOT NULL,
+    stock INT NOT NULL DEFAULT 0
+);
+
+-- Relacion N:M -&gt; tabla intermedia
+CREATE TABLE compras (
+    id_compra INT AUTO_INCREMENT PRIMARY KEY,
+    cliente_dni INT NOT NULL,
+    producto_codigo INT NOT NULL,
+    fecha DATE NOT NULL,
+    cantidad INT NOT NULL,
+    FOREIGN KEY (cliente_dni) REFERENCES clientes(dni),
+    FOREIGN KEY (producto_codigo) REFERENCES productos(codigo)
+);
+
+INSERT INTO clientes VALUES
+    (30111222, 'Ana',  'Gomez', '2664-111111'),
+    (28333444, 'Luis', 'Perez', '2664-222222');
+
+INSERT INTO productos (nombre, precio, stock) VALUES
+    ('Teclado', 8500.00, 10),
+    ('Mouse',   4200.50, 15);
+
+INSERT INTO compras (cliente_dni, producto_codigo, fecha, cantidad) VALUES
+    (30111222, 1, '2026-08-20', 2),
+    (30111222, 2, '2026-08-21', 1),
+    (28333444, 1, '2026-08-21', 3);
+
+SELECT c.apellido, p.nombre, co.fecha, co.cantidad,
+       p.precio * co.cantidad AS total
+FROM compras co
+JOIN clientes  c ON c.dni    = co.cliente_dni
+JOIN productos p ON p.codigo = co.producto_codigo;</pre>
+
+  <h2>Como probarlo</h2>
+  <ul>
+    <li>Abrir phpMyAdmin o MySQL Workbench.</li>
+    <li>Pegar el script completo y ejecutarlo.</li>
+    <li>Verificar las tablas clientes, productos y compras.</li>
+    <li>Ejecutar solo el SELECT final: muestra la boleta con el total.</li>
+    <li>Prueba extra: insertar una compra con cliente_dni inexistente debe fallar; la FOREIGN KEY protege los datos.</li>
+  </ul>
+</section>
+<!-- ============================ DIA ============================ -->
+<section id="dia">
+  <h1>Extra &middot; Dibujar con el programa Dia</h1>
+  <p><strong>Dia</strong> es un programa libre y gratuito para hacer
+  diagramas (alternativa a Visio). Sirve para pasar el MER y el DER a la
+  compu antes de entregarlos.</p>
+
+  <h2>Instalacion</h2>
+  <ul>
+    <li>Windows: bajar el instalador desde <code>www.dia-installer.de</code>.</li>
+    <li>Linux: <code>sudo apt install dia</code></li>
+  </ul>
+
+  <h2>La pantalla</h2>
+  <ul>
+    <li><strong>Lienzo central:</strong> donde se arma el diagrama.</li>
+    <li><strong>Paleta izquierda:</strong> figuras de una coleccion llamada HOJA. El desplegable de arriba cambia de hoja.</li>
+    <li>Clic en una figura y luego clic en el lienzo para colocarla; doble clic para escribir su nombre.</li>
+  </ul>
+
+  <table class="datos">
+    <tr><th>Lo que queres dibujar</th><th>Hoja y figura en Dia</th></tr>
+    <tr><td>Entidad (rectangulo)</td><td>Hoja ER &rarr; Entity</td></tr>
+    <tr><td>Relacion (rombo)</td><td>Hoja ER &rarr; Relationship</td></tr>
+    <tr><td>Atributo (ovalo)</td><td>Hoja ER &rarr; Attribute</td></tr>
+    <tr><td>Tablas del DER (PK/FK)</td><td>Hoja Database &rarr; Table + Reference</td></tr>
+  </table>
+
+  <h2>Trucos</h2>
+  <ul>
+    <li>Unir figuras: herramienta LINEA desde un borde hasta otro; quedan pegadas y siguen unidas al moverlas.</li>
+    <li>Cardinalidades: herramienta TEXTO (T) y escribir 1:N o N:M junto a la linea.</li>
+    <li>En la tabla (hoja Database), doble clic abre el editor de columnas: nombre, tipo y tilde PRIMARY KEY.</li>
+    <li>Archivo &gt; Guardar deja el .dia editable; Archivo &gt; Exportar genera el PNG/PDF para entregar.</li>
+    <li>Atajos: Ctrl+rueda zoom, Ctrl+D duplicar, Supr borrar, Ctrl+Z deshacer.</li>
+  </ul>
+</section>
+<!-- ======================== EJERCICIOS ========================= -->
+<section id="ejercicios">
+  <h1>Parte 4 &middot; Ejercicios</h1>
+  <p>Resolvi cada ejercicio aca mismo. Las respuestas se
+  <strong>guardan en este navegador</strong> (aunque cierres la pagina) y al
+  final las podes <strong>enviar por mail</strong> o descargar como archivo.</p>
+
+  <div class="config">
+    <label for="mailDocente">Mail donde enviar las soluciones:</label>
+    <input type="email" id="mailDocente" placeholder="docente@ejemplo.com">
+    <span class="estado" id="mailEstado"></span>
+  </div>
+
+  <div class="ejercicio" data-ej="ej1">
+    <h2>Ejercicio 1 - La Biblioteca</h2>
+    <p>De cada LECTOR: nombre, apellido y uno o VARIOS telefonos (multivaluado).
+    De cada LIBRO: titulo, autor y anio. Un lector presta MUCHOS libros y un
+    libro es prestado por MUCHOS lectores (N:M). De cada prestamo:
+    fecha_prestamo y fecha_devolucion (atributos del rombo).</p>
+    <label>a) Planteo del MER y DER (entidades, relacion, cardinalidad, atributos especiales)</label>
+    <textarea id="ej1_a"></textarea>
+    <label>b) Script SQL (CREATE DATABASE / TABLE + INSERT + JOIN)</label>
+    <textarea id="ej1_b"></textarea>
+    <div class="btnrow">
+      <button onclick="guardar('ej1')">Guardar</button>
+      <button class="secundario" onclick="borrar('ej1')">Borrar</button>
+      <span class="estado" id="ej1_estado"></span>
+    </div>
+  </div>
+
+  <div class="ejercicio" data-ej="ej2">
+    <h2>Ejercicio 2 - La Veterinaria</h2>
+    <p>De cada DUENO: nombre, fecha_nacimiento y varios telefonos
+    (multivaluado). La EDAD no se guarda: se calcula (derivado). De cada
+    MASCOTA: nombre y especie. Un dueno tiene MUCHAS mascotas pero cada una
+    pertenece a UN dueno (relacion 1:N). Pensa donde va la FK.</p>
+    <label>a) Planteo del MER y DER</label>
+    <textarea id="ej2_a"></textarea>
+    <label>b) Script SQL con la edad calculada en el SELECT</label>
+    <textarea id="ej2_b"></textarea>
+    <div class="btnrow">
+      <button onclick="guardar('ej2')">Guardar</button>
+      <button class="secundario" onclick="borrar('ej2')">Borrar</button>
+      <span class="estado" id="ej2_estado"></span>
+    </div>
+  </div>
+
+  <div class="ejercicio" data-ej="ej3">
+    <h2>Ejercicio 3 - La Escuela (espejo del Boletin Digital)</h2>
+    <p>ALUMNO (dni clave, nombre, apellido) y MATERIA (id, nombre). Un alumno
+    cursa MUCHAS materias y una materia MUCHOS alumnos (N:M). De cada cursada:
+    nota_1co y nota_2co; el promedio se calcula. Comparalo con tu base
+    bdescuela.</p>
+    <label>a) Planteo del MER y DER</label>
+    <textarea id="ej3_a"></textarea>
+    <label>b) Script SQL con el promedio calculado en el JOIN</label>
+    <textarea id="ej3_b"></textarea>
+    <div class="btnrow">
+      <button onclick="guardar('ej3')">Guardar</button>
+      <button class="secundario" onclick="borrar('ej3')">Borrar</button>
+      <span class="estado" id="ej3_estado"></span>
+    </div>
+  </div>
+
+  <div class="btnrow" style="margin-top:1.4rem">
+    <button onclick="enviarMail()">Enviar soluciones por mail</button>
+    <button class="secundario" onclick="descargarTxt()">Descargar copia .txt</button>
+  </div>
+</section>
+
+<footer>Guia interactiva MER · DER · Base de Datos · Dia — los datos se guardan solo en tu navegador.</footer>
+</main>
+
+<script>
+const EXS = ["ej1", "ej2", "ej3"];
+const CLAVE = id => "guiaER_" + id;
+const $ = id => document.getElementById(id);
+
+function marcar(id, texto){
+  $("" + id + "_estado").textContent = texto ? "Guardado " + texto : "";
+}
+
+function guardar(id){
+  const d = { a: $(id+"_a").value, b: $(id+"_b").value,
+              t: new Date().toLocaleString() };
+  localStorage.setItem(CLAVE(id), JSON.stringify(d));
+  marcar(id, d.t);
+}
+
+function borrar(id){
+  localStorage.removeItem(CLAVE(id));
+  $(id+"_a").value = ""; $(id+"_b").value = "";
+  marcar(id, "");
+}
+
+function cargarTodo(){
+  const m = localStorage.getItem("guiaER_mail") || "";
+  $("mailDocente").value = m;
+  avisoMail(m);
+  EXS.forEach(id => {
+    const raw = localStorage.getItem(CLAVE(id));
+    if (!raw) return;
+    try {
+      const d = JSON.parse(raw);
+      $(id+"_a").value = d.a || ""; $(id+"_b").value = d.b || "";
+      marcar(id, d.t);
+    } catch(e){}
+  });
+}
+
+function avisoMail(m){ $("mailEstado").textContent = m ? "OK" : ""; }
+$("mailDocente").addEventListener("input", e => {
+  localStorage.setItem("guiaER_mail", e.target.value.trim());
+  avisoMail(e.target.value);
+});
+
+function armarTexto(){
+  let out = "SOLUCIONES - Guia MER / DER / Base de Datos\n";
+  out += "Fecha de envio: " + new Date().toLocaleString() + "\n";
+  out += "=============================================\n\n";
+  EXS.forEach(id => {
+    const titulo = document
+      .querySelector('.ejercicio[data-ej="' + id + '"] h2')
+      .textContent;
+    out += "---------------------------------------------\n";
+    out += titulo.toUpperCase() + "\n";
+    out += "--- a) MER y DER ---\n"   + ($(id+"_a").value || "(vacio)") + "\n";
+    out += "--- b) Script SQL ---\n" + ($(id+"_b").value || "(vacio)") + "\n\n";
+  });
+  return out;
+}
+
+function enviarMail(){
+  const mail = $("mailDocente").value.trim();
+  if (!mail){
+    alert("Escribi el mail donde enviar las soluciones.");
+    $("mailDocente").focus();
+    return;
+  }
+  const asunto = "Soluciones - Guia MER/DER/BD";
+  location.href = "mailto:" + encodeURIComponent(mail)
+    + "?subject=" + encodeURIComponent(asunto)
+    + "&body=" + encodeURIComponent(armarTexto());
+}
+
+function descargarTxt(){
+  const blob = new Blob([armarTexto()], {type:"text/plain;charset=utf-8"});
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "soluciones_guia_er.txt";
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+
+cargarTodo();
+
+/* Resalta el link activo de la barra al scrollear */
+const secciones = ["mer","der","bd","dia","ejercicios"];
+window.addEventListener("scroll", () => {
+  let actual = secciones[0];
+  secciones.forEach(s => {
+    if (document.getElementById(s).getBoundingClientRect().top <= 80)
+      actual = s;
+  });
+  document.querySelectorAll("nav a").forEach(a =>
+    a.classList.toggle("activo", a.getAttribute("href") === "#" + actual));
+});
+</script>
+</body>
+</html>
