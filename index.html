@@ -104,29 +104,6 @@ figcaption{font-size:.85rem; color:#555; margin-top:.2rem}
   padding:.9rem 1rem; margin:1.1rem 0; background:#fdfdfd;
 }
 .ejercicio h2{margin-top:.2rem}
-textarea{
-  width:100%; min-height:90px; resize:vertical;
-  font-family:Consolas,monospace; font-size:.85rem;
-  border:1px solid var(--borde); border-radius:8px; padding:.5rem;
-}
-label{display:block; font-size:.88rem; font-weight:600; margin:.6rem 0 .25rem}
-.btnrow{margin-top:.6rem; display:flex; gap:.5rem; flex-wrap:wrap}
-button{
-  background:var(--verde); color:#fff; border:none;
-  padding:.45rem .95rem; border-radius:8px; cursor:pointer;
-  font-weight:600; font-size:.9rem;
-}
-button.secundario{background:#666}
-button:hover{filter:brightness(1.12)}
-.estado{font-size:.82rem; color:#2e7d32; margin-left:.4rem}
-.config{
-  background:var(--verde-claro); border:1px solid var(--verde);
-  border-radius:10px; padding:.8rem 1rem; margin:1rem 0;
-}
-.config input[type=email], .config input[type=text]{
-  padding:.4rem .5rem; border:1px solid var(--borde);
-  border-radius:6px; min-width:min(320px,70vw);
-}
 footer{text-align:center; color:#777; font-size:.85rem; padding:1.5rem 0 2.5rem}
 main a{color:var(--verde); font-weight:600}
 details{
@@ -394,13 +371,6 @@ ol.pasos li strong{color:var(--verde)}
         <line x1="217" y1="476" x2="191" y2="480" stroke="#000" stroke-width="1.1"/>
       </svg>
     </details>
-    <label>Escribi ac&aacute; c&oacute;mo te qued&oacute; tu MER (entidades, atributos, relaci&oacute;n y cardinalidades):</label>
-    <textarea id="prac_mer_a"></textarea>
-    <div class="btnrow">
-      <button onclick="guardarCampo('prac_mer')">Guardar</button>
-      <button class="secundario" onclick="borrarCampo('prac_mer')">Borrar</button>
-      <span class="estado" id="prac_mer_estado"></span>
-    </div>
   </div>
 </section>
 <!-- ============================ DER ============================ -->
@@ -481,32 +451,41 @@ producto_cod</div>
       <li><strong>Chequeo final:</strong> &iquest;cada tabla tiene PK? &iquest;las FK apuntan
       a PK existentes? &iquest;el multivaluado tiene su propia tabla?</li>
     </ol>
-    <details><summary>Ver las tablas que quedar&iacute;an</summary>
-<pre class="codigo">CREATE TABLE clientes (
-    id_cliente INT AUTO_INCREMENT PRIMARY KEY,
-    nombre     VARCHAR(50),
-    apellido   VARCHAR(50)
-);
-
-CREATE TABLE clientes_telefonos (      -- multivaluado
-    id_telefono INT AUTO_INCREMENT PRIMARY KEY,
-    id_cliente  INT NOT NULL,          -- FK
-    telefono    VARCHAR(20) NOT NULL
-);
-
-CREATE TABLE pizzas (
-    id_pizza INT AUTO_INCREMENT PRIMARY KEY,
-    nombre   VARCHAR(40),
-    precio   DECIMAL(10,2)
-);
-
-CREATE TABLE pedidos (                 -- intermedia del N:M
-    id_pedido  INT AUTO_INCREMENT PRIMARY KEY,
-    id_cliente INT NOT NULL,           -- FK
-    id_pizza   INT NOT NULL,           -- FK
-    fecha      DATE NOT NULL,          -- atributo propio
-     cantidad   INT NOT NULL            -- atributo propio
-);</pre>
+    <details><summary>Ver el DER que quedar&iacute;a</summary>
+      <div class="der-wrap">
+        <div class="tblbox">
+          <h4>clientes</h4>
+          <div><span class="pk">id_cliente</span> PK AI INT</div>
+          <div>nombre VARCHAR(50)</div>
+          <div>apellido VARCHAR(50)</div>
+        </div>
+        <div class="tblbox">
+          <h4>clientes_telefonos</h4>
+          <div>del multivaluado</div>
+          <div><span class="pk">id_telefono</span> PK AI INT</div>
+          <div><span class="fk">id_cliente</span> FK INT</div>
+          <div>telefono VARCHAR(20)</div>
+        </div>
+        <div class="tblbox">
+          <h4>pizzas</h4>
+          <div><span class="pk">id_pizza</span> PK AI INT</div>
+          <div>nombre VARCHAR(40)</div>
+          <div>precio DECIMAL(10,2)</div>
+        </div>
+      </div>
+      <div class="der-wrap">
+        <div class="tblbox">
+          <h4>pedidos (intermedia)</h4>
+          <div><span class="pk">id_pedido</span> PK AI INT</div>
+          <div><span class="fk">id_cliente</span> FK INT</div>
+          <div><span class="fk">id_pizza</span> FK INT</div>
+          <div>fecha DATE</div>
+          <div>cantidad INT</div>
+        </div>
+        <div class="conector" style="align-self:center">1&#9472;&#9472;N&#9472;&#9472;1
+clientes y pizzas se unen
+a traves de pedidos</div>
+      </div>
     </details>
   </div>
 </section>
@@ -690,46 +669,10 @@ JOIN productos p ON p.codigo = co.producto_codigo;</pre>
   </div>
 </section>
 
-<footer>Guia interactiva MER · DER · Base de Datos · Dia — los datos se guardan solo en tu navegador.</footer>
+<footer>Guia interactiva MER · DER · Base de Datos · Dia</footer>
 </main>
 
 <script>
-const PRACS = ["prac_mer"];
-const CLAVE = id => "guiaER_" + id;
-const $ = id => document.getElementById(id);
-
-function marcar(id, texto){
-  $("" + id + "_estado").textContent = texto ? "Guardado " + texto : "";
-}
-
-function guardarCampo(id){
-  const d = { a: $(id+"_a").value, t: new Date().toLocaleString() };
-  localStorage.setItem(CLAVE(id), JSON.stringify(d));
-  marcar(id, d.t);
-}
-
-function borrarCampo(id){
-  localStorage.removeItem(CLAVE(id));
-  $(id+"_a").value = "";
-  marcar(id, "");
-}
-
-function cargarCampo(id){
-  const raw = localStorage.getItem(CLAVE(id));
-  if (!raw) return;
-  try {
-    const d = JSON.parse(raw);
-    $(id+"_a").value = d.a || "";
-    marcar(id, d.t);
-  } catch(e){}
-}
-
-function cargarTodo(){
-  PRACS.forEach(cargarCampo);
-}
-
-cargarTodo();
-
 /* Resalta el link activo de la barra al scrollear */
 const secciones = ["mer","der","bd","dia","ejercicios"];
 window.addEventListener("scroll", () => {
