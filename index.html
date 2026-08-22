@@ -505,16 +505,9 @@ CREATE TABLE pedidos (                 -- intermedia del N:M
     id_cliente INT NOT NULL,           -- FK
     id_pizza   INT NOT NULL,           -- FK
     fecha      DATE NOT NULL,          -- atributo propio
-    cantidad   INT NOT NULL            -- atributo propio
+     cantidad   INT NOT NULL            -- atributo propio
 );</pre>
     </details>
-    <label>Escribi ac&aacute; tus tablas con sus PK y FK:</label>
-    <textarea id="prac_der_a"></textarea>
-    <div class="btnrow">
-      <button onclick="guardarCampo('prac_der')">Guardar</button>
-      <button class="secundario" onclick="borrarCampo('prac_der')">Borrar</button>
-      <span class="estado" id="prac_der_estado"></span>
-    </div>
   </div>
 </section>
 <!-- ============================ BD ============================ -->
@@ -701,7 +694,7 @@ JOIN productos p ON p.codigo = co.producto_codigo;</pre>
 </main>
 
 <script>
-const PRACS = ["prac_mer", "prac_der"];
+const PRACS = ["prac_mer"];
 const CLAVE = id => "guiaER_" + id;
 const $ = id => document.getElementById(id);
 
