@@ -128,6 +128,15 @@ button:hover{filter:brightness(1.12)}
   border-radius:6px; min-width:min(320px,70vw);
 }
 footer{text-align:center; color:#777; font-size:.85rem; padding:1.5rem 0 2.5rem}
+main a{color:var(--verde); font-weight:600}
+details{
+  background:var(--gris); border-radius:8px;
+  padding:.5rem .8rem; margin:.5rem 0;
+}
+summary{cursor:pointer; font-weight:600; color:var(--verde); font-size:.92rem}
+ol.pasos{padding-left:1.4rem}
+ol.pasos li{margin-bottom:.45rem; font-size:.95rem}
+ol.pasos li strong{color:var(--verde)}
 @media (max-width:600px){ .conector{width:100%} }
 </style>
 </head>
@@ -300,6 +309,79 @@ footer{text-align:center; color:#777; font-size:.85rem; padding:1.5rem 0 2.5rem}
     <figcaption>Atributos arriba, CLIENTE, linea con N al rombo COMPRA (con
     fecha y cantidad), linea con M hasta PRODUCTO y sus atributos abajo.</figcaption>
   </figure>
+
+  <div class="ejercicio" data-ej="prac_mer">
+    <h2>Practica guiada: arm&aacute; tu primer MER</h2>
+    <p><strong>Caso - La Pizzer&iacute;a:</strong> se registran los clientes
+    (nombre, apellido y uno o m&aacute;s tel&eacute;fonos) y las pizzas
+    (nombre, precio). Un cliente pide muchas pizzas y una pizza es pedida por
+    muchos clientes. De cada pedido interesan la fecha y la cantidad.
+    Segu&iacute; estos pasos:</p>
+    <ol class="pasos">
+      <li><strong>Busc&aacute; las entidades:</strong> releé el texto y preguntate
+      &iquest;de qui&eacute;n / de qu&eacute; quiero guardar datos? Son cosas:
+      <em>clientes</em> y <em>pizzas</em>. Dibuj&aacute; un rect&aacute;ngulo para cada una.</li>
+      <li><strong>List&aacute; los atributos:</strong> colg&aacute; de cada entidad un
+      &oacute;valo por caracter&iacute;stica. Cliente: nombre, apellido,
+      tel&eacute;fono. Pizza: nombre, precio.</li>
+      <li><strong>Detect&aacute; el multivaluado:</strong> &iquest;alg&uacute;n atributo con
+      varios valores? El tel&eacute;fono: usale doble &oacute;valo.</li>
+      <li><strong>Eleg&iacute; las claves:</strong> &iquest;qu&eacute; identifica a cada uno?
+      id_cliente e id_pizza: ovalos subrayados.</li>
+      <li><strong>Nombr&aacute; la relaci&oacute;n:</strong> la acci&oacute;n que une a las
+      entidades es <em>pide</em>: dibujala como rombo en el medio.</li>
+      <li><strong>Escrib&iacute; las cardinalidades sobre las l&iacute;neas:</strong>
+      cliente...pizza es N:M.</li>
+      <li><strong>Agreg&aacute; los atributos del rombo:</strong> fecha y cantidad no
+      son del cliente ni de la pizza: son del pedido.</li>
+    </ol>
+    <details><summary>Ver c&oacute;mo quedar&iacute;a (comparalo al terminar)</summary>
+      <svg viewBox="0 0 340 350" role="img" aria-label="MER de la pizzeria" style="max-width:320px">
+        <ellipse cx="120" cy="20" rx="44" ry="13" fill="#f2f2f2" stroke="#000" stroke-width="1.3"/>
+        <text x="120" y="24" text-anchor="middle" font-size="10.5">nombre</text>
+        <line x1="120" y1="33" x2="120" y2="43" stroke="#000" stroke-width="1.3"/>
+        <ellipse cx="120" cy="56" rx="52" ry="13" fill="#f2f2f2" stroke="#000" stroke-width="1.3"/>
+        <text x="120" y="60" text-anchor="middle" font-size="10.5" text-decoration="underline">id_cliente</text>
+        <line x1="120" y1="69" x2="120" y2="83" stroke="#000" stroke-width="1.3"/>
+        <ellipse cx="268" cy="104" rx="48" ry="17" fill="#f2f2f2" stroke="#000" stroke-width="1.3"/>
+        <ellipse cx="268" cy="104" rx="41" ry="11" fill="none" stroke="#000" stroke-width="1"/>
+        <text x="268" y="108" text-anchor="middle" font-size="10">telefonos</text>
+        <line x1="220" y1="104" x2="186" y2="104" stroke="#000" stroke-width="1.3"/>
+        <rect x="54" y="83" width="132" height="42" fill="#d6eaf8" stroke="#000" stroke-width="1.4"/>
+        <text x="120" y="109" text-anchor="middle" font-weight="bold" font-size="12">CLIENTE</text>
+        <line x1="120" y1="125" x2="120" y2="168" stroke="#000" stroke-width="1.4"/>
+        <text x="128" y="150" font-weight="bold" font-size="12">N</text>
+        <polygon points="120,168 176,199 120,230 64,199" fill="#fcf3cf" stroke="#000" stroke-width="1.4"/>
+        <text x="120" y="203" text-anchor="middle" font-weight="bold" font-size="11">PIDE</text>
+        <ellipse cx="46" cy="192" rx="38" ry="13" fill="#f2f2f2" stroke="#000" stroke-width="1.3"/>
+        <text x="46" y="196" text-anchor="middle" font-size="10">fecha</text>
+        <line x1="83" y1="188" x2="100" y2="196" stroke="#000" stroke-width="1.2"/>
+        <ellipse cx="258" cy="192" rx="44" ry="13" fill="#f2f2f2" stroke="#000" stroke-width="1.3"/>
+        <text x="258" y="196" text-anchor="middle" font-size="10">cantidad</text>
+        <line x1="218" y1="188" x2="204" y2="196" stroke="#000" stroke-width="1.2"/>
+        <line x1="120" y1="230" x2="120" y2="268" stroke="#000" stroke-width="1.4"/>
+        <text x="128" y="252" font-weight="bold" font-size="12">M</text>
+        <rect x="49" y="268" width="142" height="42" fill="#d6eaf8" stroke="#000" stroke-width="1.4"/>
+        <text x="120" y="294" text-anchor="middle" font-weight="bold" font-size="12">PIZZA</text>
+        <ellipse cx="62" cy="330" rx="40" ry="12" fill="#f2f2f2" stroke="#000" stroke-width="1.3"/>
+        <text x="62" y="334" text-anchor="middle" font-size="9.5">nombre</text>
+        <line x1="88" y1="320" x2="112" y2="308" stroke="#000" stroke-width="1.1"/>
+        <ellipse cx="185" cy="330" rx="52" ry="12" fill="#f2f2f2" stroke="#000" stroke-width="1.3"/>
+        <text x="185" y="334" text-anchor="middle" font-size="9.5" text-decoration="underline">id_pizza</text>
+        <line x1="170" y1="319" x2="145" y2="308" stroke="#000" stroke-width="1.1"/>
+        <ellipse cx="285" cy="330" rx="38" ry="12" fill="#f2f2f2" stroke="#000" stroke-width="1.3"/>
+        <text x="285" y="334" text-anchor="middle" font-size="9.5">precio</text>
+        <line x1="270" y1="319" x2="245" y2="308" stroke="#000" stroke-width="1.1"/>
+      </svg>
+    </details>
+    <label>Escribi ac&aacute; c&oacute;mo te qued&oacute; tu MER (entidades, atributos, relaci&oacute;n y cardinalidades):</label>
+    <textarea id="prac_mer_a"></textarea>
+    <div class="btnrow">
+      <button onclick="guardarCampo('prac_mer')">Guardar</button>
+      <button class="secundario" onclick="borrarCampo('prac_mer')">Borrar</button>
+      <span class="estado" id="prac_mer_estado"></span>
+    </div>
+  </div>
 </section>
 <!-- ============================ DER ============================ -->
 <section id="der">
@@ -345,6 +427,65 @@ producto_cod</div>
     <li><strong>AI = AUTO_INCREMENT:</strong> MySQL numera solo.</li>
     <li>Lectura de las lineas: un cliente (1) aparece en N compras; un producto (1) aparece en N compras.</li>
   </ul>
+
+  <div class="ejercicio" data-ej="prac_der">
+    <h2>Practica guiada: pas&aacute; ese MER a DER</h2>
+    <p>Usando la pizzer&iacute;a del ejercicio anterior, convert&iacute; el diagrama a
+    tablas. Segu&iacute; estos pasos:</p>
+    <ol class="pasos">
+      <li><strong>Cada entidad &rarr; una tabla:</strong> abr&iacute; una caja para
+      <code>clientes</code> y otra para <code>pizzas</code>, con sus atributos como
+      columnas.</li>
+      <li><strong>Las claves &rarr; PRIMARY KEY:</strong> lo que estaba subrayado
+      (id_cliente, id_pizza) ahora se marca como PK.</li>
+      <li><strong>El multivaluado &rarr; tabla propia:</strong> los tel&eacute;fonos no
+      entran como una sola columna: cre&aacute;
+      <code>clientes_telefonos</code> con su FK hacia clientes.</li>
+      <li><strong>&iquest;C&oacute;mo era la relaci&oacute;n?</strong> PIDE era N:M: hace falta
+      una <strong>tabla intermedia</strong> <code>pedidos</code>.</li>
+      <li><strong>Dentro de la intermedia:</strong> las dos FK (id_cliente,
+      id_pizza) m&aacute;s los atributos del rombo como columnas (fecha,
+      cantidad).</li>
+      <li><strong>Eleg&iacute; los tipos de dato:</strong> INT para ids y cantidad,
+      VARCHAR para textos, DECIMAL(10,2) para precio, DATE para fecha.</li>
+      <li><strong>Chequeo final:</strong> &iquest;cada tabla tiene PK? &iquest;las FK apuntan
+      a PK existentes? &iquest;el multivaluado tiene su propia tabla?</li>
+    </ol>
+    <details><summary>Ver las tablas que quedar&iacute;an</summary>
+<pre class="codigo">CREATE TABLE clientes (
+    id_cliente INT AUTO_INCREMENT PRIMARY KEY,
+    nombre     VARCHAR(50),
+    apellido   VARCHAR(50)
+);
+
+CREATE TABLE clientes_telefonos (      -- multivaluado
+    id_telefono INT AUTO_INCREMENT PRIMARY KEY,
+    id_cliente  INT NOT NULL,          -- FK
+    telefono    VARCHAR(20) NOT NULL
+);
+
+CREATE TABLE pizzas (
+    id_pizza INT AUTO_INCREMENT PRIMARY KEY,
+    nombre   VARCHAR(40),
+    precio   DECIMAL(10,2)
+);
+
+CREATE TABLE pedidos (                 -- intermedia del N:M
+    id_pedido  INT AUTO_INCREMENT PRIMARY KEY,
+    id_cliente INT NOT NULL,           -- FK
+    id_pizza   INT NOT NULL,           -- FK
+    fecha      DATE NOT NULL,          -- atributo del rombo
+    cantidad   INT NOT NULL            -- atributo del rombo
+);</pre>
+    </details>
+    <label>Escribi ac&aacute; tus tablas con sus PK y FK:</label>
+    <textarea id="prac_der_a"></textarea>
+    <div class="btnrow">
+      <button onclick="guardarCampo('prac_der')">Guardar</button>
+      <button class="secundario" onclick="borrarCampo('prac_der')">Borrar</button>
+      <span class="estado" id="prac_der_estado"></span>
+    </div>
+  </div>
 </section>
 <!-- ============================ BD ============================ -->
 <section id="bd">
@@ -451,7 +592,9 @@ JOIN productos p ON p.codigo = co.producto_codigo;</pre>
 
   <h2>Instalacion</h2>
   <ul>
-    <li>Windows: bajar el instalador desde <code>www.dia-installer.de</code>.</li>
+    <li>Windows: bajar el instalador desde
+    <a href="https://dia-installer.de" target="_blank" rel="noopener">www.dia-installer.de</a>
+    (secci&oacute;n Download).</li>
     <li>Linux: <code>sudo apt install dia</code></li>
   </ul>
 
@@ -554,6 +697,7 @@ JOIN productos p ON p.codigo = co.producto_codigo;</pre>
 
 <script>
 const EXS = ["ej1", "ej2", "ej3"];
+const PRACS = ["prac_mer", "prac_der"];
 const CLAVE = id => "guiaER_" + id;
 const $ = id => document.getElementById(id);
 
@@ -574,6 +718,28 @@ function borrar(id){
   marcar(id, "");
 }
 
+function guardarCampo(id){
+  const d = { a: $(id+"_a").value, t: new Date().toLocaleString() };
+  localStorage.setItem(CLAVE(id), JSON.stringify(d));
+  marcar(id, d.t);
+}
+
+function borrarCampo(id){
+  localStorage.removeItem(CLAVE(id));
+  $(id+"_a").value = "";
+  marcar(id, "");
+}
+
+function cargarCampo(id){
+  const raw = localStorage.getItem(CLAVE(id));
+  if (!raw) return;
+  try {
+    const d = JSON.parse(raw);
+    $(id+"_a").value = d.a || "";
+    marcar(id, d.t);
+  } catch(e){}
+}
+
 function cargarTodo(){
   const m = localStorage.getItem("guiaER_mail") || "";
   $("mailDocente").value = m;
@@ -587,6 +753,7 @@ function cargarTodo(){
       marcar(id, d.t);
     } catch(e){}
   });
+  PRACS.forEach(cargarCampo);
 }
 
 function avisoMail(m){ $("mailEstado").textContent = m ? "OK" : ""; }
@@ -607,6 +774,14 @@ function armarTexto(){
     out += titulo.toUpperCase() + "\n";
     out += "--- a) MER y DER ---\n"   + ($(id+"_a").value || "(vacio)") + "\n";
     out += "--- b) Script SQL ---\n" + ($(id+"_b").value || "(vacio)") + "\n\n";
+  });
+  PRACS.forEach(id => {
+    const titulo = document
+      .querySelector('.ejercicio[data-ej="' + id + '"] h2')
+      .textContent;
+    out += "---------------------------------------------\n";
+    out += titulo.toUpperCase() + "\n";
+    out += "--- Solucion ---\n" + ($(id+"_a").value || "(vacio)") + "\n\n";
   });
   return out;
 }
