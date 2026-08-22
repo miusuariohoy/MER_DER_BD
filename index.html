@@ -625,70 +625,45 @@ JOIN productos p ON p.codigo = co.producto_codigo;</pre>
 <!-- ======================== EJERCICIOS ========================= -->
 <section id="ejercicios">
   <h1>Parte 4 &middot; Ejercicios</h1>
-  <p>Resolvi cada ejercicio aca mismo. Las respuestas se
-  <strong>guardan en este navegador</strong> (aunque cierres la pagina) y al
-  final las podes <strong>enviar por mail</strong> o descargar como archivo.</p>
+  <p>Resolv&eacute; cada ejercicio siguiendo siempre los mismos pasos:
+  <strong>a)</strong> MER en papel o con el programa Dia &middot;
+  <strong>b)</strong> DER con las tablas, PK y FK &middot;
+  <strong>c)</strong> script <code>.sql</code> probado en phpMyAdmin o
+  Workbench &middot; <strong>d)</strong> todo guardado en la carpeta con tu
+  apellido.</p>
 
-  <div class="config">
-    <label for="mailDocente">Mail donde enviar las soluciones:</label>
-    <input type="email" id="mailDocente" placeholder="docente@ejemplo.com">
-    <span class="estado" id="mailEstado"></span>
-  </div>
-
-  <div class="ejercicio" data-ej="ej1">
+  <div class="ejercicio">
     <h2>Ejercicio 1 - La Biblioteca</h2>
     <p>De cada LECTOR: nombre, apellido y uno o VARIOS telefonos (multivaluado).
     De cada LIBRO: titulo, autor y anio. Un lector presta MUCHOS libros y un
     libro es prestado por MUCHOS lectores (N:M). De cada prestamo:
     fecha_prestamo y fecha_devolucion (atributos del rombo).</p>
-    <label>a) Planteo del MER y DER (entidades, relacion, cardinalidad, atributos especiales)</label>
-    <textarea id="ej1_a"></textarea>
-    <label>b) Script SQL (CREATE DATABASE / TABLE + INSERT + JOIN)</label>
-    <textarea id="ej1_b"></textarea>
-    <div class="btnrow">
-      <button onclick="guardar('ej1')">Guardar</button>
-      <button class="secundario" onclick="borrar('ej1')">Borrar</button>
-      <span class="estado" id="ej1_estado"></span>
-    </div>
+    <p><em>Preguntas: cuantas entidades hay? Que relacion las une y con que
+    cardinalidad? Donde aparece un atributo multivaluado?<br>
+    Entrega: MER dibujado + DER + biblioteca.sql con datos de prueba y una
+    consulta JOIN.</em></p>
   </div>
 
-  <div class="ejercicio" data-ej="ej2">
+  <div class="ejercicio">
     <h2>Ejercicio 2 - La Veterinaria</h2>
     <p>De cada DUENO: nombre, fecha_nacimiento y varios telefonos
     (multivaluado). La EDAD no se guarda: se calcula (derivado). De cada
     MASCOTA: nombre y especie. Un dueno tiene MUCHAS mascotas pero cada una
     pertenece a UN dueno (relacion 1:N). Pensa donde va la FK.</p>
-    <label>a) Planteo del MER y DER</label>
-    <textarea id="ej2_a"></textarea>
-    <label>b) Script SQL con la edad calculada en el SELECT</label>
-    <textarea id="ej2_b"></textarea>
-    <div class="btnrow">
-      <button onclick="guardar('ej2')">Guardar</button>
-      <button class="secundario" onclick="borrar('ej2')">Borrar</button>
-      <span class="estado" id="ej2_estado"></span>
-    </div>
+    <p><em>Atencion: al ser 1:N no hace falta tabla intermedia.<br>
+    Entrega: MER + DER + veterinaria.sql + consulta JOIN que muestre mascota,
+    dueno y edad calculada.</em></p>
   </div>
 
-  <div class="ejercicio" data-ej="ej3">
+  <div class="ejercicio">
     <h2>Ejercicio 3 - La Escuela (espejo del Boletin Digital)</h2>
     <p>ALUMNO (dni clave, nombre, apellido) y MATERIA (id, nombre). Un alumno
     cursa MUCHAS materias y una materia MUCHOS alumnos (N:M). De cada cursada:
     nota_1co y nota_2co; el promedio se calcula. Comparalo con tu base
     bdescuela.</p>
-    <label>a) Planteo del MER y DER</label>
-    <textarea id="ej3_a"></textarea>
-    <label>b) Script SQL con el promedio calculado en el JOIN</label>
-    <textarea id="ej3_b"></textarea>
-    <div class="btnrow">
-      <button onclick="guardar('ej3')">Guardar</button>
-      <button class="secundario" onclick="borrar('ej3')">Borrar</button>
-      <span class="estado" id="ej3_estado"></span>
-    </div>
-  </div>
-
-  <div class="btnrow" style="margin-top:1.4rem">
-    <button onclick="enviarMail()">Enviar soluciones por mail</button>
-    <button class="secundario" onclick="descargarTxt()">Descargar copia .txt</button>
+    <p><em>Extra: en tu boletin el promedio se guardaba en nota_final. Que
+    diferencia hay con tratarlo como atributo derivado?<br>
+    Entrega: MER + DER + escuela_der.sql + consulta JOIN tipo boletin.</em></p>
   </div>
 </section>
 
@@ -696,26 +671,12 @@ JOIN productos p ON p.codigo = co.producto_codigo;</pre>
 </main>
 
 <script>
-const EXS = ["ej1", "ej2", "ej3"];
 const PRACS = ["prac_mer", "prac_der"];
 const CLAVE = id => "guiaER_" + id;
 const $ = id => document.getElementById(id);
 
 function marcar(id, texto){
   $("" + id + "_estado").textContent = texto ? "Guardado " + texto : "";
-}
-
-function guardar(id){
-  const d = { a: $(id+"_a").value, b: $(id+"_b").value,
-              t: new Date().toLocaleString() };
-  localStorage.setItem(CLAVE(id), JSON.stringify(d));
-  marcar(id, d.t);
-}
-
-function borrar(id){
-  localStorage.removeItem(CLAVE(id));
-  $(id+"_a").value = ""; $(id+"_b").value = "";
-  marcar(id, "");
 }
 
 function guardarCampo(id){
@@ -741,71 +702,7 @@ function cargarCampo(id){
 }
 
 function cargarTodo(){
-  const m = localStorage.getItem("guiaER_mail") || "";
-  $("mailDocente").value = m;
-  avisoMail(m);
-  EXS.forEach(id => {
-    const raw = localStorage.getItem(CLAVE(id));
-    if (!raw) return;
-    try {
-      const d = JSON.parse(raw);
-      $(id+"_a").value = d.a || ""; $(id+"_b").value = d.b || "";
-      marcar(id, d.t);
-    } catch(e){}
-  });
   PRACS.forEach(cargarCampo);
-}
-
-function avisoMail(m){ $("mailEstado").textContent = m ? "OK" : ""; }
-$("mailDocente").addEventListener("input", e => {
-  localStorage.setItem("guiaER_mail", e.target.value.trim());
-  avisoMail(e.target.value);
-});
-
-function armarTexto(){
-  let out = "SOLUCIONES - Guia MER / DER / Base de Datos\n";
-  out += "Fecha de envio: " + new Date().toLocaleString() + "\n";
-  out += "=============================================\n\n";
-  EXS.forEach(id => {
-    const titulo = document
-      .querySelector('.ejercicio[data-ej="' + id + '"] h2')
-      .textContent;
-    out += "---------------------------------------------\n";
-    out += titulo.toUpperCase() + "\n";
-    out += "--- a) MER y DER ---\n"   + ($(id+"_a").value || "(vacio)") + "\n";
-    out += "--- b) Script SQL ---\n" + ($(id+"_b").value || "(vacio)") + "\n\n";
-  });
-  PRACS.forEach(id => {
-    const titulo = document
-      .querySelector('.ejercicio[data-ej="' + id + '"] h2')
-      .textContent;
-    out += "---------------------------------------------\n";
-    out += titulo.toUpperCase() + "\n";
-    out += "--- Solucion ---\n" + ($(id+"_a").value || "(vacio)") + "\n\n";
-  });
-  return out;
-}
-
-function enviarMail(){
-  const mail = $("mailDocente").value.trim();
-  if (!mail){
-    alert("Escribi el mail donde enviar las soluciones.");
-    $("mailDocente").focus();
-    return;
-  }
-  const asunto = "Soluciones - Guia MER/DER/BD";
-  location.href = "mailto:" + encodeURIComponent(mail)
-    + "?subject=" + encodeURIComponent(asunto)
-    + "&body=" + encodeURIComponent(armarTexto());
-}
-
-function descargarTxt(){
-  const blob = new Blob([armarTexto()], {type:"text/plain;charset=utf-8"});
-  const a = document.createElement("a");
-  a.href = URL.createObjectURL(blob);
-  a.download = "soluciones_guia_er.txt";
-  a.click();
-  URL.revokeObjectURL(a.href);
 }
 
 cargarTodo();
