@@ -428,6 +428,19 @@ producto_cod</div>
     <li>Lectura de las lineas: un cliente (1) aparece en N compras; un producto (1) aparece en N compras.</li>
   </ul>
 
+  <div class="nota">
+    <strong>&iquest;Con que simbolo se dibuja la tabla intermedia?</strong>
+    Al pasar del MER al DER el <strong>rombo desaparece</strong>: la relacion
+    N:M directa se rompe y nace una tabla que se dibuja con el
+    <strong>mismo simbolo que cualquier tabla</strong>. No tiene simbolo nuevo:
+    la distinguen sus dos <strong>FOREIGN KEY</strong> y los atributos del
+    rombo convertidos en columnas. Suele heredar el nombre de la relacion:
+    el rombo COMPRA pasa a ser la tabla <code>compras</code>.
+    Si esa tabla gana importancia propia, algunos libros la llaman
+    <em>entidad asociativa</em> y la dibujan como rectangulo con un rombo
+    adentro; en el estilo Workbench es simplemente otra tabla.
+  </div>
+
   <div class="ejercicio" data-ej="prac_der">
     <h2>Practica guiada: pas&aacute; ese MER a DER</h2>
     <p>Usando la pizzer&iacute;a del ejercicio anterior, convert&iacute; el diagrama a
