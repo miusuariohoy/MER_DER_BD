@@ -632,10 +632,12 @@ JOIN productos p ON p.codigo = co.producto_codigo;</pre>
 
   <div class="ejercicio">
     <h2>Ejercicio 1 - La Biblioteca</h2>
-    <p>De cada LECTOR: nombre, apellido y uno o VARIOS telefonos (multivaluado).
-    De cada LIBRO: titulo, autor y anio. Un lector presta MUCHOS libros y un
-    libro es prestado por MUCHOS lectores (N:M). De cada prestamo:
-    fecha_prestamo y fecha_devolucion (iran en la entidad intermedia).</p>
+    <p>De cada LECTOR: nro_lector (clave), nombre, apellido y uno o VARIOS
+    telefonos (multivaluado). De cada LIBRO: cod_libro (clave), titulo,
+    autor y anio. Un lector PRESTA muchos libros y un libro es prestado por
+    muchos lectores (N:M): rompe la relacion insertando la entidad
+    intermedia PRESTAMO. De cada prestamo: fecha_prestamo y
+    fecha_devolucion.</p>
     <p><em>Preguntas: cuantas entidades hay? Que relacion las une y con que
     cardinalidad? Donde aparece un atributo multivaluado?<br>
     Entrega: MER dibujado + DER + biblioteca.sql con datos de prueba y una
@@ -644,21 +646,25 @@ JOIN productos p ON p.codigo = co.producto_codigo;</pre>
 
   <div class="ejercicio">
     <h2>Ejercicio 2 - La Veterinaria</h2>
-    <p>De cada DUENO: nombre, fecha_nacimiento y varios telefonos
-    (multivaluado). La EDAD no se guarda: se calcula (derivado). De cada
-    MASCOTA: nombre y especie. Un dueno tiene MUCHAS mascotas pero cada una
-    pertenece a UN dueno (relacion 1:N). Pensa donde va la FK.</p>
+    <p>De cada DUENO: id_dueno (clave), nombre, fecha_nacimiento y varios
+    telefonos (multivaluado). La EDAD no se guarda: se calcula (derivado).
+    De cada MASCOTA: id_mascota (clave), nombre y especie. Un dueno TIENE
+    muchas mascotas pero cada una pertenece a UN dueno (relacion 1:N).
+    Pensa donde va la FK.</p>
     <p><em>Atencion: al ser 1:N no hace falta tabla intermedia.<br>
+    Pregunta extra: al pasar al DER, como resolves los telefonos
+    multivaluados?<br>
     Entrega: MER + DER + veterinaria.sql + consulta JOIN que muestre mascota,
     dueno y edad calculada.</em></p>
   </div>
 
   <div class="ejercicio">
     <h2>Ejercicio 3 - La Escuela (espejo del Boletin Digital)</h2>
-    <p>ALUMNO (dni clave, nombre, apellido) y MATERIA (id, nombre). Un alumno
-    cursa MUCHAS materias y una materia MUCHOS alumnos (N:M). De cada cursada:
-    nota_1co y nota_2co; el promedio se calcula. Comparalo con tu base
-    bdescuela.</p>
+    <p>ALUMNO (dni clave, nombre, apellido) y MATERIA (id_materia clave,
+    nombre). Un alumno CURSA muchas materias y una materia MUCHOS alumnos
+    (N:M): la entidad intermedia es CURSADA. De cada cursada:
+    nota_1co y nota_2co; el promedio se calcula (derivado). Comparalo con
+    tu base bdescuela.</p>
     <p><em>Extra: en tu boletin el promedio se guardaba en nota_final. Que
     diferencia hay con tratarlo como atributo derivado?<br>
     Entrega: MER + DER + escuela_der.sql + consulta JOIN tipo boletin.</em></p>
