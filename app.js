@@ -146,6 +146,15 @@
     }
 
     if (PALETA.length) {
+        var ICONOS = {
+            rect: '<rect x="4" y="8" width="32" height="16" rx="2" fill="#dbeafe" stroke="currentColor" stroke-width="1.7"/>',
+            rombo: '<polygon points="20,4 36,16 20,28 4,16" fill="#fff" stroke="currentColor" stroke-width="1.7"/>',
+            ovalo: '<ellipse cx="20" cy="16" rx="15" ry="9" fill="#fff" stroke="currentColor" stroke-width="1.7"/>',
+            'ovalo-clave': '<ellipse cx="20" cy="16" rx="15" ry="9" fill="#fff" stroke="currentColor" stroke-width="1.7"/><line x1="12" y1="21" x2="28" y2="21" stroke="currentColor" stroke-width="1.7"/>',
+            'doble-ovalo': '<ellipse cx="20" cy="16" rx="16" ry="10" fill="#fff" stroke="currentColor" stroke-width="1.7"/><ellipse cx="20" cy="16" rx="11.5" ry="6.5" fill="#fff" stroke="currentColor" stroke-width="1.4"/>',
+            'ovalo-punteado': '<ellipse cx="20" cy="16" rx="15" ry="9" fill="#fff" stroke="currentColor" stroke-width="1.7" stroke-dasharray="3.2 2.6"/>'
+        };
+
         document.querySelectorAll('#teoria .exercise').forEach(function (ex) {
             var ta = ex.querySelector('textarea');
             if (!ta || ex.querySelector('.ex-paleta')) return;
@@ -161,8 +170,16 @@
                 var b = document.createElement('button');
                 b.type = 'button';
                 b.className = 'ex-sym';
-                b.textContent = p.etiqueta;
                 b.title = 'Insertar «' + p.inserta + '» en el campo';
+
+                if (p.icono && ICONOS[p.icono]) {
+                    b.innerHTML = '<svg class="ex-sym-icon" viewBox="0 0 40 32" aria-hidden="true" focusable="false">' + ICONOS[p.icono] + '</svg>' +
+                        '<span class="ex-sym-name">' + p.etiqueta + '</span>';
+                    b.setAttribute('aria-label', p.etiqueta);
+                } else {
+                    b.textContent = p.etiqueta;
+                }
+
                 b.addEventListener('click', function () { insertarEnTextarea(ta, p.inserta); });
                 wrap.appendChild(b);
             });

@@ -263,10 +263,13 @@
             letter-spacing:.05em;color:#047857;margin-right:.15rem;
         }
         .ex-sym{
-            font:inherit;font-size:.8rem;line-height:1.2;padding:.28rem .6rem;
+            display:inline-flex;align-items:center;gap:.35rem;
+            font:inherit;font-size:.8rem;line-height:1.2;padding:.24rem .6rem .24rem .4rem;
             border:1px solid #a7f3d0;border-radius:999px;background:#fff;
             color:#0f172a;cursor:pointer;
         }
+        .ex-sym-icon{width:25px;height:20px;flex:0 0 auto;color:#0f172a;}
+        .ex-sym-name{white-space:nowrap;}
         .ex-sym:hover{background:#dcfce7;border-color:#34d399;}
         .ex-sym:active{transform:translateY(1px);}
         .ex-sym:focus-visible{outline:2px solid #2563eb;outline-offset:2px;}
