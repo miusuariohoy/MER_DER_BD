@@ -10,6 +10,7 @@
     var PREFIJO = CFG.prefijo || 'guia_';
     var EJERCICIOS = CFG.ejercicios || {};
     var TEMAS = CFG.temas || [];
+    var PALETA = CFG.paleta || [];
     var CLAVE = PREFIJO + 'ej_';
 
     /* ================= ACORDEÓN DE TEMAS + PESTAÑAS ================= */
@@ -17,8 +18,10 @@
 
     articulos.forEach(function (article, index) {
         var h3 = article.querySelector('h3');
-        var exercise = article.querySelector('.exercise');
-        if (!h3 || !exercise) return;
+        var ejercicios = Array.prototype.slice.call(article.children).filter(function (ch) {
+            return ch.classList && ch.classList.contains('exercise');
+        });
+        if (!h3 || !ejercicios.length) return;
 
         article.classList.add('topic');
 
@@ -32,10 +35,10 @@
         practica.hidden = true;
 
         Array.prototype.slice.call(article.children).forEach(function (child) {
-            if (child === h3 || child === exercise) return;
+            if (child === h3 || ejercicios.indexOf(child) >= 0) return;
             teoria.appendChild(child);
         });
-        practica.appendChild(exercise);
+        ejercicios.forEach(function (ex) { practica.appendChild(ex); });
 
         var tabs = document.createElement('div');
         tabs.className = 'topic-tabs';
@@ -126,6 +129,48 @@
         });
     }
 
+    /* ================= PALETA DE SÍMBOLOS ================= */
+    function insertarEnTextarea(ta, texto) {
+        var ini = ta.selectionStart;
+        var fin = ta.selectionEnd;
+        var antes = ta.value.slice(0, ini);
+        var despues = ta.value.slice(fin);
+        var sepAntes = (antes && !/[\s(]$/.test(antes)) ? ' ' : '';
+        var sepDespues = (despues && !/^[\s,.;:)\]]/.test(despues)) ? ' ' : '';
+        var insertado = sepAntes + texto + sepDespues;
+        ta.value = antes + insertado + despues;
+        var pos = (antes + insertado).length;
+        ta.focus();
+        ta.setSelectionRange(pos, pos);
+        ta.dispatchEvent(new Event('input', { bubbles: true }));
+    }
+
+    if (PALETA.length) {
+        document.querySelectorAll('#teoria .exercise').forEach(function (ex) {
+            var ta = ex.querySelector('textarea');
+            if (!ta || ex.querySelector('.ex-paleta')) return;
+
+            var wrap = document.createElement('div');
+            wrap.className = 'ex-paleta';
+            var rotulo = document.createElement('span');
+            rotulo.className = 'ex-paleta-label';
+            rotulo.textContent = 'Símbolos';
+            wrap.appendChild(rotulo);
+
+            PALETA.forEach(function (p) {
+                var b = document.createElement('button');
+                b.type = 'button';
+                b.className = 'ex-sym';
+                b.textContent = p.etiqueta;
+                b.title = 'Insertar «' + p.inserta + '» en el campo';
+                b.addEventListener('click', function () { insertarEnTextarea(ta, p.inserta); });
+                wrap.appendChild(b);
+            });
+
+            ta.parentNode.insertBefore(wrap, ta);
+        });
+    }
+
     /* ================= AUTOEVALUACIÓN ================= */
     document.querySelectorAll('.options-list').forEach(function (lista) {
         lista.addEventListener('click', function (e) {
@@ -185,6 +230,9 @@
     /* ================= CORRECTOR ================= */
     function norm(txt) {
         return txt.normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+            .replace(/[▭▬■□◻]/g, ' rectangulo ')
+            .replace(/[◇◆♦]/g, ' rombo ')
+            .replace(/[⬭⬮○◯]/g, ' ovalo ')
             .toLowerCase()
             .replace(/--[^\n]*/g, '')
             .replace(/#[^\n]*/g, '')

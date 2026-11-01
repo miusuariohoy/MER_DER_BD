@@ -246,6 +246,30 @@
             border-radius:10px;background:#f0fdf4;
         }
         .exercise h4{margin:0 0 .35rem;color:#047857;font-size:1rem;}
+        .exercise + .exercise{margin-top:1.2rem;padding-top:1.1rem;border-top:1px dashed #6ee7b7;}
+        .ex-level{
+            display:inline-block;font-size:.66rem;font-weight:800;text-transform:uppercase;
+            letter-spacing:.05em;padding:.16rem .5rem;border-radius:999px;
+            vertical-align:middle;margin-left:.35rem;
+        }
+        .ex-level.facil{background:#dcfce7;color:#166534;}
+        .ex-level.media{background:#fef3c7;color:#92400e;}
+        .ex-level.dificil{background:#fee2e2;color:#991b1b;}
+        .ex-paleta{
+            display:flex;flex-wrap:wrap;align-items:center;gap:.35rem;margin:0 0 .55rem;
+        }
+        .ex-paleta-label{
+            font-size:.72rem;font-weight:800;text-transform:uppercase;
+            letter-spacing:.05em;color:#047857;margin-right:.15rem;
+        }
+        .ex-sym{
+            font:inherit;font-size:.8rem;line-height:1.2;padding:.28rem .6rem;
+            border:1px solid #a7f3d0;border-radius:999px;background:#fff;
+            color:#0f172a;cursor:pointer;
+        }
+        .ex-sym:hover{background:#dcfce7;border-color:#34d399;}
+        .ex-sym:active{transform:translateY(1px);}
+        .ex-sym:focus-visible{outline:2px solid #2563eb;outline-offset:2px;}
         .ex-goal{font-size:.92rem;margin:0 0 .6rem;}
         .code-input{
             width:100%;min-height:160px;resize:vertical;

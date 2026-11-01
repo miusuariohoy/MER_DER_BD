@@ -21,6 +21,10 @@ datos MySQL → programa Dia**.
 ## Ejercicios
 
 - Cada tema trae teoría y ejercitación en pestañas separadas.
+- MER y DER tienen **tres ejercicios por tema** (fácil, medio y difícil), con la
+  solución esperada desplegable.
+- En MER y DER hay una **paleta de símbolos** sobre cada campo: inserta la
+  figura o la marca en el cursor, así no hace falta escribirla.
 - La corrección es automática y se hace en la misma página: no hay descargas
   ni subidas de archivos.
 - El corrector revisa la **estructura** de la respuesta (palabras clave,

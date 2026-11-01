@@ -30,8 +30,10 @@
         <p class="section-sub">
             Cuatro temas para aprender a mirar un enunciado y convertirlo en un dibujo.
             <strong>Tocá un tema</strong> para abrirlo y usá las pestañas
-            <strong>📘 Teoría</strong> y <strong>✍️ Ejercitación</strong>. Cada ejercicio se corrige
-            en esta página, sin descargar nada.
+            <strong>📘 Teoría</strong> y <strong>✍️ Ejercitación</strong>. Cada tema tiene tres
+            ejercicios (fácil, medio y difícil) que se corrigen en esta página, sin descargar nada.
+            Si no querés escribir los símbolos, usá la <strong>paleta</strong> que aparece arriba de
+            cada campo.
         </p>
 
         <!-- 1 -->
@@ -73,7 +75,58 @@
             </div>
 
             <div class="exercise">
-                <h4>✍️ Ejercicio: tu primer MER (la pizzería)</h4>
+                <h4>✍️ Ejercicio 1.1: reconocé las piezas <span class="ex-level facil">Fácil</span></h4>
+                <p class="ex-goal">
+                    Leé la frase <em>«El cliente compra un producto»</em> y separá las piezas:
+                    ¿cuáles son las <strong>entidades</strong>?, ¿cuál es la <strong>relación</strong>?
+                    ¿Qué dato podría ser un <strong>atributo</strong> del cliente?
+                </p>
+                <textarea class="code-input" id="in-mer_1a" spellcheck="false" placeholder="Entidades: ...&#10;Relación: ...&#10;Atributo del cliente: ..."></textarea>
+                <div class="ex-actions">
+                    <button class="btn btn-primary" onclick="corregir('mer_1a')">✅ Corregir</button>
+                    <button class="btn btn-ghost" onclick="limpiar('mer_1a')">Limpiar</button>
+                </div>
+                <div class="result" id="res-mer_1a"></div>
+
+                <details class="pista" style="margin-top:.8rem;">
+                    <summary>Ver la solución esperada</summary>
+                    <ul class="explain">
+                        <li><strong>Entidades:</strong> CLIENTE y PRODUCTO.</li>
+                        <li><strong>Relación:</strong> COMPRA (o COMPRAR).</li>
+                        <li><strong>Atributo:</strong> nombre (también sirven apellido o teléfono).</li>
+                    </ul>
+                </details>
+            </div>
+
+            <div class="exercise">
+                <h4>✍️ Ejercicio 1.2: los tres pasos <span class="ex-level media">Medio</span></h4>
+                <p class="ex-goal">
+                    En una veterinaria se guardan los <strong>dueños</strong> (nombre y teléfono) y las
+                    <strong>mascotas</strong> (nombre y especie). Un dueño puede tener varias mascotas y
+                    cada mascota pertenece a un solo dueño.<br>
+                    Escribí las <strong>entidades</strong>, sus <strong>atributos</strong>, la
+                    <strong>relación</strong> y la <strong>cardinalidad</strong>.
+                </p>
+                <textarea class="code-input" id="in-mer_1b" spellcheck="false" placeholder="Entidades: ...&#10;Atributos: ...&#10;Relación: ...&#10;Cardinalidad: ..."></textarea>
+                <div class="ex-actions">
+                    <button class="btn btn-primary" onclick="corregir('mer_1b')">✅ Corregir</button>
+                    <button class="btn btn-ghost" onclick="limpiar('mer_1b')">Limpiar</button>
+                </div>
+                <div class="result" id="res-mer_1b"></div>
+
+                <details class="pista" style="margin-top:.8rem;">
+                    <summary>Ver la solución esperada</summary>
+                    <ul class="explain">
+                        <li><strong>Entidades:</strong> DUEÑO y MASCOTA.</li>
+                        <li><strong>Atributos:</strong> del dueño, nombre y teléfono; de la mascota, nombre y especie.</li>
+                        <li><strong>Relación:</strong> TIENE (un dueño tiene mascotas).</li>
+                        <li><strong>Cardinalidad:</strong> 1:N, porque un dueño tiene muchas mascotas y cada mascota tiene un solo dueño.</li>
+                    </ul>
+                </details>
+            </div>
+
+            <div class="exercise">
+                <h4>✍️ Ejercicio 1.3: el MER completo de la pizzería <span class="ex-level dificil">Difícil</span></h4>
                 <p class="ex-goal">
                     <strong>Caso:</strong> se registran los clientes (nombre, apellido y uno o más
                     teléfonos) y las pizzas (nombre, precio). Un cliente pide muchas pizzas y una pizza
@@ -95,12 +148,12 @@
                         <li>Si es N:M, insertá la entidad intermedia PEDIDO con fecha y cantidad.</li>
                     </ol>
                 </details>
-                <textarea class="code-input" id="in-mer" spellcheck="false" placeholder="Entidades: ...&#10;Atributos: ...&#10;Claves: ...&#10;Relación y cardinalidad: ...&#10;Multivaluado: ...&#10;Entidad intermedia: ..."></textarea>
+                <textarea class="code-input" id="in-mer_1c" spellcheck="false" placeholder="Entidades: ...&#10;Atributos: ...&#10;Claves: ...&#10;Relación y cardinalidad: ...&#10;Multivaluado: ...&#10;Entidad intermedia: ..."></textarea>
                 <div class="ex-actions">
-                    <button class="btn btn-primary" onclick="corregir('mer')">✅ Corregir</button>
-                    <button class="btn btn-ghost" onclick="limpiar('mer')">Limpiar</button>
+                    <button class="btn btn-primary" onclick="corregir('mer_1c')">✅ Corregir</button>
+                    <button class="btn btn-ghost" onclick="limpiar('mer_1c')">Limpiar</button>
                 </div>
-                <div class="result" id="res-mer"></div>
+                <div class="result" id="res-mer_1c"></div>
 
                 <details class="pista" style="margin-top:.8rem;">
                 <summary>Ver la solución esperada</summary>
@@ -208,18 +261,77 @@
             </table>
 
             <div class="exercise">
-                <h4>✍️ Ejercicio: relacioná cada símbolo con su significado</h4>
+                <h4>✍️ Ejercicio 2.1: las tres figuras básicas <span class="ex-level facil">Fácil</span></h4>
                 <p class="ex-goal">
-                    Escribí qué representa cada figura: <strong>rectángulo</strong>, <strong>rombo</strong>,
-                    <strong>óvalo</strong>, <strong>óvalo subrayado</strong>,
-                    <strong>doble óvalo</strong> y <strong>óvalo punteado</strong>.
+                    Usá la <strong>paleta de símbolos</strong> (debajo) o escribí con tus palabras:
+                    ¿qué representa el <strong>rectángulo</strong>, el <strong>rombo</strong> y el
+                    <strong>óvalo</strong>?
                 </p>
-                <textarea class="code-input" id="in-mer_simbolos" spellcheck="false" placeholder="Rectángulo: ...&#10;Rombo: ...&#10;Óvalo: ...&#10;Óvalo subrayado: ...&#10;Doble óvalo: ...&#10;Óvalo punteado: ..."></textarea>
+                <textarea class="code-input" id="in-mer_2a" spellcheck="false" placeholder="Rectángulo: ...&#10;Rombo: ...&#10;Óvalo: ..."></textarea>
                 <div class="ex-actions">
-                    <button class="btn btn-primary" onclick="corregir('mer_simbolos')">✅ Corregir</button>
-                    <button class="btn btn-ghost" onclick="limpiar('mer_simbolos')">Limpiar</button>
+                    <button class="btn btn-primary" onclick="corregir('mer_2a')">✅ Corregir</button>
+                    <button class="btn btn-ghost" onclick="limpiar('mer_2a')">Limpiar</button>
                 </div>
-                <div class="result" id="res-mer_simbolos"></div>
+                <div class="result" id="res-mer_2a"></div>
+
+                <details class="pista" style="margin-top:.8rem;">
+                    <summary>Ver la solución esperada</summary>
+                    <ul class="explain">
+                        <li><strong>Rectángulo:</strong> entidad (CLIENTE, PRODUCTO).</li>
+                        <li><strong>Rombo:</strong> relación (COMPRA, PIDE).</li>
+                        <li><strong>Óvalo:</strong> atributo (nombre, precio).</li>
+                    </ul>
+                </details>
+            </div>
+
+            <div class="exercise">
+                <h4>✍️ Ejercicio 2.2: las variantes del óvalo <span class="ex-level media">Medio</span></h4>
+                <p class="ex-goal">
+                    Ahora las tres variantes: ¿qué significa un <strong>óvalo subrayado</strong>, un
+                    <strong>doble óvalo</strong> y un <strong>óvalo punteado</strong>?
+                </p>
+                <textarea class="code-input" id="in-mer_2b" spellcheck="false" placeholder="Óvalo subrayado: ...&#10;Doble óvalo: ...&#10;Óvalo punteado: ..."></textarea>
+                <div class="ex-actions">
+                    <button class="btn btn-primary" onclick="corregir('mer_2b')">✅ Corregir</button>
+                    <button class="btn btn-ghost" onclick="limpiar('mer_2b')">Limpiar</button>
+                </div>
+                <div class="result" id="res-mer_2b"></div>
+
+                <details class="pista" style="margin-top:.8rem;">
+                    <summary>Ver la solución esperada</summary>
+                    <ul class="explain">
+                        <li><strong>Óvalo subrayado:</strong> atributo clave, el que será PRIMARY KEY.</li>
+                        <li><strong>Doble óvalo:</strong> atributo multivaluado, con varios valores (teléfonos).</li>
+                        <li><strong>Óvalo punteado:</strong> atributo derivado, se calcula y no se guarda (edad).</li>
+                    </ul>
+                </details>
+            </div>
+
+            <div class="exercise">
+                <h4>✍️ Ejercicio 2.3: elegí la figura para la veterinaria <span class="ex-level dificil">Difícil</span></h4>
+                <p class="ex-goal">
+                    Para el MER de la veterinaria, indicá qué figura usarías para cada elemento:
+                    <strong>DUEÑO</strong>, <strong>nombre</strong>, <strong>TIENE</strong>,
+                    <strong>teléfono</strong> (un dueño puede tener varios) y <strong>id_duenio</strong> (la clave).
+                    Podés tocar los botones de la paleta.
+                </p>
+                <textarea class="code-input" id="in-mer_2c" spellcheck="false" placeholder="DUEÑO: ...&#10;nombre: ...&#10;TIENE: ...&#10;teléfono: ...&#10;id_duenio: ..."></textarea>
+                <div class="ex-actions">
+                    <button class="btn btn-primary" onclick="corregir('mer_2c')">✅ Corregir</button>
+                    <button class="btn btn-ghost" onclick="limpiar('mer_2c')">Limpiar</button>
+                </div>
+                <div class="result" id="res-mer_2c"></div>
+
+                <details class="pista" style="margin-top:.8rem;">
+                    <summary>Ver la solución esperada</summary>
+                    <ul class="explain">
+                        <li><strong>DUEÑO:</strong> rectángulo, porque es una entidad.</li>
+                        <li><strong>nombre:</strong> óvalo, porque es un atributo.</li>
+                        <li><strong>TIENE:</strong> rombo, porque es la relación.</li>
+                        <li><strong>teléfono:</strong> doble óvalo, porque es multivaluado.</li>
+                        <li><strong>id_duenio:</strong> óvalo subrayado, porque es la clave.</li>
+                    </ul>
+                </details>
             </div>
         </article>
 
@@ -285,23 +397,76 @@ compras
             </div>
 
             <div class="exercise">
-                <h4>✍️ Ejercicio: leer cardinalidades</h4>
+                <h4>✍️ Ejercicio 3.1: una cardinalidad por caso <span class="ex-level facil">Fácil</span></h4>
                 <p class="ex-goal">
-                    Respondé para estos tres casos:<br>
-                    <strong>(a)</strong> PERSONA – DNI: una persona tiene un solo DNI y un DNI
-                    pertenece a una sola persona.<br>
-                    <strong>(b)</strong> CLIENTE – COMPRA: un cliente realiza muchas compras y cada
-                    compra es de un solo cliente.<br>
-                    <strong>(c)</strong> CLIENTE – PRODUCTO: muchos clientes compran muchos productos.<br>
-                    Indicá la <strong>cardinalidad</strong> de cada uno, <strong>dónde va la FK</strong>
-                    en (b) y <strong>qué hace falta</strong> en (c).
+                    Escribí <strong>una línea por caso</strong> con la cardinalidad que corresponde:
+                    <strong>(a)</strong> PERSONA – DNI, <strong>(b)</strong> CLIENTE – COMPRA,
+                    <strong>(c)</strong> CLIENTE – PRODUCTO.
                 </p>
-                <textarea class="code-input" id="in-mer_cardinalidad" spellcheck="false" placeholder="(a) PERSONA - DNI: ...&#10;(b) CLIENTE - COMPRA: ...&#10;(c) CLIENTE - PRODUCTO: ..."></textarea>
+                <textarea class="code-input" id="in-mer_3a" spellcheck="false" placeholder="(a) PERSONA - DNI: ...&#10;(b) CLIENTE - COMPRA: ...&#10;(c) CLIENTE - PRODUCTO: ..."></textarea>
                 <div class="ex-actions">
-                    <button class="btn btn-primary" onclick="corregir('mer_cardinalidad')">✅ Corregir</button>
-                    <button class="btn btn-ghost" onclick="limpiar('mer_cardinalidad')">Limpiar</button>
+                    <button class="btn btn-primary" onclick="corregir('mer_3a')">✅ Corregir</button>
+                    <button class="btn btn-ghost" onclick="limpiar('mer_3a')">Limpiar</button>
                 </div>
-                <div class="result" id="res-mer_cardinalidad"></div>
+                <div class="result" id="res-mer_3a"></div>
+
+                <details class="pista" style="margin-top:.8rem;">
+                    <summary>Ver la solución esperada</summary>
+                    <ul class="explain">
+                        <li><strong>(a) 1:1</strong> — una persona tiene un solo DNI y un DNI es de una sola persona.</li>
+                        <li><strong>(b) 1:N</strong> — un cliente realiza muchas compras; cada compra es de un cliente.</li>
+                        <li><strong>(c) N:M</strong> — muchos clientes compran muchos productos.</li>
+                    </ul>
+                </details>
+            </div>
+
+            <div class="exercise">
+                <h4>✍️ Ejercicio 3.2: dónde va la clave foránea <span class="ex-level media">Medio</span></h4>
+                <p class="ex-goal">
+                    En la relación <strong>1:N</strong> entre CLIENTE y COMPRA: ¿en qué tabla va la
+                    <strong>FK</strong>?, ¿cómo se llama esa columna?, ¿qué significa que un cliente
+                    tenga muchas compras?
+                </p>
+                <textarea class="code-input" id="in-mer_3b" spellcheck="false" placeholder="La FK va en: ...&#10;Se llama: ...&#10;Significa: ..."></textarea>
+                <div class="ex-actions">
+                    <button class="btn btn-primary" onclick="corregir('mer_3b')">✅ Corregir</button>
+                    <button class="btn btn-ghost" onclick="limpiar('mer_3b')">Limpiar</button>
+                </div>
+                <div class="result" id="res-mer_3b"></div>
+
+                <details class="pista" style="margin-top:.8rem;">
+                    <summary>Ver la solución esperada</summary>
+                    <ul class="explain">
+                        <li><strong>La FK va en compras</strong>, la tabla del lado N.</li>
+                        <li><strong>Se llama cliente_id</strong> (o cliente_dni) y apunta a la PK de clientes.</li>
+                        <li><strong>Un cliente puede tener muchas compras</strong>, y cada compra pertenece a un solo cliente: por eso es 1:N.</li>
+                    </ul>
+                </details>
+            </div>
+
+            <div class="exercise">
+                <h4>✍️ Ejercicio 3.3: resolver un N:M <span class="ex-level dificil">Difícil</span></h4>
+                <p class="ex-goal">
+                    Muchos clientes compran muchos productos. ¿Qué <strong>cardinalidad</strong> es?,
+                    ¿qué <strong>tabla</strong> hace falta agregar?, ¿cuántas <strong>FK</strong> lleva y
+                    <strong>qué datos propios</strong> puede guardar?
+                </p>
+                <textarea class="code-input" id="in-mer_3c" spellcheck="false" placeholder="Cardinalidad: ...&#10;Hace falta: ...&#10;Cantidad de FK: ...&#10;Datos propios: ..."></textarea>
+                <div class="ex-actions">
+                    <button class="btn btn-primary" onclick="corregir('mer_3c')">✅ Corregir</button>
+                    <button class="btn btn-ghost" onclick="limpiar('mer_3c')">Limpiar</button>
+                </div>
+                <div class="result" id="res-mer_3c"></div>
+
+                <details class="pista" style="margin-top:.8rem;">
+                    <summary>Ver la solución esperada</summary>
+                    <ul class="explain">
+                        <li><strong>Cardinalidad:</strong> N:M (muchos a muchos).</li>
+                        <li><strong>Hace falta</strong> una entidad o tabla intermedia, por ejemplo COMPRA.</li>
+                        <li><strong>Lleva dos FK</strong>: una hacia clientes y otra hacia productos.</li>
+                        <li><strong>Datos propios:</strong> fecha y cantidad.</li>
+                    </ul>
+                </details>
             </div>
         </article>
 
@@ -381,19 +546,77 @@ compras
             </div>
 
             <div class="exercise">
-                <h4>✍️ Ejercicio: describí el MER de la tienda</h4>
+                <h4>✍️ Ejercicio 4.1: leer el dibujo <span class="ex-level facil">Fácil</span></h4>
+                <p class="ex-goal">
+                    Mirá el diagrama de la tienda: ¿cuáles son las <strong>dos entidades</strong>?
+                    ¿Qué <strong>cardinalidad</strong> tenía la relación original entre ellas?
+                </p>
+                <textarea class="code-input" id="in-mer_4a" spellcheck="false" placeholder="Entidades: ...&#10;Cardinalidad: ..."></textarea>
+                <div class="ex-actions">
+                    <button class="btn btn-primary" onclick="corregir('mer_4a')">✅ Corregir</button>
+                    <button class="btn btn-ghost" onclick="limpiar('mer_4a')">Limpiar</button>
+                </div>
+                <div class="result" id="res-mer_4a"></div>
+
+                <details class="pista" style="margin-top:.8rem;">
+                    <summary>Ver la solución esperada</summary>
+                    <ul class="explain">
+                        <li><strong>Entidades:</strong> CLIENTE y PRODUCTO.</li>
+                        <li><strong>Cardinalidad original:</strong> N:M, muchos clientes compran muchos productos.</li>
+                    </ul>
+                </details>
+            </div>
+
+            <div class="exercise">
+                <h4>✍️ Ejercicio 4.2: por qué aparece COMPRA <span class="ex-level media">Medio</span></h4>
+                <p class="ex-goal">
+                    En el dibujo, COMPRA figura como <strong>rectángulo</strong> y no como rombo.
+                    Explicá <strong>por qué</strong>, <strong>qué atributos</strong> lleva y
+                    <strong>qué dos FK</strong> guarda.
+                </p>
+                <textarea class="code-input" id="in-mer_4b" spellcheck="false" placeholder="COMPRA es: ...&#10;Porque la relación original es: ...&#10;Atributos: ...&#10;FK: ..."></textarea>
+                <div class="ex-actions">
+                    <button class="btn btn-primary" onclick="corregir('mer_4b')">✅ Corregir</button>
+                    <button class="btn btn-ghost" onclick="limpiar('mer_4b')">Limpiar</button>
+                </div>
+                <div class="result" id="res-mer_4b"></div>
+
+                <details class="pista" style="margin-top:.8rem;">
+                    <summary>Ver la solución esperada</summary>
+                    <ul class="explain">
+                        <li><strong>COMPRA es la entidad intermedia</strong> que resuelve la N:M.</li>
+                        <li><strong>La relación original era N:M</strong>, por eso no alcanza un rombo.</li>
+                        <li><strong>Atributos:</strong> fecha y cantidad.</li>
+                        <li><strong>FK:</strong> una hacia clientes y otra hacia productos.</li>
+                    </ul>
+                </details>
+            </div>
+
+            <div class="exercise">
+                <h4>✍️ Ejercicio 4.3: describí el MER de la tienda <span class="ex-level dificil">Difícil</span></h4>
                 <p class="ex-goal">
                     Explicá con tus palabras: <strong>qué entidades</strong> hay,
                     <strong>qué relación</strong> las une, <strong>qué cardinalidad</strong> tiene,
                     <strong>por qué</strong> aparece una entidad intermedia y <strong>qué atributos</strong>
                     lleva. Mencioná las <strong>dos relaciones 1:N</strong> que quedan en el dibujo.
                 </p>
-                <textarea class="code-input" id="in-mer_tienda" spellcheck="false" placeholder="Entidades: ...&#10;Relación y cardinalidad: ...&#10;Entidad intermedia: ...&#10;Atributos de la intermedia: ...&#10;Relaciones 1:N: ..."></textarea>
+                <textarea class="code-input" id="in-mer_4c" spellcheck="false" placeholder="Entidades: ...&#10;Relación y cardinalidad: ...&#10;Entidad intermedia: ...&#10;Atributos de la intermedia: ...&#10;Relaciones 1:N: ..."></textarea>
                 <div class="ex-actions">
-                    <button class="btn btn-primary" onclick="corregir('mer_tienda')">✅ Corregir</button>
-                    <button class="btn btn-ghost" onclick="limpiar('mer_tienda')">Limpiar</button>
+                    <button class="btn btn-primary" onclick="corregir('mer_4c')">✅ Corregir</button>
+                    <button class="btn btn-ghost" onclick="limpiar('mer_4c')">Limpiar</button>
                 </div>
-                <div class="result" id="res-mer_tienda"></div>
+                <div class="result" id="res-mer_4c"></div>
+
+                <details class="pista" style="margin-top:.8rem;">
+                    <summary>Ver la solución esperada</summary>
+                    <ul class="explain">
+                        <li><strong>Entidades:</strong> CLIENTE y PRODUCTO.</li>
+                        <li><strong>Relación:</strong> COMPRA, de cardinalidad N:M.</li>
+                        <li><strong>Intermedia:</strong> COMPRA, porque la N:M no se resuelve con una sola FK.</li>
+                        <li><strong>Atributos:</strong> fecha y cantidad, más las dos FK.</li>
+                        <li><strong>Relaciones 1:N:</strong> clientes → compras y productos → compras.</li>
+                    </ul>
+                </details>
             </div>
         </article>
 
@@ -517,44 +740,103 @@ compras
 <script>
 window.GUIA = {
     prefijo: 'mer_',
+    paleta: [
+        { etiqueta: 'Rectángulo', inserta: 'rectángulo' },
+        { etiqueta: 'Rombo', inserta: 'rombo' },
+        { etiqueta: 'Óvalo', inserta: 'óvalo' },
+        { etiqueta: 'Óvalo subrayado', inserta: 'óvalo subrayado (clave)' },
+        { etiqueta: 'Doble óvalo', inserta: 'doble óvalo (multivaluado)' },
+        { etiqueta: 'Óvalo punteado', inserta: 'óvalo punteado (derivado)' },
+        { etiqueta: '1:1', inserta: '1:1' },
+        { etiqueta: '1:N', inserta: '1:N' },
+        { etiqueta: 'N:M', inserta: 'N:M' }
+    ],
     temas: [
-        { id: 'mer', nombre: '1. Tu primer MER' },
-        { id: 'mer_simbolos', nombre: '2. Simbología' },
-        { id: 'mer_cardinalidad', nombre: '3. Cardinalidades' },
-        { id: 'mer_tienda', nombre: '4. MER de la tienda' }
+        { id: 'mer_1a', nombre: '1.1 Reconocer las piezas' },
+        { id: 'mer_1b', nombre: '1.2 Los tres pasos' },
+        { id: 'mer_1c', nombre: '1.3 MER de la pizzería' },
+        { id: 'mer_2a', nombre: '2.1 Figuras básicas' },
+        { id: 'mer_2b', nombre: '2.2 Variantes del óvalo' },
+        { id: 'mer_2c', nombre: '2.3 Elegir la figura' },
+        { id: 'mer_3a', nombre: '3.1 Una cardinalidad por caso' },
+        { id: 'mer_3b', nombre: '3.2 Dónde va la FK' },
+        { id: 'mer_3c', nombre: '3.3 Resolver un N:M' },
+        { id: 'mer_4a', nombre: '4.1 Leer el dibujo' },
+        { id: 'mer_4b', nombre: '4.2 Por qué aparece COMPRA' },
+        { id: 'mer_4c', nombre: '4.3 Describir la tienda' }
     ],
     ejercicios: {
-        mer: [
+        mer_1a: [
+            { d: 'Reconoce CLIENTE como entidad', f: function (c) { return /cliente/.test(c); } },
+            { d: 'Reconoce PRODUCTO como entidad', f: function (c) { return /producto/.test(c); } },
+            { d: 'Reconoce COMPRA (o COMPRAR) como relación', f: function (c) { return /\bcompr/.test(c); } },
+            { d: 'Propone un atributo del cliente (nombre, apellido o teléfono)', f: function (c) { return /nombre|apellido|telefono/.test(c); } }
+        ],
+        mer_1b: [
+            { d: 'Nombra la entidad DUEÑO', f: function (c) { return /duen|propietari|\bamo\b/.test(c); } },
+            { d: 'Nombra la entidad MASCOTA', f: function (c) { return /mascota/.test(c); } },
+            { d: 'Incluye nombre y teléfono como atributos', f: function (c) { return /nombre/.test(c) && /telefono/.test(c); } },
+            { d: 'Nombra la relación TIENE (o POSEE)', f: function (c) { return /\btiene\b|\btener\b|\bposee\b/.test(c); } },
+            { d: 'Indica cardinalidad 1:N', f: function (c) { return /1\s*:\s*n|uno\s+a\s+muchos/.test(c); } }
+        ],
+        mer_1c: [
             { d: 'Nombra la entidad CLIENTE', f: function (c) { return /cliente/.test(c); } },
             { d: 'Nombra la entidad PIZZA', f: function (c) { return /pizza/.test(c); } },
-            { d: 'Incluye nombre, apellido y teléfono', f: function (c) { return /nombre/.test(c) && /apellido/.test(c) && /telefono/.test(c); } },
+            { d: 'Incluye nombre, precio y teléfono', f: function (c) { return /nombre/.test(c) && /precio/.test(c) && /telefono/.test(c); } },
             { d: 'Marca una clave para el cliente (id_cliente o dni)', f: function (c) { return /id_cliente|id cliente|codigo_cliente|dni/.test(c); } },
             { d: 'Menciona la relación PIDE', f: function (c) { return /\bpide\b|\bpiden\b/.test(c); } },
-            { d: 'Indica cardinalidad muchos a muchos (N:M)', f: function (c) { return /\bn\s*:\s*m\b|\bm\s*:\s*n\b|muchos\s+a\s+muchos|muchos\s*-\s*muchos/.test(c); } },
+            { d: 'Indica cardinalidad muchos a muchos (N:M)', f: function (c) { return /\bn\s*:\s*m\b|\bm\s*:\s*n\b|muchos\s+a\s+muchos/.test(c); } },
             { d: 'Reconoce el teléfono como multivaluado', f: function (c) { return /multivaluado|varios telefonos|doble ovalo/.test(c); } },
-            { d: 'Inserta la entidad intermedia PEDIDO', f: function (c) { return /pedidos?/.test(c); } },
-            { d: 'Pone fecha y cantidad como atributos del pedido', f: function (c) { return /fecha/.test(c) && /cantidad/.test(c); } }
+            { d: 'Inserta la entidad intermedia PEDIDO con fecha y cantidad', f: function (c) { return /pedidos?/.test(c) && /fecha/.test(c) && /cantidad/.test(c); } }
         ],
-        mer_simbolos: [
+        mer_2a: [
             { d: 'Rectángulo → entidad', f: function (c) { return /rectangulo[^\n]*entidad|entidad[^\n]*rectangulo/.test(c); } },
             { d: 'Rombo → relación', f: function (c) { return /rombo[^\n]*relacion|relacion[^\n]*rombo/.test(c); } },
-            { d: 'Óvalo → atributo', f: function (c) { return /ovalo[^\n]*atributo|atributo[^\n]*ovalo/.test(c); } },
+            { d: 'Óvalo → atributo', f: function (c) { return /ovalo[^\n]*atributo|atributo[^\n]*ovalo/.test(c); } }
+        ],
+        mer_2b: [
             { d: 'Óvalo subrayado → atributo clave', f: function (c) { return /subrayado[^\n]*(clave|primary key)|clave[^\n]*subrayado/.test(c); } },
             { d: 'Doble óvalo → atributo multivaluado', f: function (c) { return /doble ovalo[^\n]*multivaluado|multivaluado[^\n]*doble ovalo/.test(c); } },
             { d: 'Óvalo punteado → atributo derivado', f: function (c) { return /punteado[^\n]*(derivado|calcula)|derivado[^\n]*punteado/.test(c); } }
         ],
-        mer_cardinalidad: [
-            { d: '(a) PERSONA – DNI es 1:1', f: function (c) { return /\b1\s*:\s*1\b|uno\s+a\s+uno/.test(c); } },
-            { d: '(b) CLIENTE – COMPRA es 1:N', f: function (c) { return /\b1\s*:\s*n\b|uno\s+a\s+muchos/.test(c); } },
-            { d: '(c) CLIENTE – PRODUCTO es N:M', f: function (c) { return /\bn\s*:\s*m\b|\bm\s*:\s*n\b|muchos\s+a\s+muchos/.test(c); } },
-            { d: 'En (b) la FK va en compras (lado N)', f: function (c) { return /(compra|compras)[^\n]*(fk|foreign key|clave foranea)|(fk|foreign key|clave foranea)[^\n]*(compra|compras)|lado\s*n/.test(c); } },
-            { d: 'En (c) hace falta una tabla intermedia', f: function (c) { return /intermedia|tercera tabla|tabla puente/.test(c); } },
-            { d: 'La intermedia lleva dos claves foráneas', f: function (c) { return /(dos|2)\s*(fk|claves foraneas|foreign key)/.test(c); } }
+        mer_2c: [
+            { d: 'DUEÑO va en rectángulo (entidad)', f: function (c) { return /duen[^\n]*rectangulo|rectangulo[^\n]*duen|entidad[^\n]*rectangulo/.test(c); } },
+            { d: 'nombre va en óvalo (atributo)', f: function (c) { return /nombre[^\n]*ovalo|ovalo[^\n]*nombre/.test(c); } },
+            { d: 'TIENE va en rombo (relación)', f: function (c) { return /tiene[^\n]*rombo|rombo[^\n]*tiene|tiene[^\n]*relacion/.test(c); } },
+            { d: 'teléfono va en doble óvalo (multivaluado)', f: function (c) { return /telefono[^\n]*(doble ovalo|multivaluado)|(doble ovalo|multivaluado)[^\n]*telefono/.test(c); } },
+            { d: 'id_duenio va subrayado (clave)', f: function (c) { return /id_duenio[^\n]*(subrayado|clave)|(subrayado|clave)[^\n]*id_duenio/.test(c); } }
         ],
-        mer_tienda: [
+        mer_3a: [
+            { d: '(a) PERSONA – DNI es 1:1', f: function (c) { return /(^|\n)\s*\(?a\)?[^\n]*(1\s*:\s*1|uno\s+a\s+uno)/.test(c); } },
+            { d: '(b) CLIENTE – COMPRA es 1:N', f: function (c) { return /(^|\n)\s*\(?b\)?[^\n]*(1\s*:\s*n|uno\s+a\s+muchos)/.test(c); } },
+            { d: '(c) CLIENTE – PRODUCTO es N:M', f: function (c) { return /(^|\n)\s*\(?c\)?[^\n]*(n\s*:\s*m|m\s*:\s*n|muchos\s+a\s+muchos)/.test(c); } }
+        ],
+        mer_3b: [
+            { d: 'La FK va en compras (lado N)', f: function (c) { return /(compra|compras)[^\n]*(fk|foreign key|clave foranea)|lado\s*n/.test(c); } },
+            { d: 'La FK se llama cliente_id (o cliente_dni)', f: function (c) { return /cliente_(id|dni)|id_cliente|cliente_dni/.test(c); } },
+            { d: 'Explica que un cliente tiene muchas compras', f: function (c) { return /muchas compras|varias compras|muchos registros/.test(c); } }
+        ],
+        mer_3c: [
+            { d: 'Indica que es N:M (muchos a muchos)', f: function (c) { return /n\s*:\s*m|m\s*:\s*n|muchos\s+a\s+muchos/.test(c); } },
+            { d: 'Propone una entidad o tabla intermedia', f: function (c) { return /intermedia|tabla puente|tercera tabla/.test(c); } },
+            { d: 'Dice que lleva dos claves foráneas', f: function (c) { return /(dos|2)\s*(fk|claves foraneas|foreign key)/.test(c); } },
+            { d: 'Menciona fecha y cantidad como datos propios', f: function (c) { return /fecha/.test(c) && /cantidad/.test(c); } }
+        ],
+        mer_4a: [
+            { d: 'Nombra la entidad CLIENTE', f: function (c) { return /cliente/.test(c); } },
+            { d: 'Nombra la entidad PRODUCTO', f: function (c) { return /producto/.test(c); } },
+            { d: 'Indica cardinalidad N:M', f: function (c) { return /n\s*:\s*m|m\s*:\s*n|muchos\s+a\s+muchos/.test(c); } }
+        ],
+        mer_4b: [
+            { d: 'Explica que COMPRA es la entidad intermedia', f: function (c) { return /compra[^\n]*intermedia|intermedia[^\n]*compra/.test(c); } },
+            { d: 'Relaciona con la N:M original', f: function (c) { return /n\s*:\s*m|m\s*:\s*n|muchos\s+a\s+muchos/.test(c); } },
+            { d: 'Menciona fecha y cantidad', f: function (c) { return /fecha/.test(c) && /cantidad/.test(c); } },
+            { d: 'Nombra las dos FK (clientes y productos)', f: function (c) { return /(fk|foranea|foreign)[^\n]*client|client[^\n]*(fk|foranea|foreign)/.test(c) || /(fk|foranea|foreign)[^\n]*producto|producto[^\n]*(fk|foranea|foreign)/.test(c); } }
+        ],
+        mer_4c: [
             { d: 'Nombra las entidades CLIENTE y PRODUCTO', f: function (c) { return /cliente/.test(c) && /producto/.test(c); } },
             { d: 'Menciona la relación COMPRA', f: function (c) { return /compra/.test(c); } },
-            { d: 'Indica cardinalidad N:M', f: function (c) { return /\bn\s*:\s*m\b|\bm\s*:\s*n\b|muchos\s+a\s+muchos/.test(c); } },
+            { d: 'Indica cardinalidad N:M', f: function (c) { return /n\s*:\s*m|m\s*:\s*n|muchos\s+a\s+muchos/.test(c); } },
             { d: 'Explica que COMPRA es la entidad intermedia', f: function (c) { return /intermedia/.test(c); } },
             { d: 'Ubica fecha y cantidad en la intermedia', f: function (c) { return /fecha/.test(c) && /cantidad/.test(c); } },
             { d: 'Nombra dos relaciones 1:N (clientes y productos con compras)', f: function (c) { return (c.match(/1\s*:\s*n/g) || []).length >= 2 || /dos relaciones/.test(c); } }

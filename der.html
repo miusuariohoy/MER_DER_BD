@@ -30,7 +30,9 @@
         <p class="section-sub">
             El DER traduce el MER a <strong>tablas con columnas</strong>. Acá aprendés a marcar
             <strong>PK</strong> y <strong>FK</strong>, a resolver la entidad intermedia y a elegir los
-            tipos de dato. Cada tema tiene su pestaña de <strong>✍️ Ejercitación</strong>.
+            tipos de dato. Cada tema tiene tres ejercicios (fácil, medio y difícil) en la pestaña
+            <strong>✍️ Ejercitación</strong>, con una <strong>paleta</strong> de PK, FK y tipos para
+            no tener que escribirlos.
         </p>
 
         <!-- 1 -->
@@ -104,7 +106,58 @@ producto_codigo</div>
             </div>
 
             <div class="exercise">
-                <h4>✍️ Ejercicio: pasá la tienda al DER</h4>
+                <h4>✍️ Ejercicio 1.1: las equivalencias <span class="ex-level facil">Fácil</span></h4>
+                <p class="ex-goal">
+                    Completá a qué se convierte cada elemento del MER cuando pasamos al DER:
+                    <strong>entidad</strong>, <strong>atributo</strong>, <strong>atributo clave</strong>
+                    y <strong>relación N:M</strong>.
+                </p>
+                <textarea class="code-input" id="in-der_1a" spellcheck="false" placeholder="Entidad: ...&#10;Atributo: ...&#10;Atributo clave: ...&#10;Relación N:M: ..."></textarea>
+                <div class="ex-actions">
+                    <button class="btn btn-primary" onclick="corregir('der_1a')">✅ Corregir</button>
+                    <button class="btn btn-ghost" onclick="limpiar('der_1a')">Limpiar</button>
+                </div>
+                <div class="result" id="res-der_1a"></div>
+
+                <details class="pista" style="margin-top:.8rem;">
+                    <summary>Ver la solución esperada</summary>
+                    <ul class="explain">
+                        <li><strong>Entidad → tabla.</strong></li>
+                        <li><strong>Atributo → columna</strong> con su tipo de dato.</li>
+                        <li><strong>Atributo clave → PRIMARY KEY.</strong></li>
+                        <li><strong>Relación N:M → tabla intermedia</strong> con dos FK.</li>
+                    </ul>
+                </details>
+            </div>
+
+            <div class="exercise">
+                <h4>✍️ Ejercicio 1.2: tu primera tabla <span class="ex-level media">Medio</span></h4>
+                <p class="ex-goal">
+                    Pasá la entidad <strong>CLIENTE</strong> a una tabla. Tiene
+                    <code class="inline">id_cliente</code>, <code class="inline">nombre</code>,
+                    <code class="inline">apellido</code> y <code class="inline">telefono</code>.<br>
+                    Escribí el <strong>nombre de la tabla</strong>, sus <strong>columnas</strong>,
+                    marcá la <strong>PK</strong> y usá al menos un <strong>tipo de dato</strong>.
+                </p>
+                <textarea class="code-input" id="in-der_1b" spellcheck="false" placeholder="clientes&#10;  id_cliente PK ...&#10;  nombre ...&#10;  ..."></textarea>
+                <div class="ex-actions">
+                    <button class="btn btn-primary" onclick="corregir('der_1b')">✅ Corregir</button>
+                    <button class="btn btn-ghost" onclick="limpiar('der_1b')">Limpiar</button>
+                </div>
+                <div class="result" id="res-der_1b"></div>
+
+                <details class="pista" style="margin-top:.8rem;">
+                    <summary>Ver la solución esperada</summary>
+                    <pre><code>clientes
+  id_cliente  PK INT
+  nombre      VARCHAR(50)
+  apellido    VARCHAR(50)
+  telefono    VARCHAR(20)</code></pre>
+                </details>
+            </div>
+
+            <div class="exercise">
+                <h4>✍️ Ejercicio 1.3: el DER completo de la tienda <span class="ex-level dificil">Difícil</span></h4>
                 <p class="ex-goal">
                     Escribí las <strong>tres tablas</strong> del DER de la tienda
                     (<code class="inline">clientes</code>, <code class="inline">compras</code>,
@@ -120,12 +173,44 @@ producto_codigo</div>
                         <li><code class="inline">compras</code>: id_compra PK, cliente_dni FK, producto_codigo FK, fecha, cantidad.</li>
                     </ol>
                 </details>
-                <textarea class="code-input" id="in-der_tienda" spellcheck="false" placeholder="clientes&#10;  dni PK INT&#10;  ...&#10;&#10;compras (intermedia)&#10;  ...&#10;&#10;productos&#10;  ..."></textarea>
+                <textarea class="code-input" id="in-der_1c" spellcheck="false" placeholder="clientes&#10;  dni PK INT&#10;  ...&#10;&#10;compras (intermedia)&#10;  ...&#10;&#10;productos&#10;  ..."></textarea>
                 <div class="ex-actions">
-                    <button class="btn btn-primary" onclick="corregir('der_tienda')">✅ Corregir</button>
-                    <button class="btn btn-ghost" onclick="limpiar('der_tienda')">Limpiar</button>
+                    <button class="btn btn-primary" onclick="corregir('der_1c')">✅ Corregir</button>
+                    <button class="btn btn-ghost" onclick="limpiar('der_1c')">Limpiar</button>
                 </div>
-                <div class="result" id="res-der_tienda"></div>
+                <div class="result" id="res-der_1c"></div>
+
+                <details class="pista" style="margin-top:.8rem;">
+                    <summary>Ver el DER de la tienda</summary>
+                    <div class="der-wrap">
+                        <div class="tblbox">
+                            <h4>clientes</h4>
+                            <div><span class="pk">dni</span> PK INT</div>
+                            <div>nombre VARCHAR(50)</div>
+                            <div>apellido VARCHAR(50)</div>
+                            <div>telefono VARCHAR(20)</div>
+                        </div>
+                        <div class="conector">1──N
+cliente_dni</div>
+                        <div class="tblbox">
+                            <h4>compras (intermedia)</h4>
+                            <div><span class="pk">id_compra</span> PK AI INT</div>
+                            <div><span class="fk">cliente_dni</span> FK INT</div>
+                            <div><span class="fk">producto_codigo</span> FK INT</div>
+                            <div>fecha DATE</div>
+                            <div>cantidad INT</div>
+                        </div>
+                        <div class="conector">N──1
+producto_codigo</div>
+                        <div class="tblbox">
+                            <h4>productos</h4>
+                            <div><span class="pk">codigo</span> PK AI INT</div>
+                            <div>nombre VARCHAR(50)</div>
+                            <div>precio DECIMAL(10,2)</div>
+                            <div>stock INT</div>
+                        </div>
+                    </div>
+                </details>
             </div>
         </article>
 
@@ -155,7 +240,60 @@ producto_codigo</div>
             </ul>
 
             <div class="exercise">
-                <h4>✍️ Ejercicio: pasá la pizzería al DER</h4>
+                <h4>✍️ Ejercicio 2.1: marcá PK, FK y AI <span class="ex-level facil">Fácil</span></h4>
+                <p class="ex-goal">
+                    Esta es la tabla <code class="inline">compras</code>:
+                    <code class="inline">id_compra</code>, <code class="inline">cliente_dni</code>,
+                    <code class="inline">producto_codigo</code>, <code class="inline">fecha</code>,
+                    <code class="inline">cantidad</code>.<br>
+                    Indicá cuál es la <strong>PK</strong>, cuáles son <strong>FK</strong> y en qué
+                    columna conviene <strong>AUTO_INCREMENT</strong>.
+                </p>
+                <textarea class="code-input" id="in-der_2a" spellcheck="false" placeholder="PK: ...&#10;FK: ...&#10;AUTO_INCREMENT: ..."></textarea>
+                <div class="ex-actions">
+                    <button class="btn btn-primary" onclick="corregir('der_2a')">✅ Corregir</button>
+                    <button class="btn btn-ghost" onclick="limpiar('der_2a')">Limpiar</button>
+                </div>
+                <div class="result" id="res-der_2a"></div>
+
+                <details class="pista" style="margin-top:.8rem;">
+                    <summary>Ver la solución esperada</summary>
+                    <ul class="explain">
+                        <li><strong>PK:</strong> id_compra, que identifica cada compra.</li>
+                        <li><strong>FK:</strong> cliente_dni y producto_codigo.</li>
+                        <li><strong>AUTO_INCREMENT:</strong> en id_compra, para que MySQL numere solo.</li>
+                    </ul>
+                </details>
+            </div>
+
+            <div class="exercise">
+                <h4>✍️ Ejercicio 2.2: una tabla con PK y AI <span class="ex-level media">Medio</span></h4>
+                <p class="ex-goal">
+                    Escribí la tabla <code class="inline">productos</code> con:
+                    <code class="inline">codigo</code> (PK, AUTO_INCREMENT, INT),
+                    <code class="inline">nombre</code> (VARCHAR(50)),
+                    <code class="inline">precio</code> (DECIMAL(10,2)) y
+                    <code class="inline">stock</code> (INT).
+                </p>
+                <textarea class="code-input" id="in-der_2b" spellcheck="false" placeholder="productos&#10;  codigo PK ...&#10;  nombre ...&#10;  ..."></textarea>
+                <div class="ex-actions">
+                    <button class="btn btn-primary" onclick="corregir('der_2b')">✅ Corregir</button>
+                    <button class="btn btn-ghost" onclick="limpiar('der_2b')">Limpiar</button>
+                </div>
+                <div class="result" id="res-der_2b"></div>
+
+                <details class="pista" style="margin-top:.8rem;">
+                    <summary>Ver la solución esperada</summary>
+                    <pre><code>productos
+  codigo  PK AI INT
+  nombre  VARCHAR(50)
+  precio  DECIMAL(10,2)
+  stock   INT</code></pre>
+                </details>
+            </div>
+
+            <div class="exercise">
+                <h4>✍️ Ejercicio 2.3: el DER de la pizzería <span class="ex-level dificil">Difícil</span></h4>
                 <p class="ex-goal">
                     Usá el MER de la pizzería (CLIENTE – PIDE – PIZZA, con PEDIDO como entidad
                     intermedia). Escribí las <strong>tres tablas</strong> con sus columnas, marcá
@@ -170,12 +308,12 @@ producto_codigo</div>
                         <li><code class="inline">pedidos</code>: id_pedido PK, id_cliente FK, id_pizza FK, fecha, cantidad.</li>
                     </ol>
                 </details>
-                <textarea class="code-input" id="in-der_pizzeria" spellcheck="false" placeholder="clientes&#10;  id_cliente PK ...&#10;  ...&#10;&#10;pizzas&#10;  ...&#10;&#10;pedidos (intermedia)&#10;  ..."></textarea>
+                <textarea class="code-input" id="in-der_2c" spellcheck="false" placeholder="clientes&#10;  id_cliente PK ...&#10;  ...&#10;&#10;pizzas&#10;  ...&#10;&#10;pedidos (intermedia)&#10;  ..."></textarea>
                 <div class="ex-actions">
-                    <button class="btn btn-primary" onclick="corregir('der_pizzeria')">✅ Corregir</button>
-                    <button class="btn btn-ghost" onclick="limpiar('der_pizzeria')">Limpiar</button>
+                    <button class="btn btn-primary" onclick="corregir('der_2c')">✅ Corregir</button>
+                    <button class="btn btn-ghost" onclick="limpiar('der_2c')">Limpiar</button>
                 </div>
-                <div class="result" id="res-der_pizzeria"></div>
+                <div class="result" id="res-der_2c"></div>
 
                 <details class="pista" style="margin-top:.8rem;">
                 <summary>Ver el DER de la pizzería</summary>
@@ -269,7 +407,56 @@ producto_codigo</div>
             </div>
 
             <div class="exercise">
-                <h4>✍️ Ejercicio: explicá la intermedia de la tienda</h4>
+                <h4>✍️ Ejercicio 3.1: por qué hace falta <span class="ex-level facil">Fácil</span></h4>
+                <p class="ex-goal">
+                    ¿Por qué una relación <strong>N:M</strong> no se resuelve con una sola FK?,
+                    ¿qué tabla se agrega? y ¿cuántas <strong>FK</strong> lleva esa tabla.
+                </p>
+                <textarea class="code-input" id="in-der_3a" spellcheck="false" placeholder="Cardinalidad: ...&#10;Hace falta: ...&#10;Cantidad de FK: ..."></textarea>
+                <div class="ex-actions">
+                    <button class="btn btn-primary" onclick="corregir('der_3a')">✅ Corregir</button>
+                    <button class="btn btn-ghost" onclick="limpiar('der_3a')">Limpiar</button>
+                </div>
+                <div class="result" id="res-der_3a"></div>
+
+                <details class="pista" style="margin-top:.8rem;">
+                    <summary>Ver la solución esperada</summary>
+                    <ul class="explain">
+                        <li>La relación es <strong>N:M</strong>: muchos con muchos.</li>
+                        <li>Hace falta una <strong>tabla intermedia</strong>.</li>
+                        <li>Lleva <strong>dos FK</strong>, una hacia cada entidad.</li>
+                    </ul>
+                </details>
+            </div>
+
+            <div class="exercise">
+                <h4>✍️ Ejercicio 3.2: la intermedia de la veterinaria <span class="ex-level media">Medio</span></h4>
+                <p class="ex-goal">
+                    Un veterinario atiende muchas mascotas y una mascota es atendida por varios
+                    veterinarios. Escribí la tabla intermedia <code class="inline">consultas</code>:
+                    <strong>PK propia</strong>, las <strong>dos FK</strong>, <strong>fecha</strong> y
+                    <strong>motivo</strong>.
+                </p>
+                <textarea class="code-input" id="in-der_3b" spellcheck="false" placeholder="consultas&#10;  id_consulta PK ...&#10;  ... FK ..."></textarea>
+                <div class="ex-actions">
+                    <button class="btn btn-primary" onclick="corregir('der_3b')">✅ Corregir</button>
+                    <button class="btn btn-ghost" onclick="limpiar('der_3b')">Limpiar</button>
+                </div>
+                <div class="result" id="res-der_3b"></div>
+
+                <details class="pista" style="margin-top:.8rem;">
+                    <summary>Ver la solución esperada</summary>
+                    <pre><code>consultas
+  id_consulta     PK AI INT
+  id_veterinario  FK INT -> veterinarios
+  id_mascota      FK INT -> mascotas
+  fecha           DATE
+  motivo          VARCHAR(100)</code></pre>
+                </details>
+            </div>
+
+            <div class="exercise">
+                <h4>✍️ Ejercicio 3.3: explicá la intermedia de la tienda <span class="ex-level dificil">Difícil</span></h4>
                 <p class="ex-goal">
                     Explicá por qué <strong>COMPRA termina siendo una tabla</strong> y no solo un rombo.
                     Indicá: <strong>qué cardinalidad</strong> había entre clientes y productos,
@@ -277,12 +464,22 @@ producto_codigo</div>
                     <strong>cuáles son sus dos claves foráneas</strong> y <strong>qué dos relaciones
                     1:N</strong> aparecen.
                 </p>
-                <textarea class="code-input" id="in-der_intermedia" spellcheck="false" placeholder="La relación original era ...&#10;La tabla compras lleva ...&#10;Sus FK son ...&#10;Las relaciones 1:N son ..."></textarea>
+                <textarea class="code-input" id="in-der_3c" spellcheck="false" placeholder="La relación original era ...&#10;La tabla compras lleva ...&#10;Sus FK son ...&#10;Las relaciones 1:N son ..."></textarea>
                 <div class="ex-actions">
-                    <button class="btn btn-primary" onclick="corregir('der_intermedia')">✅ Corregir</button>
-                    <button class="btn btn-ghost" onclick="limpiar('der_intermedia')">Limpiar</button>
+                    <button class="btn btn-primary" onclick="corregir('der_3c')">✅ Corregir</button>
+                    <button class="btn btn-ghost" onclick="limpiar('der_3c')">Limpiar</button>
                 </div>
-                <div class="result" id="res-der_intermedia"></div>
+                <div class="result" id="res-der_3c"></div>
+
+                <details class="pista" style="margin-top:.8rem;">
+                    <summary>Ver la solución esperada</summary>
+                    <ul class="explain">
+                        <li>La relación original era <strong>N:M</strong>.</li>
+                        <li><code class="inline">compras</code> lleva id_compra (PK), las dos FK, fecha y cantidad.</li>
+                        <li>Sus FK son <strong>cliente_dni</strong> (a clientes) y <strong>producto_codigo</strong> (a productos).</li>
+                        <li>Quedan dos relaciones <strong>1:N</strong>: clientes → compras y productos → compras.</li>
+                    </ul>
+                </details>
             </div>
         </article>
 
@@ -319,7 +516,58 @@ producto_codigo</div>
             </div>
 
             <div class="exercise">
-                <h4>✍️ Ejercicio: elegí tipos y marcas</h4>
+                <h4>✍️ Ejercicio 4.1: un tipo para cada dato <span class="ex-level facil">Fácil</span></h4>
+                <p class="ex-goal">
+                    Escribí el tipo que corresponde a cada columna:
+                    <strong>nombre</strong>, <strong>precio</strong>, <strong>fecha</strong> y
+                    <strong>stock</strong>. Usá INT, VARCHAR, DECIMAL o DATE.
+                </p>
+                <textarea class="code-input" id="in-der_4a" spellcheck="false" placeholder="nombre ...&#10;precio ...&#10;fecha ...&#10;stock ..."></textarea>
+                <div class="ex-actions">
+                    <button class="btn btn-primary" onclick="corregir('der_4a')">✅ Corregir</button>
+                    <button class="btn btn-ghost" onclick="limpiar('der_4a')">Limpiar</button>
+                </div>
+                <div class="result" id="res-der_4a"></div>
+
+                <details class="pista" style="margin-top:.8rem;">
+                    <summary>Ver la solución esperada</summary>
+                    <ul class="explain">
+                        <li><strong>nombre → VARCHAR(50)</strong>, porque es texto.</li>
+                        <li><strong>precio → DECIMAL(10,2)</strong>, porque lleva centavos.</li>
+                        <li><strong>fecha → DATE</strong>, porque es una fecha.</li>
+                        <li><strong>stock → INT</strong>, porque es un número entero.</li>
+                    </ul>
+                </details>
+            </div>
+
+            <div class="exercise">
+                <h4>✍️ Ejercicio 4.2: tipos en la intermedia <span class="ex-level media">Medio</span></h4>
+                <p class="ex-goal">
+                    Para la tabla <code class="inline">compras</code>: elegí el tipo de
+                    <code class="inline">id_compra</code>, <code class="inline">cliente_dni</code> y
+                    <code class="inline">cantidad</code>. Después decidí qué pasa con
+                    <code class="inline">total</code>: ¿se guarda o se calcula?
+                </p>
+                <textarea class="code-input" id="in-der_4b" spellcheck="false" placeholder="id_compra ...&#10;cliente_dni ...&#10;cantidad ...&#10;total ..."></textarea>
+                <div class="ex-actions">
+                    <button class="btn btn-primary" onclick="corregir('der_4b')">✅ Corregir</button>
+                    <button class="btn btn-ghost" onclick="limpiar('der_4b')">Limpiar</button>
+                </div>
+                <div class="result" id="res-der_4b"></div>
+
+                <details class="pista" style="margin-top:.8rem;">
+                    <summary>Ver la solución esperada</summary>
+                    <ul class="explain">
+                        <li><strong>id_compra → INT</strong> (PK, AUTO_INCREMENT).</li>
+                        <li><strong>cliente_dni → INT</strong>, porque copia el tipo de la PK de clientes.</li>
+                        <li><strong>cantidad → INT</strong>, un número entero.</li>
+                        <li><strong>total → es derivado</strong>: se calcula como precio * cantidad y no se guarda.</li>
+                    </ul>
+                </details>
+            </div>
+
+            <div class="exercise">
+                <h4>✍️ Ejercicio 4.3: tipos y marcas completas <span class="ex-level dificil">Difícil</span></h4>
                 <p class="ex-goal">
                     Para la tabla <code class="inline">compras</code> de la tienda, escribí cada columna
                     con su <strong>tipo</strong> y su <strong>marca</strong>:
@@ -329,12 +577,22 @@ producto_codigo</div>
                     <code class="inline">fecha</code> y <code class="inline">cantidad</code>.
                     Agregá una columna <code class="inline">total</code> y explicá si se guarda o se calcula.
                 </p>
-                <textarea class="code-input" id="in-der_tipos" spellcheck="false" placeholder="id_compra ...&#10;cliente_dni ...&#10;producto_codigo ...&#10;fecha ...&#10;cantidad ...&#10;total ..."></textarea>
+                <textarea class="code-input" id="in-der_4c" spellcheck="false" placeholder="id_compra ...&#10;cliente_dni ...&#10;producto_codigo ...&#10;fecha ...&#10;cantidad ...&#10;total ..."></textarea>
                 <div class="ex-actions">
-                    <button class="btn btn-primary" onclick="corregir('der_tipos')">✅ Corregir</button>
-                    <button class="btn btn-ghost" onclick="limpiar('der_tipos')">Limpiar</button>
+                    <button class="btn btn-primary" onclick="corregir('der_4c')">✅ Corregir</button>
+                    <button class="btn btn-ghost" onclick="limpiar('der_4c')">Limpiar</button>
                 </div>
-                <div class="result" id="res-der_tipos"></div>
+                <div class="result" id="res-der_4c"></div>
+
+                <details class="pista" style="margin-top:.8rem;">
+                    <summary>Ver la solución esperada</summary>
+                    <pre><code>id_compra        INT PK AUTO_INCREMENT
+cliente_dni      INT FK -> clientes(dni)
+producto_codigo  INT FK -> productos(codigo)
+fecha            DATE
+cantidad         INT
+total            se calcula: precio * cantidad (no se guarda)</code></pre>
+                </details>
             </div>
         </article>
 
@@ -430,26 +688,68 @@ producto_codigo</div>
 <script>
 window.GUIA = {
     prefijo: 'der_',
+    paleta: [
+        { etiqueta: 'PK', inserta: 'PK' },
+        { etiqueta: 'FK', inserta: 'FK' },
+        { etiqueta: 'AUTO_INCREMENT', inserta: 'AUTO_INCREMENT' },
+        { etiqueta: 'INT', inserta: 'INT' },
+        { etiqueta: 'VARCHAR', inserta: 'VARCHAR' },
+        { etiqueta: 'DECIMAL', inserta: 'DECIMAL' },
+        { etiqueta: 'DATE', inserta: 'DATE' }
+    ],
     temas: [
-        { id: 'der_tienda', nombre: '1. DER de la tienda' },
-        { id: 'der_pizzeria', nombre: '2. DER de la pizzería' },
-        { id: 'der_intermedia', nombre: '3. Entidad intermedia' },
-        { id: 'der_tipos', nombre: '4. Tipos y restricciones' }
+        { id: 'der_1a', nombre: '1.1 Equivalencias MER → DER' },
+        { id: 'der_1b', nombre: '1.2 Primera tabla' },
+        { id: 'der_1c', nombre: '1.3 DER de la tienda' },
+        { id: 'der_2a', nombre: '2.1 Marcar PK, FK y AI' },
+        { id: 'der_2b', nombre: '2.2 Tabla con PK y AI' },
+        { id: 'der_2c', nombre: '2.3 DER de la pizzería' },
+        { id: 'der_3a', nombre: '3.1 Por qué hace falta' },
+        { id: 'der_3b', nombre: '3.2 Intermedia de la veterinaria' },
+        { id: 'der_3c', nombre: '3.3 Intermedia de la tienda' },
+        { id: 'der_4a', nombre: '4.1 Un tipo para cada dato' },
+        { id: 'der_4b', nombre: '4.2 Tipos en la intermedia' },
+        { id: 'der_4c', nombre: '4.3 Tipos y marcas completas' }
     ],
     ejercicios: {
-        der_tienda: [
+        der_1a: [
+            { d: 'Entidad → tabla', f: function (c) { return /entidad[^\n]*tabla|tabla[^\n]*entidad/.test(c); } },
+            { d: 'Atributo → columna', f: function (c) { return /atributo[^\n]*columna|columna[^\n]*atributo/.test(c); } },
+            { d: 'Atributo clave → PRIMARY KEY', f: function (c) { return /primary key/.test(c); } },
+            { d: 'Relación N:M → tabla intermedia', f: function (c) { return /n\s*:\s*m[^\n]*intermedia|intermedia[^\n]*n\s*:\s*m/.test(c); } }
+        ],
+        der_1b: [
+            { d: 'Nombra la tabla clientes', f: function (c) { return /clientes/.test(c); } },
+            { d: 'Incluye la columna id_cliente', f: function (c) { return /id_cliente/.test(c); } },
+            { d: 'Incluye nombre y apellido', f: function (c) { return /nombre/.test(c) && /apellido/.test(c); } },
+            { d: 'Incluye telefono', f: function (c) { return /telefono/.test(c); } },
+            { d: 'Marca id_cliente como PK', f: function (c) { return /id_cliente[^\n]*(pk|primary key)|(pk|primary key)[^\n]*id_cliente/.test(c); } },
+            { d: 'Usa un tipo de dato (INT o VARCHAR)', f: function (c) { return /\bint\b|varchar/.test(c); } }
+        ],
+        der_1c: [
             { d: 'Crea la tabla clientes', f: function (c) { return /clientes/.test(c); } },
             { d: 'Crea la tabla productos', f: function (c) { return /productos/.test(c); } },
             { d: 'Crea la tabla intermedia compras', f: function (c) { return /compras/.test(c); } },
-            { d: 'Marca la PK id_compra', f: function (c) { return /id_compra/.test(c); } },
+            { d: 'Marca la PK id_compra', f: function (c) { return /id_compra[^\n]*(pk|primary key)|(pk|primary key)[^\n]*id_compra/.test(c); } },
             { d: 'FK cliente_dni hacia clientes', f: function (c) { return /cliente_dni|cliente_id|id_cliente/.test(c); } },
             { d: 'FK producto_codigo hacia productos', f: function (c) { return /producto_codigo|producto_cod|producto_id|id_producto/.test(c); } },
-            { d: 'Indica al menos 3 PRIMARY KEY / PK', f: function (c) { return (c.match(/primary key|\bpk\b/g) || []).length >= 3; } },
-            { d: 'Indica al menos 2 FOREIGN KEY / FK', f: function (c) { return (c.match(/\bfk\b|foreign key/g) || []).length >= 2; } },
             { d: 'Usa tipos INT, VARCHAR, DECIMAL y DATE', f: function (c) { return /\bint\b/.test(c) && /varchar/.test(c) && /decimal/.test(c) && /\bdate\b/.test(c); } },
             { d: 'Pone fecha y cantidad dentro de compras', f: function (c) { return /fecha/.test(c) && /cantidad/.test(c); } }
         ],
-        der_pizzeria: [
+        der_2a: [
+            { d: 'id_compra es la PK', f: function (c) { return /id_compra[^\n]*(pk|primary key)|(pk|primary key)[^\n]*id_compra/.test(c); } },
+            { d: 'cliente_dni es FK', f: function (c) { return /cliente_dni[^\n]*(fk|foreign key)|(fk|foreign key)[^\n]*cliente_dni/.test(c); } },
+            { d: 'producto_codigo es FK', f: function (c) { return /producto_codigo[^\n]*(fk|foreign key)|(fk|foreign key)[^\n]*producto_codigo/.test(c); } },
+            { d: 'AUTO_INCREMENT va en id_compra', f: function (c) { return /id_compra[^\n]*auto_increment|auto_increment[^\n]*id_compra/.test(c); } }
+        ],
+        der_2b: [
+            { d: 'Crea la tabla productos', f: function (c) { return /productos/.test(c); } },
+            { d: 'codigo es la PK', f: function (c) { return /codigo[^\n]*(pk|primary key)|(pk|primary key)[^\n]*codigo/.test(c); } },
+            { d: 'codigo es AUTO_INCREMENT', f: function (c) { return /codigo[^\n]*auto_increment|auto_increment[^\n]*codigo/.test(c); } },
+            { d: 'precio es DECIMAL', f: function (c) { return /precio[^\n]*decimal/.test(c); } },
+            { d: 'nombre es VARCHAR', f: function (c) { return /nombre[^\n]*varchar/.test(c); } }
+        ],
+        der_2c: [
             { d: 'Crea la tabla clientes', f: function (c) { return /clientes/.test(c); } },
             { d: 'Crea la tabla pizzas', f: function (c) { return /pizzas/.test(c); } },
             { d: 'Crea la tabla intermedia pedidos', f: function (c) { return /pedidos/.test(c); } },
@@ -458,11 +758,23 @@ window.GUIA = {
             { d: 'Marca la PK id_pedido', f: function (c) { return /id_pedido/.test(c); } },
             { d: 'Indica al menos 3 PRIMARY KEY / PK', f: function (c) { return (c.match(/primary key|\bpk\b/g) || []).length >= 3; } },
             { d: 'Indica al menos 2 FOREIGN KEY / FK', f: function (c) { return (c.match(/\bfk\b|foreign key/g) || []).length >= 2; } },
-            { d: 'Usa tipos INT, VARCHAR, DECIMAL y DATE', f: function (c) { return /\bint\b/.test(c) && /varchar/.test(c) && /decimal/.test(c) && /\bdate\b/.test(c); } },
+            { d: 'Usa tipos INT, VARCHAR y DATE', f: function (c) { return /\bint\b/.test(c) && /varchar/.test(c) && /\bdate\b/.test(c); } },
             { d: 'Pone fecha y cantidad dentro de pedidos', f: function (c) { return /fecha/.test(c) && /cantidad/.test(c); } }
         ],
-        der_intermedia: [
-            { d: 'Explica que la relación original era N:M', f: function (c) { return /\bn\s*:\s*m\b|\bm\s*:\s*n\b|muchos\s+a\s+muchos/.test(c); } },
+        der_3a: [
+            { d: 'La relación es N:M', f: function (c) { return /n\s*:\s*m|muchos\s+a\s+muchos/.test(c); } },
+            { d: 'Hace falta una tabla intermedia', f: function (c) { return /intermedia|puente/.test(c); } },
+            { d: 'La intermedia lleva dos FK', f: function (c) { return /(dos|2)\s*(fk|claves foraneas|foreign key)/.test(c); } }
+        ],
+        der_3b: [
+            { d: 'Crea la tabla intermedia consultas', f: function (c) { return /consulta|atiende/.test(c); } },
+            { d: 'FK hacia veterinarios', f: function (c) { return /veterinario|id_vet/.test(c); } },
+            { d: 'FK hacia mascotas', f: function (c) { return /mascota/.test(c); } },
+            { d: 'Incluye fecha y motivo', f: function (c) { return /fecha/.test(c) && /motivo/.test(c); } },
+            { d: 'Tiene su propia PK', f: function (c) { return /(pk|primary key)/.test(c); } }
+        ],
+        der_3c: [
+            { d: 'Explica que la relación original era N:M', f: function (c) { return /n\s*:\s*m|muchos\s+a\s+muchos/.test(c); } },
             { d: 'COMPRA termina siendo una tabla', f: function (c) { return /tabla[^\n]*compra|compra[^\n]*tabla/.test(c); } },
             { d: 'La tabla compras lleva la PK id_compra', f: function (c) { return /id_compra/.test(c); } },
             { d: 'Incluye las columnas fecha y cantidad', f: function (c) { return /fecha/.test(c) && /cantidad/.test(c); } },
@@ -471,7 +783,19 @@ window.GUIA = {
             { d: 'FK hacia productos (producto_codigo)', f: function (c) { return /producto_codigo|producto_cod|producto_id|id_producto|codigo_producto/.test(c); } },
             { d: 'Nombra dos relaciones 1:N', f: function (c) { return (c.match(/1\s*:\s*n/g) || []).length >= 2 || /dos relaciones/.test(c); } }
         ],
-        der_tipos: [
+        der_4a: [
+            { d: 'nombre es VARCHAR', f: function (c) { return /nombre[^\n]*varchar/.test(c); } },
+            { d: 'precio es DECIMAL', f: function (c) { return /precio[^\n]*decimal/.test(c); } },
+            { d: 'fecha es DATE', f: function (c) { return /fecha[^\n]*date/.test(c); } },
+            { d: 'stock es INT', f: function (c) { return /stock[^\n]*int/.test(c); } }
+        ],
+        der_4b: [
+            { d: 'id_compra es INT', f: function (c) { return /id_compra[^\n]*int/.test(c); } },
+            { d: 'cliente_dni es INT', f: function (c) { return /cliente_dni[^\n]*int/.test(c); } },
+            { d: 'cantidad es INT', f: function (c) { return /cantidad[^\n]*int/.test(c); } },
+            { d: 'total se calcula y no se guarda', f: function (c) { return /total[^\n]*(derivado|calcula|no se guarda)|precio\s*\*\s*cantidad/.test(c); } }
+        ],
+        der_4c: [
             { d: 'id_compra es INT y PRIMARY KEY', f: function (c) { return /id_compra[^\n]*(int[^\n]*(primary key|pk)|(primary key|pk)[^\n]*int)/.test(c); } },
             { d: 'id_compra usa AUTO_INCREMENT', f: function (c) { return /id_compra[^\n]*auto_increment|auto_increment[^\n]*id_compra/.test(c); } },
             { d: 'cliente_dni es FK y apunta a clientes', f: function (c) { return /cliente_dni[^\n]*(fk|foreign key|references)[^\n]*cliente|cliente_dni[^\n]*(fk|foreign key)/.test(c); } },
