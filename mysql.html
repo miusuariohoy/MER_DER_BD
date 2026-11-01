@@ -1,0 +1,998 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MySQL · Crear, insertar y consultar · Guía interactiva</title>
+    <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+
+<header class="hero hero-mysql">
+    <h1>MySQL: el plano se vuelve datos</h1>
+    <p>Crear tablas, cargar filas y cruzar información con consultas de verdad</p>
+    <span class="badge">Tema 3 de 4 · Base de datos</span>
+    <br><a class="back-link" href="index.html">← Volver al inicio del curso</a>
+</header>
+
+<nav class="sumario">
+    <a href="index.html">🏠 Inicio</a>
+    <a href="mer.html">1 · MER</a>
+    <a href="der.html">2 · DER</a>
+    <a href="mysql.html" class="activo">3 · MySQL</a>
+    <a href="dia.html">4 · Dia</a>
+</nav>
+
+<main>
+
+    <section id="teoria">
+        <h2 class="section-title">MySQL · Teoría y ejercitación</h2>
+        <p class="section-sub">
+            Seis temas para pasar del dibujo a la base real: <strong>crear</strong>,
+            <strong>insertar</strong>, <strong>consultar</strong>, <strong>relacionar</strong> y
+            <strong>cruzar tablas</strong>. Cada tema tiene su pestaña
+            <strong>📘 Teoría</strong> y <strong>✍️ Ejercitación</strong>.
+        </p>
+
+        <div class="note">
+            <strong>Cómo se usa:</strong> escribí tus sentencias SQL en el cuadro y presioná
+            <strong>Corregir</strong>. El corrector revisa la <strong>estructura</strong> del código
+            (palabras clave, tablas, columnas y cláusulas): <strong>no ejecuta el SQL</strong>. Para
+            probarlo de verdad, copialo en MySQL Workbench y ejecutalo con el rayo ⚡.
+        </div>
+
+        <!-- 1 -->
+        <article class="card">
+            <h3><span class="num">1</span> Crear la base y las tablas</h3>
+            <p class="concept">
+                Una base de datos es un <strong>contenedor de tablas</strong>. Primero se crea la base,
+                después se elige con <code class="inline">USE</code> y recién ahí se crean las tablas.
+                Cada tabla declara sus <strong>columnas con tipo</strong> y sus
+                <strong>restricciones</strong>.
+            </p>
+
+            <div class="syntax">
+                <span class="syntax-label">La receta mínima</span>
+                CREATE DATABASE tienda;<br>
+                USE tienda;<br><br>
+                CREATE TABLE clientes (<br>
+                &nbsp;&nbsp;dni INT PRIMARY KEY,<br>
+                &nbsp;&nbsp;nombre VARCHAR(50) NOT NULL,<br>
+                &nbsp;&nbsp;apellido VARCHAR(50) NOT NULL,<br>
+                &nbsp;&nbsp;telefono VARCHAR(20)<br>
+                );
+            </div>
+
+            <div class="sub">Tipos de dato que vas a usar</div>
+            <table class="datos">
+                <tr><th>Tipo</th><th>Guarda</th><th>Ejemplo</th></tr>
+                <tr><td><code class="inline">INT</code></td><td>Números enteros</td><td>dni, stock, cantidad</td></tr>
+                <tr><td><code class="inline">DECIMAL(10,2)</code></td><td>Decimales exactos (10 dígitos, 2 decimales)</td><td>precio, total</td></tr>
+                <tr><td><code class="inline">VARCHAR(50)</code></td><td>Texto corto de hasta 50 caracteres</td><td>nombre, telefono</td></tr>
+                <tr><td><code class="inline">DATE</code></td><td>Fecha con formato AAAA-MM-DD</td><td>2026-03-02</td></tr>
+                <tr><td><code class="inline">TEXT</code></td><td>Texto largo</td><td>observaciones</td></tr>
+                <tr><td><code class="inline">BOOLEAN</code></td><td>Verdadero o falso (1 / 0)</td><td>activo</td></tr>
+            </table>
+
+            <div class="sub">Restricciones que hacen la tabla confiable</div>
+            <table class="datos">
+                <tr><th>Restricción</th><th>Qué impone</th></tr>
+                <tr><td><code class="inline">PRIMARY KEY</code></td><td>Identifica cada fila: no se repite ni admite vacío.</td></tr>
+                <tr><td><code class="inline">AUTO_INCREMENT</code></td><td>MySQL numera solo: 1, 2, 3…</td></tr>
+                <tr><td><code class="inline">NOT NULL</code></td><td>Obliga a cargar un valor.</td></tr>
+                <tr><td><code class="inline">UNIQUE</code></td><td>No se repite, pero puede quedar vacío.</td></tr>
+                <tr><td><code class="inline">DEFAULT 0</code></td><td>Valor automático si no se indica otro.</td></tr>
+            </table>
+
+            <pre><code><span class="cmt">-- La tabla de productos, con clave automática.</span>
+<span class="kw">CREATE TABLE</span> productos (
+    codigo    <span class="kw">INT PRIMARY KEY AUTO_INCREMENT</span>,
+    nombre    <span class="kw">VARCHAR</span>(50) <span class="kw">NOT NULL</span>,
+    precio    <span class="kw">DECIMAL</span>(10,2) <span class="kw">NOT NULL</span>,
+    stock     <span class="kw">INT DEFAULT</span> 0
+);</code></pre>
+
+            <div class="buenas">
+                <strong>Buena práctica:</strong> nombres de tablas y columnas en minúscula, sin espacios,
+                sin ñ y sin acentos. <code class="inline">clientes</code> sí;
+                <code class="inline">Clientes Nuevos</code> no.
+            </div>
+            <div class="alerta">
+                <strong>Orden importa:</strong> si una tabla tiene una FK, la tabla a la que apunta debe
+                existir antes. Primero <code class="inline">clientes</code> y
+                <code class="inline">productos</code>; después la intermedia
+                <code class="inline">compras</code>.
+            </div>
+
+            <div class="exercise">
+                <h4>✍️ Ejercicio: creá la base tienda</h4>
+                <p class="ex-goal">
+                    Escribí el script que <strong>crea la base</strong> <code class="inline">tienda</code>,
+                    la <strong>selecciona</strong> y crea dos tablas:<br>
+                    <strong>clientes</strong>: <code class="inline">dni</code> INT PRIMARY KEY,
+                    <code class="inline">nombre</code> y <code class="inline">apellido</code> VARCHAR(50)
+                    NOT NULL, <code class="inline">telefono</code> VARCHAR(20).<br>
+                    <strong>productos</strong>: <code class="inline">codigo</code> INT PRIMARY KEY
+                    AUTO_INCREMENT, <code class="inline">nombre</code> VARCHAR(50) NOT NULL,
+                    <code class="inline">precio</code> DECIMAL(10,2) NOT NULL,
+                    <code class="inline">stock</code> INT DEFAULT 0.<br>
+                    Terminá cada sentencia con punto y coma.
+                </p>
+                <details class="pista">
+                    <summary>Pista: tres sentencias para empezar</summary>
+                    <ol>
+                        <li><code class="inline">CREATE DATABASE tienda;</code></li>
+                        <li><code class="inline">USE tienda;</code></li>
+                        <li>Un <code class="inline">CREATE TABLE</code> por cada tabla, con sus columnas entre paréntesis.</li>
+                    </ol>
+                </details>
+                <textarea class="code-input" id="in-sql_crear" spellcheck="false" placeholder="CREATE DATABASE ...&#10;USE ...&#10;&#10;CREATE TABLE clientes (&#10;  ...&#10;);&#10;&#10;CREATE TABLE productos (&#10;  ...&#10;);"></textarea>
+                <div class="ex-actions">
+                    <button class="btn btn-primary" onclick="corregir('sql_crear')">✅ Corregir</button>
+                    <button class="btn btn-ghost" onclick="limpiar('sql_crear')">Limpiar</button>
+                </div>
+                <div class="result" id="res-sql_crear"></div>
+
+                <details class="pista" style="margin-top:.8rem;">
+                    <summary>Ver la solución esperada</summary>
+                    <pre style="margin:.4rem 0 0;"><code>CREATE DATABASE tienda;
+USE tienda;
+
+CREATE TABLE clientes (
+    dni       INT PRIMARY KEY,
+    nombre    VARCHAR(50) NOT NULL,
+    apellido  VARCHAR(50) NOT NULL,
+    telefono  VARCHAR(20)
+);
+
+CREATE TABLE productos (
+    codigo  INT PRIMARY KEY AUTO_INCREMENT,
+    nombre  VARCHAR(50) NOT NULL,
+    precio  DECIMAL(10,2) NOT NULL,
+    stock   INT DEFAULT 0
+);</code></pre>
+                </details>
+            </div>
+        </article>
+
+        <!-- 2 -->
+        <article class="card">
+            <h3><span class="num">2</span> Insertar datos con INSERT</h3>
+            <p class="concept">
+                Una tabla vacía no sirve de mucho. <code class="inline">INSERT INTO</code> agrega
+                <strong>filas</strong>. Se indica la tabla, entre paréntesis las columnas y después
+                <code class="inline">VALUES</code> con los datos en <strong>el mismo orden</strong>.
+            </p>
+
+            <div class="syntax">
+                <span class="syntax-label">Una fila y varias filas</span>
+                INSERT INTO clientes (dni, nombre, apellido, telefono)<br>
+                VALUES (30111222, 'Ana', 'Gómez', '11-5555-1111');<br><br>
+                INSERT INTO productos (nombre, precio, stock) VALUES<br>
+                ('Muzzarella', 8500.50, 20),<br>
+                ('Napolitana', 9200.00, 15),<br>
+                ('Fugazzeta', 9900.75, 8);
+            </div>
+
+            <div class="sub">Las reglas de oro del INSERT</div>
+            <ul class="explain">
+                <li><strong>Textos y fechas</strong> van entre <strong>comillas simples</strong>: <code class="inline">'Ana'</code>, <code class="inline">'2026-03-02'</code>.</li>
+                <li><strong>Números</strong> van sin comillas: <code class="inline">8500.50</code>, <code class="inline">20</code>.</li>
+                <li>Los decimales se escriben con <strong>punto</strong>, no con coma: <code class="inline">8500.50</code>.</li>
+                <li>Si la PK es <code class="inline">AUTO_INCREMENT</code>, <strong>no la escribas</strong>: MySQL la genera.</li>
+                <li>Un dato opcional desconocido se carga como <code class="inline">NULL</code>.</li>
+                <li>Podés insertar <strong>varias filas</strong> separándolas con comas y cerrando con <code class="inline">;</code>.</li>
+            </ul>
+
+            <div class="okbox">
+                <strong>Truco:</strong> si el <code class="inline">INSERT</code> falla, revisá en este orden:
+                cantidad de columnas = cantidad de valores, comillas en los textos, punto en los decimales y
+                que la PK no esté repetida.
+            </div>
+            <div class="alerta">
+                <strong>Error clásico:</strong> escribir <code class="inline">'8500,50'</code> (con coma y
+                comillas). Eso es un texto, no un número. Se escribe <code class="inline">8500.50</code>.
+            </div>
+
+            <div class="exercise">
+                <h4>✍️ Ejercicio: cargá clientes y productos</h4>
+                <p class="ex-goal">
+                    Insertá <strong>al menos 3 clientes</strong> (con dni, nombre, apellido y teléfono;
+                    uno puede tener <code class="inline">NULL</code>) y <strong>al menos 3 productos</strong>
+                    (sin escribir el código, porque es AUTO_INCREMENT). Usá textos con comillas simples y
+                    precios con dos decimales.
+                </p>
+                <details class="pista">
+                    <summary>Pista: mirá las columnas de cada tabla</summary>
+                    <ol>
+                        <li>En <code class="inline">clientes</code> el dni <strong>sí</strong> se escribe: no es automático.</li>
+                        <li>En <code class="inline">productos</code> el código <strong>no</strong> se escribe.</li>
+                        <li>Separá las filas con comas y terminá con punto y coma.</li>
+                    </ol>
+                </details>
+                <textarea class="code-input" id="in-sql_insertar" spellcheck="false" placeholder="INSERT INTO clientes (dni, nombre, apellido, telefono) VALUES&#10;(...),&#10;(...),&#10;(...);&#10;&#10;INSERT INTO productos (nombre, precio, stock) VALUES&#10;(...),&#10;(...),&#10;(...);"></textarea>
+                <div class="ex-actions">
+                    <button class="btn btn-primary" onclick="corregir('sql_insertar')">✅ Corregir</button>
+                    <button class="btn btn-ghost" onclick="limpiar('sql_insertar')">Limpiar</button>
+                </div>
+                <div class="result" id="res-sql_insertar"></div>
+
+                <details class="pista" style="margin-top:.8rem;">
+                    <summary>Ver la solución esperada</summary>
+                    <pre style="margin:.4rem 0 0;"><code>INSERT INTO clientes (dni, nombre, apellido, telefono) VALUES
+(30111222, 'Ana', 'Gómez', '11-5555-1111'),
+(28444555, 'Bruno', 'Pérez', NULL),
+(40999888, 'Carla', 'López', '11-5555-3333');
+
+INSERT INTO productos (nombre, precio, stock) VALUES
+('Muzzarella', 8500.50, 20),
+('Napolitana', 9200.00, 15),
+('Fugazzeta', 9900.75, 8);</code></pre>
+                </details>
+            </div>
+        </article>
+
+        <!-- 3 -->
+        <article class="card">
+            <h3><span class="num">3</span> Consultar: SELECT, WHERE y ORDER BY</h3>
+            <p class="concept">
+                <code class="inline">SELECT</code> es la sentencia que <strong>lee</strong> datos. No
+                modifica nada: pregunta. Se combina con <code class="inline">WHERE</code> para filtrar,
+                <code class="inline">ORDER BY</code> para ordenar, <code class="inline">LIMIT</code> para
+                recortar y funciones como <code class="inline">COUNT</code> para resumir.
+            </p>
+
+            <div class="syntax">
+                <span class="syntax-label">La estructura de una consulta</span>
+                SELECT columnas<br>
+                FROM tabla<br>
+                WHERE condición<br>
+                ORDER BY columna ASC | DESC<br>
+                LIMIT cantidad;
+            </div>
+
+            <div class="sub">Las cláusulas, una por una</div>
+            <table class="datos">
+                <tr><th>Cláusula</th><th>Para qué sirve</th><th>Ejemplo</th></tr>
+                <tr><td><code class="inline">SELECT *</code></td><td>Trae todas las columnas</td><td><code class="inline">SELECT * FROM clientes;</code></td></tr>
+                <tr><td><code class="inline">SELECT col1, col2</code></td><td>Trae solo esas columnas</td><td><code class="inline">SELECT nombre, precio FROM productos;</code></td></tr>
+                <tr><td><code class="inline">WHERE</code></td><td>Filtra filas</td><td><code class="inline">WHERE precio &gt; 9000</code></td></tr>
+                <tr><td><code class="inline">AND / OR</code></td><td>Combina condiciones</td><td><code class="inline">WHERE stock &gt; 0 AND precio &lt; 10000</code></td></tr>
+                <tr><td><code class="inline">LIKE</code></td><td>Busca texto por patrón</td><td><code class="inline">WHERE nombre LIKE '%zza%'</code></td></tr>
+                <tr><td><code class="inline">ORDER BY</code></td><td>Ordena (ASC por defecto)</td><td><code class="inline">ORDER BY precio DESC</code></td></tr>
+                <tr><td><code class="inline">LIMIT</code></td><td>Recorta la cantidad de filas</td><td><code class="inline">LIMIT 3</code></td></tr>
+                <tr><td><code class="inline">AS</code></td><td>Renombra una columna en el resultado</td><td><code class="inline">COUNT(*) AS cantidad</code></td></tr>
+            </table>
+
+            <div class="sub">Funciones de resumen</div>
+            <table class="datos">
+                <tr><th>Función</th><th>Devuelve</th></tr>
+                <tr><td><code class="inline">COUNT(*)</code></td><td>La cantidad de filas</td></tr>
+                <tr><td><code class="inline">SUM(columna)</code></td><td>La suma de los valores</td></tr>
+                <tr><td><code class="inline">AVG(columna)</code></td><td>El promedio</td></tr>
+                <tr><td><code class="inline">MAX(columna)</code> / <code class="inline">MIN(columna)</code></td><td>El mayor / el menor</td></tr>
+            </table>
+
+            <pre><code><span class="cmt">-- Los tres productos más caros.</span>
+<span class="kw">SELECT</span> nombre, precio
+<span class="kw">FROM</span> productos
+<span class="kw">ORDER BY</span> precio <span class="kw">DESC</span>
+<span class="kw">LIMIT</span> 3;
+
+<span class="cmt">-- Cuántos clientes hay.</span>
+<span class="kw">SELECT</span> <span class="fn">COUNT</span>(*) <span class="kw">AS</span> cantidad
+<span class="kw">FROM</span> clientes;</code></pre>
+
+            <div class="buenas">
+                <strong>Para leer un resultado:</strong> primero mirá <strong>qué columnas</strong> pediste,
+                después <strong>cuántas filas</strong> volvieron y por último <strong>en qué orden</strong>.
+                Si el orden no te importa, igual conviene poner <code class="inline">ORDER BY</code> para que
+                el resultado sea predecible.
+            </div>
+            <div class="alerta">
+                <strong>NULL no es cero:</strong> para buscar vacíos se usa
+                <code class="inline">IS NULL</code>, no <code class="inline">= NULL</code>. Y para los que
+                tienen dato, <code class="inline">IS NOT NULL</code>.
+            </div>
+
+            <div class="exercise">
+                <h4>✍️ Ejercicio: cuatro consultas</h4>
+                <p class="ex-goal">
+                    Escribí cuatro consultas separadas con punto y coma:<br>
+                    <strong>(a)</strong> todos los clientes, ordenados por apellido;<br>
+                    <strong>(b)</strong> nombre y precio de los productos con precio <strong>mayor a 1000</strong>;<br>
+                    <strong>(c)</strong> los <strong>3 productos más caros</strong> (orden descendente y límite);<br>
+                    <strong>(d)</strong> la <strong>cantidad de clientes</strong>, con un alias.
+                </p>
+                <textarea class="code-input" id="in-sql_select" spellcheck="false" placeholder="-- (a)&#10;SELECT ...&#10;&#10;-- (b)&#10;SELECT ...&#10;&#10;-- (c)&#10;SELECT ...&#10;&#10;-- (d)&#10;SELECT ..."></textarea>
+                <div class="ex-actions">
+                    <button class="btn btn-primary" onclick="corregir('sql_select')">✅ Corregir</button>
+                    <button class="btn btn-ghost" onclick="limpiar('sql_select')">Limpiar</button>
+                </div>
+                <div class="result" id="res-sql_select"></div>
+
+                <details class="pista" style="margin-top:.8rem;">
+                    <summary>Ver la solución esperada</summary>
+                    <pre style="margin:.4rem 0 0;"><code>SELECT * FROM clientes ORDER BY apellido ASC;
+
+SELECT nombre, precio FROM productos WHERE precio &gt; 1000;
+
+SELECT nombre, precio FROM productos ORDER BY precio DESC LIMIT 3;
+
+SELECT COUNT(*) AS cantidad FROM clientes;</code></pre>
+                </details>
+            </div>
+        </article>
+
+        <!-- 4 -->
+        <article class="card">
+            <h3><span class="num">4</span> Relaciones: FOREIGN KEY en acción</h3>
+            <p class="concept">
+                La <strong>FOREIGN KEY</strong> es la que convierte tablas sueltas en una base
+                <strong>relacionada</strong>. Una FK en una tabla apunta a la <strong>PK</strong> de otra.
+                En una relación <strong>1:N</strong> va en el lado <strong>N</strong>; en una
+                <strong>N:M</strong> aparece una tabla intermedia con <strong>dos FK</strong>.
+            </p>
+
+            <div class="syntax">
+                <span class="syntax-label">La intermedia compras</span>
+                CREATE TABLE compras (<br>
+                &nbsp;&nbsp;id_compra INT PRIMARY KEY AUTO_INCREMENT,<br>
+                &nbsp;&nbsp;cliente_dni INT NOT NULL,<br>
+                &nbsp;&nbsp;producto_codigo INT NOT NULL,<br>
+                &nbsp;&nbsp;fecha DATE NOT NULL,<br>
+                &nbsp;&nbsp;cantidad INT NOT NULL,<br>
+                &nbsp;&nbsp;FOREIGN KEY (cliente_dni) REFERENCES clientes(dni),<br>
+                &nbsp;&nbsp;FOREIGN KEY (producto_codigo) REFERENCES productos(codigo)<br>
+                );
+            </div>
+
+            <div class="sub">Cómo se lee cada línea</div>
+            <table class="datos">
+                <tr><th>Línea</th><th>Qué significa</th></tr>
+                <tr><td><code class="inline">FOREIGN KEY (cliente_dni)</code></td><td>La columna que guarda la referencia.</td></tr>
+                <tr><td><code class="inline">REFERENCES clientes(dni)</code></td><td>El valor debe existir en la PK de clientes.</td></tr>
+                <tr><td><code class="inline">ON DELETE RESTRICT</code></td><td>No deja borrar un cliente que tiene compras.</td></tr>
+                <tr><td><code class="inline">ON DELETE CASCADE</code></td><td>Si se borra el cliente, se borran sus compras.</td></tr>
+                <tr><td><code class="inline">ON DELETE SET NULL</code></td><td>Si se borra el cliente, la FK queda vacía.</td></tr>
+            </table>
+
+            <div class="okbox">
+                <strong>Regla:</strong> la FK debe tener <strong>el mismo tipo</strong> que la PK a la que
+                apunta. Si <code class="inline">clientes.dni</code> es INT, entonces
+                <code class="inline">compras.cliente_dni</code> también es INT.
+            </div>
+            <div class="alerta">
+                <strong>Error clásico:</strong> crear <code class="inline">compras</code> antes que
+                <code class="inline">clientes</code>. MySQL rechaza la FK porque la tabla referenciada
+                todavía no existe.
+            </div>
+
+            <div class="sub">También se puede agregar después</div>
+            <pre><code><span class="kw">ALTER TABLE</span> compras
+<span class="kw">ADD CONSTRAINT</span> fk_compra_cliente
+<span class="kw">FOREIGN KEY</span> (cliente_dni) <span class="kw">REFERENCES</span> clientes(dni);</code></pre>
+
+            <div class="exercise">
+                <h4>✍️ Ejercicio: creá la tabla compras con dos FK</h4>
+                <p class="ex-goal">
+                    Escribí el <code class="inline">CREATE TABLE compras</code> con:
+                    <code class="inline">id_compra</code> INT PRIMARY KEY AUTO_INCREMENT,
+                    <code class="inline">cliente_dni</code> INT NOT NULL,
+                    <code class="inline">producto_codigo</code> INT NOT NULL,
+                    <code class="inline">fecha</code> DATE, <code class="inline">cantidad</code> INT.<br>
+                    Agregá las <strong>dos FOREIGN KEY</strong> con
+                    <code class="inline">REFERENCES</code> a <code class="inline">clientes(dni)</code> y
+                    <code class="inline">productos(codigo)</code>, y elegí un
+                    <code class="inline">ON DELETE</code> (RESTRICT o CASCADE).
+                </p>
+                <details class="pista">
+                    <summary>Pista: dos líneas de FK al final</summary>
+                    <ol>
+                        <li>Las columnas primero, una por línea.</li>
+                        <li>Después de las columnas, las dos FK separadas por coma.</li>
+                        <li>La última FK no lleva coma antes del paréntesis de cierre.</li>
+                    </ol>
+                </details>
+                <textarea class="code-input" id="in-sql_relaciones" spellcheck="false" placeholder="CREATE TABLE compras (&#10;  id_compra ... ,&#10;  cliente_dni ... ,&#10;  producto_codigo ... ,&#10;  fecha ... ,&#10;  cantidad ... ,&#10;  FOREIGN KEY (...) REFERENCES ...,&#10;  FOREIGN KEY (...) REFERENCES ...&#10;);"></textarea>
+                <div class="ex-actions">
+                    <button class="btn btn-primary" onclick="corregir('sql_relaciones')">✅ Corregir</button>
+                    <button class="btn btn-ghost" onclick="limpiar('sql_relaciones')">Limpiar</button>
+                </div>
+                <div class="result" id="res-sql_relaciones"></div>
+
+                <details class="pista" style="margin-top:.8rem;">
+                    <summary>Ver la solución esperada</summary>
+                    <pre style="margin:.4rem 0 0;"><code>CREATE TABLE compras (
+    id_compra       INT PRIMARY KEY AUTO_INCREMENT,
+    cliente_dni     INT NOT NULL,
+    producto_codigo INT NOT NULL,
+    fecha           DATE NOT NULL,
+    cantidad        INT NOT NULL,
+    FOREIGN KEY (cliente_dni) REFERENCES clientes(dni)
+        ON DELETE RESTRICT,
+    FOREIGN KEY (producto_codigo) REFERENCES productos(codigo)
+        ON DELETE RESTRICT
+);</code></pre>
+                </details>
+            </div>
+        </article>
+
+        <!-- 5 -->
+        <article class="card">
+            <h3><span class="num">5</span> Consultas de varias tablas: JOIN</h3>
+            <p class="concept">
+                Los datos están repartidos: el nombre del cliente vive en
+                <code class="inline">clientes</code>, el del producto en
+                <code class="inline">productos</code> y la compra en
+                <code class="inline">compras</code>. <code class="inline">JOIN</code> <strong>cruza las
+                tablas</strong> usando las claves: por cada fila busca la que coincide con el
+                <code class="inline">ON</code>.
+            </p>
+
+            <div class="syntax">
+                <span class="syntax-label">El camino de las claves</span>
+                compras.cliente_dni&nbsp;&nbsp;&nbsp;&nbsp;→ clientes.dni<br>
+                compras.producto_codigo → productos.codigo
+            </div>
+
+            <pre><code><span class="cmt">-- Cada compra con el nombre del cliente y del producto.</span>
+<span class="kw">SELECT</span> co.id_compra, cl.nombre <span class="kw">AS</span> cliente,
+       p.nombre <span class="kw">AS</span> producto, co.fecha, co.cantidad
+<span class="kw">FROM</span> compras co
+<span class="kw">JOIN</span> clientes cl <span class="kw">ON</span> co.cliente_dni = cl.dni
+<span class="kw">JOIN</span> productos p  <span class="kw">ON</span> co.producto_codigo = p.codigo;</code></pre>
+
+            <table class="tabla-resultados">
+                <thead>
+                    <tr><th>id_compra</th><th>cliente</th><th>producto</th><th>fecha</th><th>cantidad</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>1</td><td>Ana</td><td>Muzzarella</td><td>2026-03-02</td><td>2</td></tr>
+                    <tr><td>2</td><td>Ana</td><td>Napolitana</td><td>2026-03-05</td><td>1</td></tr>
+                    <tr><td>3</td><td>Bruno</td><td>Calabresa</td><td>2026-03-06</td><td>1</td></tr>
+                    <tr><td>4</td><td>Carla</td><td>Fugazzeta</td><td>2026-03-08</td><td>3</td></tr>
+                    <tr><td>5</td><td>Ana</td><td>Fugazzeta</td><td>2026-03-10</td><td>1</td></tr>
+                </tbody>
+            </table>
+
+            <div class="sub">Los tres tipos de JOIN que vas a necesitar</div>
+            <table class="datos">
+                <tr><th>Tipo</th><th>Qué devuelve</th><th>Cuándo se usa</th></tr>
+                <tr><td><code class="inline">JOIN</code> (INNER)</td><td>Solo las filas que coinciden en ambas tablas.</td><td>Listar compras con su cliente.</td></tr>
+                <tr><td><code class="inline">LEFT JOIN</code></td><td>Todas las de la izquierda, aunque no tengan pareja.</td><td>Clientes que nunca compraron.</td></tr>
+                <tr><td><code class="inline">RIGHT JOIN</code></td><td>Todas las de la derecha.</td><td>Se usa menos; se puede invertir con LEFT.</td></tr>
+            </table>
+
+            <div class="sub">Agrupar y calcular totales</div>
+            <pre><code><span class="kw">SELECT</span> cl.nombre, <span class="fn">SUM</span>(p.precio * co.cantidad) <span class="kw">AS</span> total
+<span class="kw">FROM</span> clientes cl
+<span class="kw">JOIN</span> compras co   <span class="kw">ON</span> co.cliente_dni = cl.dni
+<span class="kw">JOIN</span> productos p  <span class="kw">ON</span> co.producto_codigo = p.codigo
+<span class="kw">GROUP BY</span> cl.nombre
+<span class="kw">ORDER BY</span> total <span class="kw">DESC</span>;</code></pre>
+
+            <table class="tabla-resultados">
+                <thead><tr><th>nombre</th><th>total</th></tr></thead>
+                <tbody>
+                    <tr><td>Ana</td><td>36101.75</td></tr>
+                    <tr><td>Carla</td><td>29702.25</td></tr>
+                    <tr><td>Bruno</td><td>10500.00</td></tr>
+                </tbody>
+            </table>
+
+            <div class="sub">Clientes sin compras</div>
+            <pre><code><span class="kw">SELECT</span> cl.nombre
+<span class="kw">FROM</span> clientes cl
+<span class="kw">LEFT JOIN</span> compras co <span class="kw">ON</span> co.cliente_dni = cl.dni
+<span class="kw">WHERE</span> co.id_compra <span class="kw">IS NULL</span>;</code></pre>
+
+            <div class="buenas">
+                <strong>Truco de alias:</strong> usá nombres cortos (cl, co, p) para no repetir el nombre
+                completo de la tabla en cada columna. El alias se declara una vez, al lado de la tabla.
+            </div>
+            <div class="alerta">
+                <strong>Error clásico:</strong> olvidar el <code class="inline">ON</code>. Sin condición,
+                MySQL combina <strong>cada fila con cada fila</strong> (producto cartesiano) y el resultado
+                se llena de datos que no tienen nada que ver.
+            </div>
+
+            <div class="exercise">
+                <h4>✍️ Ejercicio: tres consultas con JOIN</h4>
+                <p class="ex-goal">
+                    <strong>(a)</strong> Listá cada compra con <code class="inline">id_compra</code>,
+                    nombre del cliente, nombre del producto, fecha y cantidad (dos JOIN).<br>
+                    <strong>(b)</strong> Calculá el <strong>total gastado por cliente</strong> con
+                    <code class="inline">SUM(precio * cantidad)</code>, agrupá por cliente y ordená de mayor a menor.<br>
+                    <strong>(c)</strong> Mostrá los <strong>clientes sin compras</strong> con
+                    <code class="inline">LEFT JOIN</code> e <code class="inline">IS NULL</code>.
+                </p>
+                <details class="pista">
+                    <summary>Pista: armá el camino de las claves</summary>
+                    <ol>
+                        <li>Salí de <code class="inline">compras</code> y uní con <code class="inline">clientes</code> por el dni.</li>
+                        <li>Después uní con <code class="inline">productos</code> por el código.</li>
+                        <li>Para el total, multiplicá <code class="inline">precio * cantidad</code> dentro de SUM.</li>
+                        <li>Para los que no compraron, LEFT JOIN y filtrá <code class="inline">id_compra IS NULL</code>.</li>
+                    </ol>
+                </details>
+                <textarea class="code-input" id="in-sql_join" spellcheck="false" placeholder="-- (a)&#10;SELECT ...&#10;FROM compras co&#10;JOIN ...&#10;&#10;-- (b)&#10;SELECT ...&#10;&#10;-- (c)&#10;SELECT ..."></textarea>
+                <div class="ex-actions">
+                    <button class="btn btn-primary" onclick="corregir('sql_join')">✅ Corregir</button>
+                    <button class="btn btn-ghost" onclick="limpiar('sql_join')">Limpiar</button>
+                </div>
+                <div class="result" id="res-sql_join"></div>
+
+                <details class="pista" style="margin-top:.8rem;">
+                    <summary>Ver la solución esperada</summary>
+                    <pre style="margin:.4rem 0 0;"><code>-- (a)
+SELECT co.id_compra, cl.nombre AS cliente, p.nombre AS producto,
+       co.fecha, co.cantidad
+FROM compras co
+JOIN clientes cl ON co.cliente_dni = cl.dni
+JOIN productos p ON co.producto_codigo = p.codigo;
+
+-- (b)
+SELECT cl.nombre, SUM(p.precio * co.cantidad) AS total
+FROM clientes cl
+JOIN compras co ON co.cliente_dni = cl.dni
+JOIN productos p ON co.producto_codigo = p.codigo
+GROUP BY cl.nombre
+ORDER BY total DESC;
+
+-- (c)
+SELECT cl.nombre
+FROM clientes cl
+LEFT JOIN compras co ON co.cliente_dni = cl.dni
+WHERE co.id_compra IS NULL;</code></pre>
+                </details>
+            </div>
+        </article>
+
+        <!-- 6 -->
+        <article class="card">
+            <h3><span class="num">6</span> Práctica final: el script completo</h3>
+            <p class="concept">
+                Un <strong>script</strong> es todo el trabajo en un solo archivo: crear la base, crear las
+                tablas en orden, cargar los datos y dejar las consultas listas. Se ejecuta de arriba hacia
+                abajo con el rayo ⚡ de MySQL Workbench.
+            </p>
+
+            <div class="sub">El orden que no se puede cambiar</div>
+            <ol class="explain">
+                <li><code class="inline">DROP DATABASE IF EXISTS</code> (opcional, para empezar limpio).</li>
+                <li><code class="inline">CREATE DATABASE</code> + <code class="inline">USE</code>.</li>
+                <li>Tablas <strong>sin FK</strong>: clientes y productos.</li>
+                <li>Tabla <strong>con FK</strong>: compras (la intermedia).</li>
+                <li><code class="inline">INSERT</code> de clientes, productos y compras.</li>
+                <li>Las consultas de lectura: <code class="inline">SELECT</code>, <code class="inline">JOIN</code>, <code class="inline">GROUP BY</code>.</li>
+            </ol>
+
+            <div class="syntax">
+                <span class="syntax-label">Checklist antes de entregar</span>
+                ☐ La base se crea y se selecciona<br>
+                ☐ Las tres tablas existen y tienen PK<br>
+                ☐ compras tiene dos FK que apuntan a clientes y productos<br>
+                ☐ Hay datos en las tres tablas<br>
+                ☐ Al menos una consulta con JOIN<br>
+                ☐ Al menos una consulta con GROUP BY<br>
+                ☐ Todas las sentencias terminan con ;
+            </div>
+
+            <div class="alerta">
+                <strong>Si el script falla a la mitad:</strong> leé el primer error, no el último. MySQL se
+                detiene en la sentencia que no puede ejecutar y todo lo que sigue queda sin hacer.
+            </div>
+
+            <div class="exercise">
+                <h4>✍️ Ejercicio final: armá el script completo de la tienda</h4>
+                <p class="ex-goal">
+                    Escribí un script que incluya: <strong>crear la base</strong> y seleccionarla, las
+                    <strong>tres tablas</strong> (clientes, productos, compras) con sus claves,
+                    <strong>datos</strong> en las tres, una consulta con <strong>JOIN</strong> y una consulta
+                    con <strong>GROUP BY</strong>. Usá INT, VARCHAR, DECIMAL y DATE.
+                </p>
+                <details class="pista">
+                    <summary>Pista: reutilizá lo que ya corregiste</summary>
+                    <ol>
+                        <li>Copiá el CREATE de clientes y productos del tema 1.</li>
+                        <li>Copiá el CREATE de compras del tema 4.</li>
+                        <li>Copiá los INSERT del tema 2 y agregá los de compras.</li>
+                        <li>Copiá una consulta con JOIN y una con GROUP BY del tema 5.</li>
+                    </ol>
+                </details>
+                <textarea class="code-input" id="in-sql_completo" spellcheck="false" placeholder="-- 1. Base&#10;CREATE DATABASE ...&#10;USE ...&#10;&#10;-- 2. Tablas&#10;CREATE TABLE clientes (...);&#10;CREATE TABLE productos (...);&#10;CREATE TABLE compras (...);&#10;&#10;-- 3. Datos&#10;INSERT INTO ...&#10;&#10;-- 4. Consultas&#10;SELECT ... JOIN ...&#10;SELECT ... GROUP BY ..."></textarea>
+                <div class="ex-actions">
+                    <button class="btn btn-primary" onclick="corregir('sql_completo')">✅ Corregir</button>
+                    <button class="btn btn-ghost" onclick="limpiar('sql_completo')">Limpiar</button>
+                </div>
+                <div class="result" id="res-sql_completo"></div>
+
+                <details class="pista" style="margin-top:.8rem;">
+                    <summary>Ver un script completo de ejemplo</summary>
+                    <pre style="margin:.4rem 0 0;"><code>DROP DATABASE IF EXISTS tienda;
+CREATE DATABASE tienda;
+USE tienda;
+
+CREATE TABLE clientes (
+    dni      INT PRIMARY KEY,
+    nombre   VARCHAR(50) NOT NULL,
+    apellido VARCHAR(50) NOT NULL,
+    telefono VARCHAR(20)
+);
+
+CREATE TABLE productos (
+    codigo INT PRIMARY KEY AUTO_INCREMENT,
+    nombre VARCHAR(50) NOT NULL,
+    precio DECIMAL(10,2) NOT NULL,
+    stock  INT DEFAULT 0
+);
+
+CREATE TABLE compras (
+    id_compra       INT PRIMARY KEY AUTO_INCREMENT,
+    cliente_dni     INT NOT NULL,
+    producto_codigo INT NOT NULL,
+    fecha           DATE NOT NULL,
+    cantidad        INT NOT NULL,
+    FOREIGN KEY (cliente_dni) REFERENCES clientes(dni),
+    FOREIGN KEY (producto_codigo) REFERENCES productos(codigo)
+);
+
+INSERT INTO clientes (dni, nombre, apellido, telefono) VALUES
+(30111222, 'Ana', 'Gómez', '11-5555-1111'),
+(28444555, 'Bruno', 'Pérez', NULL),
+(40999888, 'Carla', 'López', '11-5555-3333');
+
+INSERT INTO productos (nombre, precio, stock) VALUES
+('Muzzarella', 8500.50, 20),
+('Napolitana', 9200.00, 15),
+('Fugazzeta', 9900.75, 8);
+
+INSERT INTO compras (cliente_dni, producto_codigo, fecha, cantidad) VALUES
+(30111222, 1, '2026-03-02', 2),
+(30111222, 2, '2026-03-05', 1),
+(28444555, 3, '2026-03-06', 1),
+(40999888, 3, '2026-03-08', 3),
+(30111222, 3, '2026-03-10', 1);
+
+SELECT cl.nombre, p.nombre AS producto, co.cantidad, co.fecha
+FROM compras co
+JOIN clientes cl ON co.cliente_dni = cl.dni
+JOIN productos p ON co.producto_codigo = p.codigo;
+
+SELECT cl.nombre, SUM(p.precio * co.cantidad) AS total
+FROM clientes cl
+JOIN compras co ON co.cliente_dni = cl.dni
+JOIN productos p ON co.producto_codigo = p.codigo
+GROUP BY cl.nombre
+ORDER BY total DESC;</code></pre>
+                </details>
+            </div>
+        </article>
+
+        <!-- Progreso -->
+        <div class="progress-card" id="progreso">
+            <h3>📊 Tu progreso en MySQL</h3>
+            <p style="margin:0;font-size:.9rem;color:#0c4a6e;">
+                Se guarda automáticamente en este navegador. Tocá un tema para ir directo a su ejercicio.
+            </p>
+            <div class="progress-top">
+                <div class="score-bar"><div class="score-fill" id="progreso-barra" style="width:0%"></div></div>
+                <span class="progress-pct" id="progreso-texto">0 de 6 completos</span>
+            </div>
+            <ul class="progress-list" id="progreso-lista"></ul>
+            <div class="quiz-actions">
+                <button class="btn btn-ghost" onclick="reiniciarTodo()">🔄 Reiniciar progreso</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Autoevaluación -->
+    <section id="quiz">
+        <h2 class="section-title">Autoevaluación · MySQL</h2>
+        <p class="section-sub">
+            Ocho preguntas sobre creación, carga y consultas. Marcá una opción por pregunta y presioná
+            <strong>Calificar</strong>.
+        </p>
+        <div class="card">
+            <div class="quiz-question" data-answer="b">
+                <p class="q-text">1. ¿Qué sentencia crea una base de datos?</p>
+                <ul class="options-list">
+                    <li data-opt="a"><code class="inline">USE tienda;</code></li>
+                    <li data-opt="b"><code class="inline">CREATE DATABASE tienda;</code></li>
+                    <li data-opt="c"><code class="inline">CREATE TABLE tienda;</code></li>
+                    <li data-opt="d"><code class="inline">INSERT INTO tienda;</code></li>
+                </ul>
+            </div>
+            <div class="quiz-question" data-answer="c">
+                <p class="q-text">2. ¿Qué tipo conviene para un precio como 8500.50?</p>
+                <ul class="options-list">
+                    <li data-opt="a"><code class="inline">INT</code></li>
+                    <li data-opt="b"><code class="inline">VARCHAR(50)</code></li>
+                    <li data-opt="c"><code class="inline">DECIMAL(10,2)</code></li>
+                    <li data-opt="d"><code class="inline">DATE</code></li>
+                </ul>
+            </div>
+            <div class="quiz-question" data-answer="a">
+                <p class="q-text">3. La PK es <code class="inline">AUTO_INCREMENT</code>. ¿Qué se escribe en el INSERT?</p>
+                <ul class="options-list">
+                    <li data-opt="a">No se escribe: MySQL la genera sola</li>
+                    <li data-opt="b">Se escribe 0 siempre</li>
+                    <li data-opt="c">Se escribe NULL siempre</li>
+                    <li data-opt="d">Se escribe el nombre del cliente</li>
+                </ul>
+            </div>
+            <div class="quiz-question" data-answer="b">
+                <p class="q-text">4. ¿Qué hace <code class="inline">WHERE precio &gt; 9000</code>?</p>
+                <ul class="options-list">
+                    <li data-opt="a">Ordena los precios</li>
+                    <li data-opt="b">Filtra y deja solo las filas con precio mayor a 9000</li>
+                    <li data-opt="c">Suma los precios</li>
+                    <li data-opt="d">Borra los precios menores</li>
+                </ul>
+            </div>
+            <div class="quiz-question" data-answer="d">
+                <p class="q-text">5. En una relación 1:N, ¿dónde va la FOREIGN KEY?</p>
+                <ul class="options-list">
+                    <li data-opt="a">En la tabla del lado 1</li>
+                    <li data-opt="b">En las dos tablas</li>
+                    <li data-opt="c">En una tabla intermedia obligatoria</li>
+                    <li data-opt="d">En la tabla del lado N</li>
+                </ul>
+            </div>
+            <div class="quiz-question" data-answer="c">
+                <p class="q-text">6. ¿Qué hace un <code class="inline">JOIN</code>?</p>
+                <ul class="options-list">
+                    <li data-opt="a">Crea una tabla nueva</li>
+                    <li data-opt="b">Borra filas repetidas</li>
+                    <li data-opt="c">Combina filas de dos tablas según una condición <code class="inline">ON</code></li>
+                    <li data-opt="d">Ordena el resultado</li>
+                </ul>
+            </div>
+            <div class="quiz-question" data-answer="b">
+                <p class="q-text">7. Querés los clientes que nunca compraron. ¿Qué usás?</p>
+                <ul class="options-list">
+                    <li data-opt="a"><code class="inline">JOIN</code> y <code class="inline">COUNT(*)</code></li>
+                    <li data-opt="b"><code class="inline">LEFT JOIN</code> y <code class="inline">WHERE ... IS NULL</code></li>
+                    <li data-opt="c"><code class="inline">ORDER BY</code> y <code class="inline">LIMIT 1</code></li>
+                    <li data-opt="d"><code class="inline">GROUP BY</code> sin condiciones</li>
+                </ul>
+            </div>
+            <div class="quiz-question" data-answer="a">
+                <p class="q-text">8. ¿Qué cláusula usás para calcular un total por cliente?</p>
+                <ul class="options-list">
+                    <li data-opt="a"><code class="inline">GROUP BY</code> con <code class="inline">SUM</code></li>
+                    <li data-opt="b"><code class="inline">ORDER BY</code> con <code class="inline">DESC</code></li>
+                    <li data-opt="c"><code class="inline">LIMIT 3</code></li>
+                    <li data-opt="d"><code class="inline">WHERE ... IS NULL</code></li>
+                </ul>
+            </div>
+            <div class="quiz-actions">
+                <button class="btn btn-primary" onclick="calificarQuiz('quiz','score-banner')">✅ Calificar</button>
+                <button class="btn btn-ghost" onclick="reiniciarQuiz('quiz','score-banner')">🔄 Reiniciar</button>
+            </div>
+            <div id="score-banner"></div>
+        </div>
+    </section>
+
+    <!-- Simulador -->
+    <section id="simuladores">
+        <h2 class="section-title">Simulador · Consultas y resultados</h2>
+        <p class="section-sub">
+            Elegí una consulta y mirá la sentencia SQL junto con la tabla que devuelve. Sirve para
+            entender qué cambia entre un SELECT simple, un JOIN y un GROUP BY.
+        </p>
+        <div class="card sim">
+            <h3>🧾 La boleta de la tienda</h3>
+            <div class="num-btns" id="sql-btns">
+                <button type="button" data-q="simple">SELECT simple</button>
+                <button type="button" data-q="join">JOIN</button>
+                <button type="button" data-q="grupo">GROUP BY</button>
+                <button type="button" data-q="izq">LEFT JOIN</button>
+            </div>
+            <pre id="sql-code" style="margin:.7rem 0;"></pre>
+            <div class="sim-panel" id="sql-out"></div>
+            <div class="sim-msg ok" id="sql-msg"></div>
+        </div>
+    </section>
+
+    <div class="next-topic">
+        <p><strong>¿Ya probaste el SQL?</strong> Ahora dibujá el MER y el DER en Dia con las herramientas del programa.</p>
+        <a class="btn btn-primary" href="dia.html">Siguiente: Dia →</a>
+    </div>
+
+</main>
+
+<footer class="pie">
+    Curso interactivo · MER · DER · MySQL · Dia
+</footer>
+
+<script>
+/* ---------- Helpers del corrector (reciben el texto ya normalizado) ---------- */
+function sqlBloque(c, inicio) {
+    var i = c.indexOf(inicio);
+    if (i < 0) return '';
+    var j = c.indexOf(';', i);
+    return j < 0 ? c.slice(i) : c.slice(i, j + 1);
+}
+function sqlColumnas(c, tabla) {
+    var re = new RegExp('insert\\s+into\\s+' + tabla + '\\s*\\(([^)]*)\\)');
+    var m = c.match(re);
+    return m ? m[1] : '';
+}
+function sqlFilas(b) {
+    var i = b.indexOf('values');
+    if (i < 0) return 0;
+    var s = b.slice(i + 6), depth = 0, n = 0;
+    for (var k = 0; k < s.length; k++) {
+        if (s[k] === '(') { if (depth === 0) n++; depth++; }
+        else if (s[k] === ')') depth--;
+    }
+    return n;
+}
+function sqlCuenta(c, re) {
+    return (c.match(new RegExp(re.source, 'g')) || []).length;
+}
+
+window.GUIA = {
+    prefijo: 'sql_',
+    temas: [
+        { id: 'sql_crear', nombre: '1. Crear base y tablas' },
+        { id: 'sql_insertar', nombre: '2. Insertar datos' },
+        { id: 'sql_select', nombre: '3. Consultar' },
+        { id: 'sql_relaciones', nombre: '4. Relaciones y FK' },
+        { id: 'sql_join', nombre: '5. JOIN' },
+        { id: 'sql_completo', nombre: '6. Script completo' }
+    ],
+    ejercicios: {
+        sql_crear: [
+            { d: 'Crea la base tienda', f: function (c) { return /create\s+database\s+(if\s+not\s+exists\s+)?`?tienda`?/.test(c); } },
+            { d: 'Selecciona la base con USE tienda', f: function (c) { return /use\s+`?tienda`?/.test(c); } },
+            { d: 'Crea la tabla clientes', f: function (c) { return /create\s+table\s+(if\s+not\s+exists\s+)?`?clientes`?/.test(c); } },
+            { d: 'dni es INT y PRIMARY KEY', f: function (c) { return /dni[^\n]*int[^\n]*(primary\s+key|\bpk\b)|dni[^\n]*(primary\s+key|\bpk\b)[^\n]*int/.test(c); } },
+            { d: 'nombre y apellido son VARCHAR NOT NULL', f: function (c) { return /nombre[^\n]*varchar[^\n]*not\s+null/.test(c) && /apellido[^\n]*varchar[^\n]*not\s+null/.test(c); } },
+            { d: 'Crea la tabla productos', f: function (c) { return /create\s+table\s+(if\s+not\s+exists\s+)?`?productos`?/.test(c); } },
+            { d: 'codigo es PRIMARY KEY y AUTO_INCREMENT', f: function (c) { return /codigo[^\n]*(primary\s+key|\bpk\b)[^\n]*auto_increment|codigo[^\n]*auto_increment[^\n]*(primary\s+key|\bpk\b)/.test(c); } },
+            { d: 'precio es DECIMAL con dos decimales', f: function (c) { return /precio[^\n]*decimal\s*\(\s*\d+\s*,\s*2\s*\)/.test(c); } },
+            { d: 'stock es INT con DEFAULT 0', f: function (c) { return /stock[^\n]*int[^\n]*default\s+0/.test(c); } },
+            { d: 'Cierra las sentencias con punto y coma', f: function (c) { return sqlCuenta(c, /;/) >= 4; } }
+        ],
+        sql_insertar: [
+            { d: 'Inserta en clientes con la lista de columnas', f: function (c) { return /insert\s+into\s+`?clientes`?\s*\([^)]*\)\s*values/.test(c); } },
+            { d: 'Carga al menos 3 clientes', f: function (c) { return sqlFilas(sqlBloque(c, 'insert into clientes')) >= 3; } },
+            { d: 'Inserta en productos con la lista de columnas', f: function (c) { return /insert\s+into\s+`?productos`?\s*\([^)]*\)\s*values/.test(c); } },
+            { d: 'Carga al menos 3 productos', f: function (c) { return sqlFilas(sqlBloque(c, 'insert into productos')) >= 3; } },
+            { d: 'Usa comillas simples para los textos', f: function (c) { return /'[^']*[a-záéíóúñ][^']*'/.test(c); } },
+            { d: 'No escribe el código AUTO_INCREMENT en productos', f: function (c) { return c.indexOf('insert into productos') >= 0 && !/codigo/.test(sqlColumnas(c, 'productos')); } },
+            { d: 'Usa precios con dos decimales', f: function (c) { return /\d+\.\d{2}\b/.test(c); } },
+            { d: 'Usa NULL o DEFAULT para un dato opcional', f: function (c) { return /\bnull\b|\bdefault\b/.test(c); } },
+            { d: 'Cierra cada INSERT con punto y coma', f: function (c) { return sqlCuenta(c, /;/) >= 2 && /values[\s\S]*;/.test(c); } }
+        ],
+        sql_select: [
+            { d: '(a) SELECT * FROM clientes', f: function (c) { return /select\s+\*\s+from\s+`?clientes`?/.test(c); } },
+            { d: '(a) Ordena por apellido', f: function (c) { return /order\s+by\s+`?apellido`?/.test(c); } },
+            { d: '(b) Filtra con precio > 1000', f: function (c) { return /where[^\n]*precio\s*>\s*1000/.test(c); } },
+            { d: '(c) Ordena por precio DESC', f: function (c) { return /order\s+by\s+`?precio`?\s+desc/.test(c); } },
+            { d: '(c) Limita a 3 resultados', f: function (c) { return /limit\s+3/.test(c); } },
+            { d: '(d) Cuenta las filas con COUNT(*)', f: function (c) { return /count\s*\(\s*\*\s*\)/.test(c); } },
+            { d: '(d) Usa un alias con AS', f: function (c) { return /\bas\s+[a-z_][a-z0-9_]*/.test(c); } },
+            { d: 'Escribe al menos 4 consultas', f: function (c) { return sqlCuenta(c, /;/) >= 4; } }
+        ],
+        sql_relaciones: [
+            { d: 'Crea la tabla compras', f: function (c) { return /create\s+table\s+(if\s+not\s+exists\s+)?`?compras`?/.test(c); } },
+            { d: 'id_compra es PK y AUTO_INCREMENT', f: function (c) { return /id_compra[^\n]*(primary\s+key|\bpk\b)[^\n]*auto_increment|id_compra[^\n]*auto_increment[^\n]*(primary\s+key|\bpk\b)/.test(c); } },
+            { d: 'cliente_dni es INT', f: function (c) { return /cliente_dni[^\n]*int/.test(c); } },
+            { d: 'producto_codigo es INT', f: function (c) { return /producto_codigo[^\n]*int/.test(c); } },
+            { d: 'FK cliente_dni REFERENCES clientes(dni)', f: function (c) { return /foreign\s+key\s*\(\s*`?cliente_dni`?\s*\)\s*references\s+`?clientes`?\s*\(\s*`?dni`?\s*\)/.test(c) || /references\s+`?clientes`?\s*\(\s*`?dni`?\s*\)[^\n]*foreign\s+key\s*\(\s*`?cliente_dni`?/.test(c); } },
+            { d: 'FK producto_codigo REFERENCES productos(codigo)', f: function (c) { return /foreign\s+key\s*\(\s*`?producto_codigo`?\s*\)\s*references\s+`?productos`?\s*\(\s*`?codigo`?\s*\)/.test(c) || /references\s+`?productos`?\s*\(\s*`?codigo`?\s*\)[^\n]*foreign\s+key\s*\(\s*`?producto_codigo`?/.test(c); } },
+            { d: 'fecha es DATE y cantidad es INT', f: function (c) { return /fecha[^\n]*date/.test(c) && /cantidad[^\n]*int/.test(c); } },
+            { d: 'Declara dos FOREIGN KEY', f: function (c) { return sqlCuenta(c, /foreign\s+key/g) >= 2; } },
+            { d: 'Define ON DELETE (RESTRICT o CASCADE)', f: function (c) { return /on\s+delete\s+(restrict|cascade|set\s+null|no\s+action)/.test(c); } },
+            { d: 'Cierra la sentencia con punto y coma', f: function (c) { return /;/.test(c); } }
+        ],
+        sql_join: [
+            { d: '(a) Une compras con clientes', f: function (c) { return /join\s+`?clientes`?/.test(c); } },
+            { d: '(a) Usa ON con cliente_dni = dni', f: function (c) { return /on[^\n]*(co\.)?cliente_dni\s*=\s*(cl\.)?dni|on[^\n]*(cl\.)?dni\s*=\s*(co\.)?cliente_dni/.test(c); } },
+            { d: '(a) Une también con productos', f: function (c) { return /join\s+`?productos`?/.test(c); } },
+            { d: '(a) Usa ON con producto_codigo = codigo', f: function (c) { return /on[^\n]*(co\.)?producto_codigo\s*=\s*(p\.)?codigo|on[^\n]*(p\.)?codigo\s*=\s*(co\.)?producto_codigo/.test(c); } },
+            { d: '(a) Usa alias de tabla (co, cl, p)', f: function (c) { return /from\s+`?compras`?\s+(as\s+)?[a-z][a-z0-9_]*/.test(c); } },
+            { d: '(b) Agrupa con GROUP BY', f: function (c) { return /group\s+by/.test(c); } },
+            { d: '(b) Suma precio * cantidad con SUM', f: function (c) { return /sum\s*\(\s*[a-z_]+\.?precio\s*\*\s*[a-z_]+\.?cantidad\s*\)/.test(c); } },
+            { d: '(b) Ordena el total de mayor a menor', f: function (c) { return /order\s+by\s+(total|[a-z_]+)\s+desc/.test(c); } },
+            { d: '(c) Usa LEFT JOIN', f: function (c) { return /left\s+join/.test(c); } },
+            { d: '(c) Filtra con IS NULL', f: function (c) { return /is\s+null/.test(c); } }
+        ],
+        sql_completo: [
+            { d: 'Crea la base y la selecciona', f: function (c) { return /create\s+database[^\n]*tienda/.test(c) && /use\s+`?tienda`?/.test(c); } },
+            { d: 'Crea las tres tablas (clientes, productos, compras)', f: function (c) { return /create\s+table\s+(if\s+not\s+exists\s+)?`?clientes`?/.test(c) && /create\s+table\s+(if\s+not\s+exists\s+)?`?productos`?/.test(c) && /create\s+table\s+(if\s+not\s+exists\s+)?`?compras`?/.test(c); } },
+            { d: 'Define al menos 3 PRIMARY KEY', f: function (c) { return sqlCuenta(c, /primary\s+key/g) >= 3; } },
+            { d: 'Define las dos FOREIGN KEY con REFERENCES', f: function (c) { return sqlCuenta(c, /foreign\s+key/g) >= 2 && sqlCuenta(c, /references/g) >= 2; } },
+            { d: 'Inserta datos en clientes, productos y compras', f: function (c) { return /insert\s+into\s+`?clientes`?/.test(c) && /insert\s+into\s+`?productos`?/.test(c) && /insert\s+into\s+`?compras`?/.test(c); } },
+            { d: 'Incluye una consulta con JOIN', f: function (c) { return /join\s+`?clientes`?/.test(c) || /join\s+`?productos`?/.test(c); } },
+            { d: 'Incluye una consulta con GROUP BY', f: function (c) { return /group\s+by/.test(c); } },
+            { d: 'Usa INT, VARCHAR, DECIMAL y DATE', f: function (c) { return /\bint\b/.test(c) && /varchar/.test(c) && /decimal/.test(c) && /\bdate\b/.test(c); } },
+            { d: 'Escribe al menos 10 sentencias terminadas en ;', f: function (c) { return sqlCuenta(c, /;/) >= 10; } }
+        ]
+    }
+};
+</script>
+<script src="app.js"></script>
+<script>
+/* ================= SIMULADOR: CONSULTAS Y RESULTADOS ================= */
+(function () {
+    var code = document.getElementById('sql-code');
+    var out = document.getElementById('sql-out');
+    var msg = document.getElementById('sql-msg');
+    var btns = document.getElementById('sql-btns');
+    if (!code || !out || !msg || !btns) return;
+
+    function tabla(cols, rows) {
+        return '<table class="tabla-resultados"><thead><tr>' +
+            cols.map(function (x) { return '<th>' + x + '</th>'; }).join('') +
+            '</tr></thead><tbody>' +
+            rows.map(function (r) {
+                return '<tr>' + r.map(function (x) { return '<td>' + x + '</td>'; }).join('') + '</tr>';
+            }).join('') +
+            '</tbody></table>';
+    }
+
+    var casos = {
+        simple: {
+            sql: 'SELECT nombre, precio\nFROM productos\nWHERE precio > 9000\nORDER BY precio DESC;',
+            html: tabla(
+                ['nombre', 'precio'],
+                [['Calabresa', '10500.00'], ['Fugazzeta', '9900.75'], ['Napolitana', '9200.00']]
+            ),
+            texto: 'SELECT simple: lee una sola tabla. WHERE deja pasar solo las filas que cumplen la condición y ORDER BY DESC pone primero el precio más alto.'
+        },
+        join: {
+            sql: 'SELECT cl.nombre AS cliente, p.nombre AS producto,\n       co.cantidad, co.fecha\nFROM compras co\nJOIN clientes cl ON co.cliente_dni = cl.dni\nJOIN productos p ON co.producto_codigo = p.codigo;',
+            html: tabla(
+                ['cliente', 'producto', 'cantidad', 'fecha'],
+                [
+                    ['Ana', 'Muzzarella', '2', '2026-03-02'],
+                    ['Ana', 'Napolitana', '1', '2026-03-05'],
+                    ['Bruno', 'Calabresa', '1', '2026-03-06'],
+                    ['Carla', 'Fugazzeta', '3', '2026-03-08'],
+                    ['Ana', 'Fugazzeta', '1', '2026-03-10']
+                ]
+            ),
+            texto: 'JOIN: cada fila de compras se une con su cliente por el dni y con su producto por el código. Aparecen datos de las tres tablas en una sola tabla de resultado.'
+        },
+        grupo: {
+            sql: 'SELECT cl.nombre, SUM(p.precio * co.cantidad) AS total\nFROM clientes cl\nJOIN compras co ON co.cliente_dni = cl.dni\nJOIN productos p ON co.producto_codigo = p.codigo\nGROUP BY cl.nombre\nORDER BY total DESC;',
+            html: tabla(
+                ['nombre', 'total'],
+                [['Ana', '36101.75'], ['Carla', '29702.25'], ['Bruno', '10500.00']]
+            ),
+            texto: 'GROUP BY: junta todas las compras de cada cliente en una sola fila. SUM multiplica precio por cantidad en cada compra y después suma todo. Diego no aparece porque no tiene compras.'
+        },
+        izq: {
+            sql: 'SELECT cl.nombre\nFROM clientes cl\nLEFT JOIN compras co ON co.cliente_dni = cl.dni\nWHERE co.id_compra IS NULL;',
+            html: tabla(['nombre'], [['Diego']]),
+            texto: 'LEFT JOIN: conserva todos los clientes, incluso los que no tienen ninguna compra. El WHERE ... IS NULL deja solo a esos: los que quedaron sin pareja.'
+        }
+    };
+
+    function mostrar(clave) {
+        var caso = casos[clave];
+        if (!caso) return;
+        code.textContent = caso.sql;
+        out.innerHTML = caso.html;
+        msg.className = 'sim-msg ok';
+        msg.textContent = caso.texto;
+        btns.querySelectorAll('button').forEach(function (b) {
+            b.classList.toggle('active', b.dataset.q === clave);
+        });
+    }
+
+    btns.addEventListener('click', function (e) {
+        var b = e.target.closest('button[data-q]');
+        if (b) mostrar(b.dataset.q);
+    });
+
+    mostrar('join');
+})();
+</script>
+</body>
+</html>

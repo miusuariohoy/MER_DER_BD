@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MER · Modelo Entidad-Relación · Guía interactiva</title>
+    <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+
+<header class="hero hero-mer">
+    <h1>MER: el dibujo antes del código</h1>
+    <p>Entidades, atributos, relaciones y cardinalidades: el plano conceptual de la base de datos</p>
+    <span class="badge">Tema 1 de 4 · Modelo Entidad-Relación</span>
+    <br><a class="back-link" href="index.html">← Volver al inicio del curso</a>
+</header>
+
+<nav class="sumario">
+    <a href="index.html">🏠 Inicio</a>
+    <a href="mer.html" class="activo">1 · MER</a>
+    <a href="der.html">2 · DER</a>
+    <a href="mysql.html">3 · MySQL</a>
+    <a href="dia.html">4 · Dia</a>
+</nav>
+
+<main>
+
+    <section id="teoria">
+        <h2 class="section-title">MER · Teoría y ejercitación</h2>
+        <p class="section-sub">
+            Cuatro temas para aprender a mirar un enunciado y convertirlo en un dibujo.
+            <strong>Tocá un tema</strong> para abrirlo y usá las pestañas
+            <strong>📘 Teoría</strong> y <strong>✍️ Ejercitación</strong>. Cada ejercicio se corrige
+            en esta página, sin descargar nada.
+        </p>
+
+        <!-- 1 -->
+        <article class="card">
+            <h3><span class="num">1</span> ¿Qué es el MER y para qué sirve?</h3>
+            <p class="concept">
+                El <strong>MER</strong> (Modelo Entidad-Relación) es una representación
+                <strong>conceptual</strong> de la base de datos. Muestra <strong>qué datos</strong>
+                queremos guardar y <strong>cómo se relacionan</strong>, antes de escribir una sola
+                línea de SQL. Es el plano: si el plano está mal, la casa sale mal.
+            </p>
+
+            <div class="syntax">
+                <span class="syntax-label">Las cuatro piezas</span>
+                Entidad&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;→ rectángulo&nbsp;&nbsp;&nbsp;&nbsp;→ CLIENTE, PRODUCTO<br>
+                Atributo&nbsp;&nbsp;&nbsp;&nbsp;→ óvalo&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;→ nombre, precio<br>
+                Relación&nbsp;&nbsp;&nbsp;&nbsp;→ rombo&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;→ COMPRA<br>
+                Cardinalidad → sobre la línea → 1 : N, N : M
+            </div>
+
+            <div class="sub">El método en 7 pasos</div>
+            <ol class="explain">
+                <li><strong>Entidades:</strong> ¿de quién o de qué quiero guardar datos? → CLIENTE, PRODUCTO.</li>
+                <li><strong>Atributos:</strong> ¿qué dato me interesa de cada una? → nombre, precio.</li>
+                <li><strong>Claves:</strong> ¿qué identifica de forma única? → id_cliente, código.</li>
+                <li><strong>Relación:</strong> ¿qué acción las une? → COMPRA, PIDE, CURSA.</li>
+                <li><strong>Cardinalidad:</strong> releé el enunciado: ¿uno con muchos? ¿muchos con muchos?</li>
+                <li><strong>Intermedia:</strong> si es N:M, insertá una entidad que resuelva la relación.</li>
+                <li><strong>Atributos del hecho:</strong> fecha, cantidad y precio unitario van en la relación, no en las entidades.</li>
+            </ol>
+
+            <div class="buenas">
+                <strong>Buena práctica:</strong> antes de dibujar, subrayá en el enunciado los sustantivos
+                (candidatos a entidades) y los verbos (candidatos a relaciones).
+            </div>
+            <div class="alerta">
+                <strong>Error clásico:</strong> poner la fecha y la cantidad de la compra dentro de CLIENTE
+                o de PRODUCTO. No son de ninguno de los dos: son <strong>del hecho de comprar</strong>.
+            </div>
+
+            <div class="exercise">
+                <h4>✍️ Ejercicio: tu primer MER (la pizzería)</h4>
+                <p class="ex-goal">
+                    <strong>Caso:</strong> se registran los clientes (nombre, apellido y uno o más
+                    teléfonos) y las pizzas (nombre, precio). Un cliente pide muchas pizzas y una pizza
+                    es pedida por muchos clientes. De cada pedido interesan la fecha y la cantidad.<br>
+                    Escribí: <strong>entidades</strong>, <strong>atributos</strong>,
+                    <strong>claves</strong>, <strong>relación</strong>, <strong>cardinalidad</strong>,
+                    el atributo <strong>multivaluado</strong> y la <strong>entidad intermedia</strong>
+                    con sus datos.
+                </p>
+                <details class="pista">
+                    <summary>Pista: los 7 pasos</summary>
+                    <ol>
+                        <li>Buscá las entidades: ¿de quién / de qué guardo datos?</li>
+                        <li>Listá los atributos de cada entidad.</li>
+                        <li>Marcá el multivaluado (teléfonos).</li>
+                        <li>Elegí las claves (id_cliente, id_pizza).</li>
+                        <li>Nombrá la relación con un verbo (PIDE).</li>
+                        <li>Leé el enunciado para sacar la cardinalidad (N:M).</li>
+                        <li>Si es N:M, insertá la entidad intermedia PEDIDO con fecha y cantidad.</li>
+                    </ol>
+                </details>
+                <textarea class="code-input" id="in-mer" spellcheck="false" placeholder="Entidades: ...&#10;Atributos: ...&#10;Claves: ...&#10;Relación y cardinalidad: ...&#10;Multivaluado: ...&#10;Entidad intermedia: ..."></textarea>
+                <div class="ex-actions">
+                    <button class="btn btn-primary" onclick="corregir('mer')">✅ Corregir</button>
+                    <button class="btn btn-ghost" onclick="limpiar('mer')">Limpiar</button>
+                </div>
+                <div class="result" id="res-mer"></div>
+
+                <details class="pista" style="margin-top:.8rem;">
+                <summary>Ver la solución esperada</summary>
+                <ul class="explain">
+                    <li><strong>Entidades:</strong> CLIENTE y PIZZA.</li>
+                    <li><strong>Atributos:</strong> id_cliente (clave), nombre, apellido, teléfonos; id_pizza (clave), nombre, precio.</li>
+                    <li><strong>Relación:</strong> PIDE, de cardinalidad <strong>N:M</strong>.</li>
+                    <li><strong>Multivaluado:</strong> teléfonos (doble óvalo o tabla aparte).</li>
+                    <li><strong>Entidad intermedia:</strong> PEDIDO, con id_pedido (clave), id_cliente (FK), id_pizza (FK), fecha y cantidad.</li>
+                </ul>
+                </details>
+            </div>
+        </article>
+
+        <!-- 2 -->
+        <article class="card">
+            <h3><span class="num">2</span> Simbología completa del MER</h3>
+            <p class="concept">
+                Cada figura tiene un significado fijo. Si cambiás el símbolo, cambia el mensaje:
+                un rectángulo no es lo mismo que un rombo, y un óvalo simple no es lo mismo que uno
+                doble. Estas seis figuras alcanzan para dibujar casi cualquier MER.
+            </p>
+
+            <div class="er-grid">
+                <div class="er-card">
+                    <h4>Entidad → rectángulo</h4>
+                    <svg viewBox="0 0 220 100" role="img" aria-label="Entidad representada por un rectángulo">
+                        <rect x="45" y="25" width="130" height="50" fill="#dbeafe" stroke="#1e293b" stroke-width="1.6"/>
+                        <text x="110" y="56" text-anchor="middle" font-weight="700" font-size="13" fill="#1e293b">CLIENTE</text>
+                    </svg>
+                    <p>Objeto del que guardamos datos. Su nombre va en MAYÚSCULAS.</p>
+                </div>
+                <div class="er-card">
+                    <h4>Atributo → óvalo</h4>
+                    <svg viewBox="0 0 220 110" role="img" aria-label="Atributo representado por un óvalo">
+                        <ellipse cx="110" cy="25" rx="44" ry="15" fill="#f1f5f9" stroke="#1e293b" stroke-width="1.5"/>
+                        <text x="110" y="29" text-anchor="middle" font-size="11" fill="#1e293b">nombre</text>
+                        <line x1="110" y1="40" x2="110" y2="58" stroke="#1e293b" stroke-width="1.5"/>
+                        <rect x="45" y="58" width="130" height="40" fill="#dbeafe" stroke="#1e293b" stroke-width="1.5"/>
+                        <text x="110" y="83" text-anchor="middle" font-weight="700" font-size="12" fill="#1e293b">CLIENTE</text>
+                    </svg>
+                    <p>Característica de la entidad, conectada con una línea.</p>
+                </div>
+                <div class="er-card">
+                    <h4>Atributo clave → subrayado</h4>
+                    <svg viewBox="0 0 220 110" role="img" aria-label="Atributo clave subrayado">
+                        <ellipse cx="110" cy="25" rx="52" ry="15" fill="#f1f5f9" stroke="#1e293b" stroke-width="1.5"/>
+                        <text x="110" y="29" text-anchor="middle" font-size="11" text-decoration="underline" fill="#1e293b">id_cliente</text>
+                        <line x1="110" y1="40" x2="110" y2="58" stroke="#1e293b" stroke-width="1.5"/>
+                        <rect x="45" y="58" width="130" height="40" fill="#dbeafe" stroke="#1e293b" stroke-width="1.5"/>
+                        <text x="110" y="83" text-anchor="middle" font-weight="700" font-size="12" fill="#1e293b">CLIENTE</text>
+                    </svg>
+                    <p>Identifica de forma única. En la base será la <strong>PRIMARY KEY</strong>.</p>
+                </div>
+                <div class="er-card">
+                    <h4>Multivaluado → doble óvalo</h4>
+                    <svg viewBox="0 0 220 110" role="img" aria-label="Atributo multivaluado con doble óvalo">
+                        <ellipse cx="110" cy="25" rx="52" ry="17" fill="#f1f5f9" stroke="#1e293b" stroke-width="1.5"/>
+                        <ellipse cx="110" cy="25" rx="45" ry="11" fill="none" stroke="#1e293b" stroke-width="1"/>
+                        <text x="110" y="29" text-anchor="middle" font-size="11" fill="#1e293b">teléfono</text>
+                        <line x1="110" y1="42" x2="110" y2="58" stroke="#1e293b" stroke-width="1.5"/>
+                        <rect x="45" y="58" width="130" height="40" fill="#dbeafe" stroke="#1e293b" stroke-width="1.5"/>
+                        <text x="110" y="83" text-anchor="middle" font-weight="700" font-size="12" fill="#1e293b">CLIENTE</text>
+                    </svg>
+                    <p>Puede tener varios valores: un cliente con dos teléfonos.</p>
+                </div>
+                <div class="er-card">
+                    <h4>Derivado → óvalo punteado</h4>
+                    <svg viewBox="0 0 220 110" role="img" aria-label="Atributo derivado con óvalo punteado">
+                        <ellipse cx="110" cy="25" rx="44" ry="15" fill="#fff" stroke="#1e293b" stroke-width="1.5" stroke-dasharray="4 3"/>
+                        <text x="110" y="29" text-anchor="middle" font-size="11" fill="#1e293b">edad</text>
+                        <line x1="110" y1="40" x2="110" y2="58" stroke="#1e293b" stroke-width="1.5" stroke-dasharray="4 3"/>
+                        <rect x="45" y="58" width="130" height="40" fill="#dbeafe" stroke="#1e293b" stroke-width="1.5"/>
+                        <text x="110" y="83" text-anchor="middle" font-weight="700" font-size="12" fill="#1e293b">CLIENTE</text>
+                    </svg>
+                    <p>Se calcula con otro dato (edad desde la fecha de nacimiento). No se guarda.</p>
+                </div>
+                <div class="er-card">
+                    <h4>Relación → rombo</h4>
+                    <svg viewBox="0 0 220 110" role="img" aria-label="Relación representada por un rombo">
+                        <rect x="4" y="36" width="62" height="36" fill="#dbeafe" stroke="#1e293b" stroke-width="1.5"/>
+                        <text x="35" y="58" text-anchor="middle" font-weight="700" font-size="8.5" fill="#1e293b">CLIENTE</text>
+                        <line x1="66" y1="54" x2="78" y2="54" stroke="#1e293b" stroke-width="1.5"/>
+                        <polygon points="114,26 150,54 114,82 78,54" fill="#fef3c7" stroke="#1e293b" stroke-width="1.5"/>
+                        <text x="114" y="57" text-anchor="middle" font-weight="700" font-size="9" fill="#1e293b">COMPRA</text>
+                        <line x1="150" y1="54" x2="162" y2="54" stroke="#1e293b" stroke-width="1.5"/>
+                        <rect x="162" y="36" width="54" height="36" fill="#dbeafe" stroke="#1e293b" stroke-width="1.5"/>
+                        <text x="189" y="58" text-anchor="middle" font-weight="700" font-size="7.5" fill="#1e293b">PRODUCTO</text>
+                    </svg>
+                    <p>Acción o asociación: COMPRA, TIENE, CURSA, REALIZA, PRESTA.</p>
+                </div>
+            </div>
+
+            <div class="sub">Resumen de la simbología</div>
+            <table class="datos">
+                <tr><th>Símbolo</th><th>Representa</th></tr>
+                <tr><td>Rectángulo</td><td>Entidad</td></tr>
+                <tr><td>Rombo</td><td>Relación</td></tr>
+                <tr><td>Óvalo</td><td>Atributo</td></tr>
+                <tr><td>Óvalo con el nombre subrayado</td><td>Atributo clave (futura PRIMARY KEY)</td></tr>
+                <tr><td>Doble óvalo</td><td>Atributo multivaluado</td></tr>
+                <tr><td>Óvalo punteado</td><td>Atributo derivado</td></tr>
+                <tr><td>Línea</td><td>Conecta los elementos</td></tr>
+                <tr><td>1:1 / 1:N / N:M</td><td>Cardinalidades sobre la línea</td></tr>
+            </table>
+
+            <div class="exercise">
+                <h4>✍️ Ejercicio: relacioná cada símbolo con su significado</h4>
+                <p class="ex-goal">
+                    Escribí qué representa cada figura: <strong>rectángulo</strong>, <strong>rombo</strong>,
+                    <strong>óvalo</strong>, <strong>óvalo subrayado</strong>,
+                    <strong>doble óvalo</strong> y <strong>óvalo punteado</strong>.
+                </p>
+                <textarea class="code-input" id="in-mer_simbolos" spellcheck="false" placeholder="Rectángulo: ...&#10;Rombo: ...&#10;Óvalo: ...&#10;Óvalo subrayado: ...&#10;Doble óvalo: ...&#10;Óvalo punteado: ..."></textarea>
+                <div class="ex-actions">
+                    <button class="btn btn-primary" onclick="corregir('mer_simbolos')">✅ Corregir</button>
+                    <button class="btn btn-ghost" onclick="limpiar('mer_simbolos')">Limpiar</button>
+                </div>
+                <div class="result" id="res-mer_simbolos"></div>
+            </div>
+        </article>
+
+        <!-- 3 -->
+        <article class="card">
+            <h3><span class="num">3</span> Cardinalidades y atributos de la relación</h3>
+            <p class="concept">
+                La <strong>cardinalidad</strong> indica <strong>cuántas instancias</strong> de una
+                entidad pueden relacionarse con cuántas de la otra. Se escribe <strong>sobre la
+                línea</strong> y se lee desde cada extremo: no es lo mismo <strong>1:N</strong> que
+                <strong>N:1</strong>.
+            </p>
+            <div class="syntax">
+                <span class="syntax-label">Se lee así</span>
+                CLIENTE 1 ──── N COMPRA&nbsp;&nbsp;→ un cliente realiza MUCHAS compras;<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cada compra pertenece a UN cliente.
+            </div>
+
+            <div class="sub">Los tres tipos</div>
+            <table class="datos">
+                <tr><th>Cardinalidad</th><th>Ejemplo</th><th>Lectura</th><th>En el DER</th></tr>
+                <tr>
+                    <td><strong>1 : 1</strong></td><td>PERSONA – DNI</td>
+                    <td>Una persona tiene un solo DNI y un DNI pertenece a una sola persona.</td>
+                    <td>Una de las dos tablas lleva la FK (con UNIQUE). No hay intermedia.</td>
+                </tr>
+                <tr>
+                    <td><strong>1 : N</strong></td><td>CLIENTE – COMPRA</td>
+                    <td>Un cliente realiza muchas compras; cada compra es de un solo cliente.</td>
+                    <td>La FK va en la tabla del lado <strong>N</strong> (compras → cliente_id).</td>
+                </tr>
+                <tr>
+                    <td><strong>N : M</strong></td><td>CLIENTE – PRODUCTO</td>
+                    <td>Muchos clientes compran muchos productos.</td>
+                    <td>Se crea una <strong>tabla intermedia</strong> con dos FK. No se resuelve con una sola FK.</td>
+                </tr>
+            </table>
+
+            <div class="sub">Atributos de la relación</div>
+            <p style="font-size:.93rem;margin:.2rem 0 .6rem;">
+                Una relación también puede tener <strong>atributos propios</strong>. En la compra,
+                <code class="inline">fecha</code> y <code class="inline">cantidad</code> no son del
+                cliente ni del producto por separado: son <strong>del hecho de comprar</strong>.
+            </p>
+            <pre><code><span class="cmt">-- En el MER: el rombo COMPRA tiene colgando fecha y cantidad.</span>
+<span class="cmt">-- En el DER: esos atributos pasan a la tabla intermedia compras.</span>
+compras
+  id_compra    PK
+  cliente_id   FK  -> clientes
+  producto_id  FK  -> productos
+  fecha
+  cantidad</code></pre>
+
+            <div class="okbox">
+                <strong>Regla de oro:</strong> si la relación es <strong>N:M</strong>, se convierte en
+                una <strong>entidad intermedia</strong>. Sus atributos (fecha, cantidad) se mudan con
+                ella y quedan como columnas de esa tabla.
+            </div>
+            <div class="alerta">
+                <strong>Error clásico:</strong> intentar resolver un N:M con una sola clave foránea.
+                Una compra puede tener varios productos y un producto aparece en varias compras: hace
+                falta la intermedia.
+            </div>
+
+            <div class="exercise">
+                <h4>✍️ Ejercicio: leer cardinalidades</h4>
+                <p class="ex-goal">
+                    Respondé para estos tres casos:<br>
+                    <strong>(a)</strong> PERSONA – DNI: una persona tiene un solo DNI y un DNI
+                    pertenece a una sola persona.<br>
+                    <strong>(b)</strong> CLIENTE – COMPRA: un cliente realiza muchas compras y cada
+                    compra es de un solo cliente.<br>
+                    <strong>(c)</strong> CLIENTE – PRODUCTO: muchos clientes compran muchos productos.<br>
+                    Indicá la <strong>cardinalidad</strong> de cada uno, <strong>dónde va la FK</strong>
+                    en (b) y <strong>qué hace falta</strong> en (c).
+                </p>
+                <textarea class="code-input" id="in-mer_cardinalidad" spellcheck="false" placeholder="(a) PERSONA - DNI: ...&#10;(b) CLIENTE - COMPRA: ...&#10;(c) CLIENTE - PRODUCTO: ..."></textarea>
+                <div class="ex-actions">
+                    <button class="btn btn-primary" onclick="corregir('mer_cardinalidad')">✅ Corregir</button>
+                    <button class="btn btn-ghost" onclick="limpiar('mer_cardinalidad')">Limpiar</button>
+                </div>
+                <div class="result" id="res-mer_cardinalidad"></div>
+            </div>
+        </article>
+
+        <!-- 4 -->
+        <article class="card">
+            <h3><span class="num">4</span> Ejemplo completo: la tienda, paso a paso</h3>
+            <p class="concept">
+                Este es el MER que se repite en todo el curso: <strong>CLIENTE</strong> realiza
+                <strong>COMPRA</strong> de <strong>PRODUCTO</strong>. La compra registra
+                <strong>fecha</strong> y <strong>cantidad</strong>. Como un cliente compra muchos
+                productos y un producto es comprado por muchos clientes, la relación original es
+                <strong>N:M</strong> y se resuelve con la entidad intermedia <strong>COMPRA</strong>.
+            </p>
+
+            <figure class="figure">
+                <svg viewBox="0 0 280 470" role="img" aria-label="MER completo de la tienda" style="max-width:300px">
+                    <ellipse cx="140" cy="18" rx="42" ry="13" fill="#f1f5f9" stroke="#1e293b" stroke-width="1.3"/>
+                    <text x="140" y="22" text-anchor="middle" font-size="10.5" fill="#1e293b">nombre</text>
+                    <line x1="140" y1="31" x2="140" y2="39" stroke="#1e293b" stroke-width="1.3"/>
+                    <ellipse cx="140" cy="52" rx="50" ry="13" fill="#f1f5f9" stroke="#1e293b" stroke-width="1.3"/>
+                    <text x="140" y="56" text-anchor="middle" font-size="10.5" text-decoration="underline" fill="#1e293b">id_cliente</text>
+                    <line x1="140" y1="65" x2="140" y2="79" stroke="#1e293b" stroke-width="1.3"/>
+                    <rect x="74" y="79" width="132" height="44" fill="#dbeafe" stroke="#1e293b" stroke-width="1.4"/>
+                    <text x="140" y="106" text-anchor="middle" font-weight="700" font-size="12" fill="#1e293b">CLIENTE</text>
+                    <line x1="140" y1="123" x2="140" y2="146" stroke="#1e293b" stroke-width="1.4"/>
+                    <text x="148" y="136" font-weight="700" font-size="12" fill="#1e293b">1</text>
+                    <polygon points="140,146 190,172 140,198 90,172" fill="#fef3c7" stroke="#1e293b" stroke-width="1.4"/>
+                    <text x="140" y="176" text-anchor="middle" font-weight="700" font-size="11" fill="#1e293b">REALIZA</text>
+                    <line x1="140" y1="198" x2="140" y2="233" stroke="#1e293b" stroke-width="1.4"/>
+                    <text x="148" y="214" font-weight="700" font-size="12" fill="#1e293b">N</text>
+                    <ellipse cx="60" cy="240" rx="36" ry="13" fill="#f1f5f9" stroke="#1e293b" stroke-width="1.3"/>
+                    <text x="60" y="244" text-anchor="middle" font-size="10" fill="#1e293b">fecha</text>
+                    <line x1="96" y1="249" x2="112" y2="258" stroke="#1e293b" stroke-width="1.2"/>
+                    <ellipse cx="220" cy="240" rx="43" ry="13" fill="#f1f5f9" stroke="#1e293b" stroke-width="1.3"/>
+                    <text x="220" y="244" text-anchor="middle" font-size="10" fill="#1e293b">cantidad</text>
+                    <line x1="184" y1="249" x2="168" y2="258" stroke="#1e293b" stroke-width="1.2"/>
+                    <rect x="74" y="233" width="132" height="44" fill="#dbeafe" stroke="#1e293b" stroke-width="1.4"/>
+                    <text x="140" y="260" text-anchor="middle" font-weight="700" font-size="12" fill="#1e293b">COMPRA</text>
+                    <line x1="140" y1="277" x2="140" y2="301" stroke="#1e293b" stroke-width="1.4"/>
+                    <text x="148" y="288" font-weight="700" font-size="12" fill="#1e293b">N</text>
+                    <polygon points="140,301 190,327 140,353 90,327" fill="#fef3c7" stroke="#1e293b" stroke-width="1.4"/>
+                    <text x="140" y="331" text-anchor="middle" font-weight="700" font-size="11" fill="#1e293b">INCLUYE</text>
+                    <line x1="140" y1="353" x2="140" y2="380" stroke="#1e293b" stroke-width="1.4"/>
+                    <text x="148" y="366" font-weight="700" font-size="12" fill="#1e293b">1</text>
+                    <rect x="69" y="380" width="142" height="44" fill="#dbeafe" stroke="#1e293b" stroke-width="1.4"/>
+                    <text x="140" y="407" text-anchor="middle" font-weight="700" font-size="12" fill="#1e293b">PRODUCTO</text>
+                    <ellipse cx="62" cy="450" rx="40" ry="12" fill="#f1f5f9" stroke="#1e293b" stroke-width="1.3"/>
+                    <text x="62" y="454" text-anchor="middle" font-size="9.5" fill="#1e293b">nombre</text>
+                    <line x1="92" y1="438" x2="108" y2="421" stroke="#1e293b" stroke-width="1.1"/>
+                    <ellipse cx="218" cy="450" rx="38" ry="12" fill="#f1f5f9" stroke="#1e293b" stroke-width="1.3"/>
+                    <text x="218" y="454" text-anchor="middle" font-size="9.5" fill="#1e293b">precio</text>
+                    <line x1="188" y1="438" x2="172" y2="421" stroke="#1e293b" stroke-width="1.1"/>
+                </svg>
+                <figcaption>
+                    CLIENTE con sus atributos, rombo REALIZA (1:N), la entidad intermedia COMPRA con
+                    fecha y cantidad, rombo INCLUYE (N:1) y PRODUCTO con nombre y precio.
+                </figcaption>
+            </figure>
+
+            <div class="sub">Cómo se lee el diagrama</div>
+            <table class="datos">
+                <tr><th>Tramo</th><th>Cardinalidad</th><th>Qué significa</th></tr>
+                <tr><td>CLIENTE — REALIZA — COMPRA</td><td>1 : N</td><td>Un cliente tiene muchas compras; cada compra es de un cliente.</td></tr>
+                <tr><td>COMPRA — INCLUYE — PRODUCTO</td><td>N : 1</td><td>Muchas compras incluyen el mismo producto; cada compra incluye un producto.</td></tr>
+                <tr><td>COMPRA (intermedia)</td><td>—</td><td>Guarda las dos FK y sus atributos propios: fecha y cantidad.</td></tr>
+            </table>
+
+            <div class="buenas">
+                <strong>Fijate en el dibujo:</strong> COMPRA aparece como <strong>rectángulo</strong>
+                (entidad intermedia) y ya no como rombo. Los rombos que quedan son REALIZA e INCLUYE,
+                cada uno con cardinalidad 1:N o N:1.
+            </div>
+            <div class="alerta">
+                <strong>No confundas:</strong> el rombo representa la relación; la entidad intermedia
+                representa la <strong>tabla que resuelve</strong> un N:M. Al pasar al DER, COMPRA se
+                convierte en la tabla <code class="inline">compras</code>.
+            </div>
+
+            <div class="exercise">
+                <h4>✍️ Ejercicio: describí el MER de la tienda</h4>
+                <p class="ex-goal">
+                    Explicá con tus palabras: <strong>qué entidades</strong> hay,
+                    <strong>qué relación</strong> las une, <strong>qué cardinalidad</strong> tiene,
+                    <strong>por qué</strong> aparece una entidad intermedia y <strong>qué atributos</strong>
+                    lleva. Mencioná las <strong>dos relaciones 1:N</strong> que quedan en el dibujo.
+                </p>
+                <textarea class="code-input" id="in-mer_tienda" spellcheck="false" placeholder="Entidades: ...&#10;Relación y cardinalidad: ...&#10;Entidad intermedia: ...&#10;Atributos de la intermedia: ...&#10;Relaciones 1:N: ..."></textarea>
+                <div class="ex-actions">
+                    <button class="btn btn-primary" onclick="corregir('mer_tienda')">✅ Corregir</button>
+                    <button class="btn btn-ghost" onclick="limpiar('mer_tienda')">Limpiar</button>
+                </div>
+                <div class="result" id="res-mer_tienda"></div>
+            </div>
+        </article>
+
+        <!-- Progreso -->
+        <div class="progress-card" id="progreso">
+            <h3>📊 Tu progreso en MER</h3>
+            <p style="margin:0;font-size:.9rem;color:#0c4a6e;">
+                Se guarda automáticamente en este navegador. Tocá un tema para ir directo a su ejercicio.
+            </p>
+            <div class="progress-top">
+                <div class="score-bar"><div class="score-fill" id="progreso-barra" style="width:0%"></div></div>
+                <span class="progress-pct" id="progreso-texto">0 de 4 completos</span>
+            </div>
+            <ul class="progress-list" id="progreso-lista"></ul>
+            <div class="quiz-actions">
+                <button class="btn btn-ghost" onclick="reiniciarTodo()">🔄 Reiniciar progreso</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Autoevaluación -->
+    <section id="quiz">
+        <h2 class="section-title">Autoevaluación · MER</h2>
+        <p class="section-sub">
+            Seis preguntas sobre el modelo conceptual. Elegí una opción por pregunta y presioná
+            <strong>Calificar</strong>.
+        </p>
+        <div class="card">
+            <div class="quiz-question" data-answer="b">
+                <p class="q-text">1. ¿Para qué sirve el MER?</p>
+                <ul class="options-list">
+                    <li data-opt="a">Para ejecutar las consultas en MySQL</li>
+                    <li data-opt="b">Para representar la base de forma conceptual, antes de crear tablas</li>
+                    <li data-opt="c">Para exportar el diagrama a PDF</li>
+                    <li data-opt="d">Para reemplazar al DER</li>
+                </ul>
+            </div>
+            <div class="quiz-question" data-answer="a">
+                <p class="q-text">2. ¿Con qué figura se dibuja una entidad?</p>
+                <ul class="options-list">
+                    <li data-opt="a">Rectángulo</li>
+                    <li data-opt="b">Rombo</li>
+                    <li data-opt="c">Óvalo</li>
+                    <li data-opt="d">Línea</li>
+                </ul>
+            </div>
+            <div class="quiz-question" data-answer="c">
+                <p class="q-text">3. ¿Cómo se marca un atributo clave en el MER?</p>
+                <ul class="options-list">
+                    <li data-opt="a">Con doble óvalo</li>
+                    <li data-opt="b">Con un rombo</li>
+                    <li data-opt="c">Con el nombre subrayado</li>
+                    <li data-opt="d">Con una línea punteada</li>
+                </ul>
+            </div>
+            <div class="quiz-question" data-answer="b">
+                <p class="q-text">4. Un cliente puede tener varios teléfonos. ¿Qué tipo de atributo es?</p>
+                <ul class="options-list">
+                    <li data-opt="a">Derivado</li>
+                    <li data-opt="b">Multivaluado (doble óvalo)</li>
+                    <li data-opt="c">Clave</li>
+                    <li data-opt="d">Compuesto</li>
+                </ul>
+            </div>
+            <div class="quiz-question" data-answer="b">
+                <p class="q-text">5. En <code class="inline">CLIENTE 1 ── N COMPRA</code>, ¿dónde va la clave foránea?</p>
+                <ul class="options-list">
+                    <li data-opt="a">En clientes, apuntando a compras</li>
+                    <li data-opt="b">En compras, apuntando a clientes</li>
+                    <li data-opt="c">En una tabla intermedia nueva</li>
+                    <li data-opt="d">No hace falta clave foránea</li>
+                </ul>
+            </div>
+            <div class="quiz-question" data-answer="d">
+                <p class="q-text">6. ¿Cuál de estos es un atributo derivado?</p>
+                <ul class="options-list">
+                    <li data-opt="a">El precio de un producto</li>
+                    <li data-opt="b">El teléfono de un cliente</li>
+                    <li data-opt="c">La fecha de una compra</li>
+                    <li data-opt="d">La edad calculada desde la fecha de nacimiento</li>
+                </ul>
+            </div>
+            <div class="quiz-actions">
+                <button class="btn btn-primary" onclick="calificarQuiz('quiz','score-banner')">✅ Calificar</button>
+                <button class="btn btn-ghost" onclick="reiniciarQuiz('quiz','score-banner')">🔄 Reiniciar</button>
+            </div>
+            <div id="score-banner"></div>
+        </div>
+    </section>
+
+    <!-- Simulador -->
+    <section id="simuladores">
+        <h2 class="section-title">Simulador · Cardinalidades</h2>
+        <p class="section-sub">
+            Elegí una cardinalidad y mirá cómo cambia el dibujo: dónde aparece la FK y cuándo hace
+            falta una tabla intermedia.
+        </p>
+        <div class="card sim">
+            <h3>🔗 ¿Dónde va la clave foránea?</h3>
+            <div class="num-btns" id="card-btns">
+                <button type="button" data-card="1:1">1 : 1</button>
+                <button type="button" data-card="1:N">1 : N</button>
+                <button type="button" data-card="N:M">N : M</button>
+            </div>
+            <div class="sim-panel" id="card-out"></div>
+            <div class="sim-msg" id="card-msg"></div>
+        </div>
+    </section>
+
+    <div class="next-topic">
+        <p><strong>¿Ya tenés el MER?</strong> El siguiente paso es convertirlo en tablas con PK y FK.</p>
+        <a class="btn btn-primary" href="der.html">Siguiente: DER →</a>
+    </div>
+
+</main>
+
+<footer class="pie">
+    Curso interactivo · MER · DER · MySQL · Dia
+</footer>
+
+<script>
+window.GUIA = {
+    prefijo: 'mer_',
+    temas: [
+        { id: 'mer', nombre: '1. Tu primer MER' },
+        { id: 'mer_simbolos', nombre: '2. Simbología' },
+        { id: 'mer_cardinalidad', nombre: '3. Cardinalidades' },
+        { id: 'mer_tienda', nombre: '4. MER de la tienda' }
+    ],
+    ejercicios: {
+        mer: [
+            { d: 'Nombra la entidad CLIENTE', f: function (c) { return /cliente/.test(c); } },
+            { d: 'Nombra la entidad PIZZA', f: function (c) { return /pizza/.test(c); } },
+            { d: 'Incluye nombre, apellido y teléfono', f: function (c) { return /nombre/.test(c) && /apellido/.test(c) && /telefono/.test(c); } },
+            { d: 'Marca una clave para el cliente (id_cliente o dni)', f: function (c) { return /id_cliente|id cliente|codigo_cliente|dni/.test(c); } },
+            { d: 'Menciona la relación PIDE', f: function (c) { return /\bpide\b|\bpiden\b/.test(c); } },
+            { d: 'Indica cardinalidad muchos a muchos (N:M)', f: function (c) { return /\bn\s*:\s*m\b|\bm\s*:\s*n\b|muchos\s+a\s+muchos|muchos\s*-\s*muchos/.test(c); } },
+            { d: 'Reconoce el teléfono como multivaluado', f: function (c) { return /multivaluado|varios telefonos|doble ovalo/.test(c); } },
+            { d: 'Inserta la entidad intermedia PEDIDO', f: function (c) { return /pedidos?/.test(c); } },
+            { d: 'Pone fecha y cantidad como atributos del pedido', f: function (c) { return /fecha/.test(c) && /cantidad/.test(c); } }
+        ],
+        mer_simbolos: [
+            { d: 'Rectángulo → entidad', f: function (c) { return /rectangulo[^\n]*entidad|entidad[^\n]*rectangulo/.test(c); } },
+            { d: 'Rombo → relación', f: function (c) { return /rombo[^\n]*relacion|relacion[^\n]*rombo/.test(c); } },
+            { d: 'Óvalo → atributo', f: function (c) { return /ovalo[^\n]*atributo|atributo[^\n]*ovalo/.test(c); } },
+            { d: 'Óvalo subrayado → atributo clave', f: function (c) { return /subrayado[^\n]*(clave|primary key)|clave[^\n]*subrayado/.test(c); } },
+            { d: 'Doble óvalo → atributo multivaluado', f: function (c) { return /doble ovalo[^\n]*multivaluado|multivaluado[^\n]*doble ovalo/.test(c); } },
+            { d: 'Óvalo punteado → atributo derivado', f: function (c) { return /punteado[^\n]*(derivado|calcula)|derivado[^\n]*punteado/.test(c); } }
+        ],
+        mer_cardinalidad: [
+            { d: '(a) PERSONA – DNI es 1:1', f: function (c) { return /\b1\s*:\s*1\b|uno\s+a\s+uno/.test(c); } },
+            { d: '(b) CLIENTE – COMPRA es 1:N', f: function (c) { return /\b1\s*:\s*n\b|uno\s+a\s+muchos/.test(c); } },
+            { d: '(c) CLIENTE – PRODUCTO es N:M', f: function (c) { return /\bn\s*:\s*m\b|\bm\s*:\s*n\b|muchos\s+a\s+muchos/.test(c); } },
+            { d: 'En (b) la FK va en compras (lado N)', f: function (c) { return /(compra|compras)[^\n]*(fk|foreign key|clave foranea)|(fk|foreign key|clave foranea)[^\n]*(compra|compras)|lado\s*n/.test(c); } },
+            { d: 'En (c) hace falta una tabla intermedia', f: function (c) { return /intermedia|tercera tabla|tabla puente/.test(c); } },
+            { d: 'La intermedia lleva dos claves foráneas', f: function (c) { return /(dos|2)\s*(fk|claves foraneas|foreign key)/.test(c); } }
+        ],
+        mer_tienda: [
+            { d: 'Nombra las entidades CLIENTE y PRODUCTO', f: function (c) { return /cliente/.test(c) && /producto/.test(c); } },
+            { d: 'Menciona la relación COMPRA', f: function (c) { return /compra/.test(c); } },
+            { d: 'Indica cardinalidad N:M', f: function (c) { return /\bn\s*:\s*m\b|\bm\s*:\s*n\b|muchos\s+a\s+muchos/.test(c); } },
+            { d: 'Explica que COMPRA es la entidad intermedia', f: function (c) { return /intermedia/.test(c); } },
+            { d: 'Ubica fecha y cantidad en la intermedia', f: function (c) { return /fecha/.test(c) && /cantidad/.test(c); } },
+            { d: 'Nombra dos relaciones 1:N (clientes y productos con compras)', f: function (c) { return (c.match(/1\s*:\s*n/g) || []).length >= 2 || /dos relaciones/.test(c); } }
+        ]
+    }
+};
+</script>
+<script src="app.js"></script>
+<script>
+/* ================= SIMULADOR: CARDINALIDADES ================= */
+(function () {
+    var out = document.getElementById('card-out');
+    var msg = document.getElementById('card-msg');
+    var btns = document.getElementById('card-btns');
+    if (!out || !msg || !btns) return;
+
+    function tabla(nombre, filas) {
+        return '<div class="tblbox"><h4>' + nombre + '</h4>' +
+            filas.map(function (f) { return '<div>' + f + '</div>'; }).join('') + '</div>';
+    }
+
+    var casos = {
+        '1:1': {
+            html: tabla('personas', ['<span class="pk">id_persona</span> PK INT', 'nombre VARCHAR(50)']) +
+                '<div class="conector">1──1</div>' +
+                tabla('dnis', ['<span class="pk">id_dni</span> PK INT', '<span class="fk">id_persona</span> FK INT UNIQUE', 'numero VARCHAR(10)']),
+            texto: 'Relación 1:1: una persona tiene un solo DNI y un DNI pertenece a una sola persona. Una de las dos tablas lleva la FK con UNIQUE; no hace falta tabla intermedia.'
+        },
+        '1:N': {
+            html: tabla('clientes', ['<span class="pk">dni</span> PK INT', 'nombre VARCHAR(50)']) +
+                '<div class="conector">1──N</div>' +
+                tabla('compras', ['<span class="pk">id_compra</span> PK AI INT', '<span class="fk">cliente_dni</span> FK INT', 'fecha DATE', 'cantidad INT']),
+            texto: 'Relación 1:N: un cliente tiene muchas compras y cada compra es de un cliente. La FK va en la tabla del lado N (compras) y apunta a la PK de clientes.'
+        },
+        'N:M': {
+            html: tabla('clientes', ['<span class="pk">dni</span> PK INT', 'nombre VARCHAR(50)']) +
+                '<div class="conector">1──N</div>' +
+                tabla('compras (intermedia)', ['<span class="pk">id_compra</span> PK AI INT', '<span class="fk">cliente_dni</span> FK INT', '<span class="fk">producto_codigo</span> FK INT', 'fecha DATE', 'cantidad INT']) +
+                '<div class="conector">N──1</div>' +
+                tabla('productos', ['<span class="pk">codigo</span> PK AI INT', 'nombre VARCHAR(50)', 'precio DECIMAL(10,2)']),
+            texto: 'Relación N:M: muchos clientes compran muchos productos. Se resuelve con una tabla intermedia (compras) que tiene dos FK, una hacia cada entidad.'
+        }
+    };
+
+    function mostrar(clave) {
+        var caso = casos[clave];
+        if (!caso) return;
+        out.innerHTML = '<div class="der-wrap">' + caso.html + '</div>';
+        msg.className = 'sim-msg ok';
+        msg.textContent = caso.texto;
+        btns.querySelectorAll('button').forEach(function (b) {
+            b.classList.toggle('active', b.dataset.card === clave);
+        });
+    }
+
+    btns.addEventListener('click', function (e) {
+        var b = e.target.closest('button[data-card]');
+        if (b) mostrar(b.dataset.card);
+    });
+
+    mostrar('1:N');
+})();
+</script>
+</body>
+</html>

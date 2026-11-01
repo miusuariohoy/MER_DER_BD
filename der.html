@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DER · Diagrama Entidad-Relación · Guía interactiva</title>
+    <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+
+<header class="hero hero-der">
+    <h1>DER: de las ideas a las tablas</h1>
+    <p>PK, FK, claves intermedias y tipos de dato: el paso del dibujo conceptual al diseño real</p>
+    <span class="badge">Tema 2 de 4 · Diagrama Entidad-Relación</span>
+    <br><a class="back-link" href="index.html">← Volver al inicio del curso</a>
+</header>
+
+<nav class="sumario">
+    <a href="index.html">🏠 Inicio</a>
+    <a href="mer.html">1 · MER</a>
+    <a href="der.html" class="activo">2 · DER</a>
+    <a href="mysql.html">3 · MySQL</a>
+    <a href="dia.html">4 · Dia</a>
+</nav>
+
+<main>
+
+    <section id="teoria">
+        <h2 class="section-title">DER · Teoría y ejercitación</h2>
+        <p class="section-sub">
+            El DER traduce el MER a <strong>tablas con columnas</strong>. Acá aprendés a marcar
+            <strong>PK</strong> y <strong>FK</strong>, a resolver la entidad intermedia y a elegir los
+            tipos de dato. Cada tema tiene su pestaña de <strong>✍️ Ejercitación</strong>.
+        </p>
+
+        <!-- 1 -->
+        <article class="card">
+            <h3><span class="num">1</span> Del MER al DER: cada símbolo se transforma</h3>
+            <p class="concept">
+                El <strong>DER</strong> (Diagrama Entidad-Relación relacional) es el paso siguiente:
+                cada entidad se convierte en una <strong>tabla</strong> y cada atributo en una
+                <strong>columna</strong> con su tipo de dato. Las claves se marcan como
+                <strong>PK</strong> (Primary Key) y las uniones como <strong>FK</strong> (Foreign Key).
+            </p>
+
+            <div class="sub">La tabla de equivalencias</div>
+            <table class="datos">
+                <tr><th>En el MER</th><th>En el DER</th></tr>
+                <tr><td>Entidad (rectángulo)</td><td>Una tabla (caja con columnas)</td></tr>
+                <tr><td>Atributo (óvalo)</td><td>Una columna con su tipo de dato</td></tr>
+                <tr><td>Atributo clave (subrayado)</td><td><strong>PRIMARY KEY</strong></td></tr>
+                <tr><td>Relación 1:N</td><td><strong>FOREIGN KEY</strong> en la tabla del lado N</td></tr>
+                <tr><td>Relación N:M</td><td>Tabla intermedia con <strong>dos FOREIGN KEY</strong></td></tr>
+                <tr><td>Atributos del rombo</td><td>Columnas extra dentro de la intermedia</td></tr>
+                <tr><td>Atributo multivaluado</td><td>Una tabla propia aparte</td></tr>
+                <tr><td>Atributo derivado</td><td><strong>No se guarda</strong>: se calcula en la consulta</td></tr>
+            </table>
+
+            <div class="sub">El DER de la tienda</div>
+            <figure class="figure">
+                <div class="der-wrap">
+                    <div class="tblbox">
+                        <h4>clientes</h4>
+                        <div><span class="pk">dni</span> PK INT</div>
+                        <div>nombre VARCHAR(50)</div>
+                        <div>apellido VARCHAR(50)</div>
+                        <div>telefono VARCHAR(20)</div>
+                    </div>
+                    <div class="conector">1──N
+cliente_dni</div>
+                    <div class="tblbox">
+                        <h4>compras (intermedia)</h4>
+                        <div><span class="pk">id_compra</span> PK AI INT</div>
+                        <div><span class="fk">cliente_dni</span> FK INT</div>
+                        <div><span class="fk">producto_codigo</span> FK INT</div>
+                        <div>fecha DATE</div>
+                        <div>cantidad INT</div>
+                    </div>
+                    <div class="conector">N──1
+producto_codigo</div>
+                    <div class="tblbox">
+                        <h4>productos</h4>
+                        <div><span class="pk">codigo</span> PK AI INT</div>
+                        <div>nombre VARCHAR(50)</div>
+                        <div>precio DECIMAL(10,2)</div>
+                        <div>stock INT</div>
+                    </div>
+                </div>
+                <figcaption>
+                    Dos tablas de entidades y una intermedia. Las líneas se leen con la cardinalidad
+                    al costado: un cliente (1) aparece en N compras.
+                </figcaption>
+            </figure>
+
+            <div class="okbox">
+                <strong>Regla:</strong> una tabla intermedia no tiene símbolo nuevo. La reconocés porque
+                tiene <strong>dos FK</strong>, una hacia cada entidad que unía la N:M, y conserva los
+                atributos del rombo (fecha, cantidad).
+            </div>
+            <div class="alerta">
+                <strong>Error clásico:</strong> poner <code class="inline">cliente_dni</code> en
+                <code class="inline">productos</code> o al revés. La FK de una N:M va en la
+                <strong>intermedia</strong>, porque una compra une un cliente con un producto.
+            </div>
+
+            <div class="exercise">
+                <h4>✍️ Ejercicio: pasá la tienda al DER</h4>
+                <p class="ex-goal">
+                    Escribí las <strong>tres tablas</strong> del DER de la tienda
+                    (<code class="inline">clientes</code>, <code class="inline">compras</code>,
+                    <code class="inline">productos</code>) con sus columnas. Marcá <strong>PK</strong> y
+                    <strong>FK</strong>, indicá la <strong>intermedia</strong> y usá los tipos
+                    <strong>INT, VARCHAR, DECIMAL y DATE</strong>.
+                </p>
+                <details class="pista">
+                    <summary>Pista: mirá qué columna apunta a cuál</summary>
+                    <ol>
+                        <li><code class="inline">clientes</code>: dni PK, nombre, apellido, telefono.</li>
+                        <li><code class="inline">productos</code>: codigo PK, nombre, precio, stock.</li>
+                        <li><code class="inline">compras</code>: id_compra PK, cliente_dni FK, producto_codigo FK, fecha, cantidad.</li>
+                    </ol>
+                </details>
+                <textarea class="code-input" id="in-der_tienda" spellcheck="false" placeholder="clientes&#10;  dni PK INT&#10;  ...&#10;&#10;compras (intermedia)&#10;  ...&#10;&#10;productos&#10;  ..."></textarea>
+                <div class="ex-actions">
+                    <button class="btn btn-primary" onclick="corregir('der_tienda')">✅ Corregir</button>
+                    <button class="btn btn-ghost" onclick="limpiar('der_tienda')">Limpiar</button>
+                </div>
+                <div class="result" id="res-der_tienda"></div>
+            </div>
+        </article>
+
+        <!-- 2 -->
+        <article class="card">
+            <h3><span class="num">2</span> PK, FK y AUTO_INCREMENT</h3>
+            <p class="concept">
+                Tres marcas que aparecen en casi todas las tablas. <strong>PK</strong> identifica cada
+                fila; <strong>FK</strong> une con otra tabla; <strong>AI</strong> hace que MySQL numere
+                solo. Si la PK es autoincremental, no hace falta escribirla en los INSERT.
+            </p>
+
+            <table class="datos">
+                <tr><th>Marca</th><th>Qué significa</th><th>Ejemplo</th></tr>
+                <tr><td><strong>PK</strong></td><td>Identifica cada fila: no se repite ni queda vacía.</td><td>clientes.dni</td></tr>
+                <tr><td><strong>FK</strong></td><td>Apunta a la PK de otra tabla y une los datos.</td><td>compras.cliente_dni → clientes.dni</td></tr>
+                <tr><td><strong>AI</strong></td><td>AUTO_INCREMENT: MySQL numera solo (1, 2, 3…).</td><td>compras.id_compra</td></tr>
+                <tr><td><strong>UNIQUE</strong></td><td>No se repite, pero puede quedar vacío. Se usa en 1:1.</td><td>dnis.id_persona</td></tr>
+            </table>
+
+            <div class="sub">Cómo leer las líneas del DER</div>
+            <ul class="explain">
+                <li>La línea sale de la <strong>PK</strong> de un lado y llega a la <strong>FK</strong> del otro.</li>
+                <li>En <strong>1:N</strong>, la FK siempre está en la tabla del lado <strong>N</strong>.</li>
+                <li>En <strong>N:M</strong>, la FK no alcanza: aparece la tabla intermedia con dos FK.</li>
+                <li>En <strong>1:1</strong>, una de las dos tablas lleva la FK con <strong>UNIQUE</strong>.</li>
+            </ul>
+
+            <div class="exercise">
+                <h4>✍️ Ejercicio: pasá la pizzería al DER</h4>
+                <p class="ex-goal">
+                    Usá el MER de la pizzería (CLIENTE – PIDE – PIZZA, con PEDIDO como entidad
+                    intermedia). Escribí las <strong>tres tablas</strong> con sus columnas, marcá
+                    <strong>PK</strong> y <strong>FK</strong>, indicá <strong>fecha</strong> y
+                    <strong>cantidad</strong> en la intermedia y elegí los tipos de dato.
+                </p>
+                <details class="pista">
+                    <summary>Pista: las dos FK de pedidos</summary>
+                    <ol>
+                        <li><code class="inline">clientes</code>: id_cliente PK, nombre, apellido, telefono.</li>
+                        <li><code class="inline">pizzas</code>: id_pizza PK, nombre, precio.</li>
+                        <li><code class="inline">pedidos</code>: id_pedido PK, id_cliente FK, id_pizza FK, fecha, cantidad.</li>
+                    </ol>
+                </details>
+                <textarea class="code-input" id="in-der_pizzeria" spellcheck="false" placeholder="clientes&#10;  id_cliente PK ...&#10;  ...&#10;&#10;pizzas&#10;  ...&#10;&#10;pedidos (intermedia)&#10;  ..."></textarea>
+                <div class="ex-actions">
+                    <button class="btn btn-primary" onclick="corregir('der_pizzeria')">✅ Corregir</button>
+                    <button class="btn btn-ghost" onclick="limpiar('der_pizzeria')">Limpiar</button>
+                </div>
+                <div class="result" id="res-der_pizzeria"></div>
+
+                <details class="pista" style="margin-top:.8rem;">
+                <summary>Ver el DER de la pizzería</summary>
+                <div class="der-wrap">
+                    <div class="tblbox">
+                        <h4>clientes</h4>
+                        <div><span class="pk">id_cliente</span> PK AI INT</div>
+                        <div>nombre VARCHAR(50)</div>
+                        <div>apellido VARCHAR(50)</div>
+                        <div>telefono VARCHAR(20)</div>
+                    </div>
+                    <div class="conector">1──N
+id_cliente</div>
+                    <div class="tblbox">
+                        <h4>pedidos (intermedia)</h4>
+                        <div><span class="pk">id_pedido</span> PK AI INT</div>
+                        <div><span class="fk">id_cliente</span> FK INT</div>
+                        <div><span class="fk">id_pizza</span> FK INT</div>
+                        <div>fecha DATE</div>
+                        <div>cantidad INT</div>
+                    </div>
+                    <div class="conector">N──1
+id_pizza</div>
+                    <div class="tblbox">
+                        <h4>pizzas</h4>
+                        <div><span class="pk">id_pizza</span> PK AI INT</div>
+                        <div>nombre VARCHAR(40)</div>
+                        <div>precio DECIMAL(10,2)</div>
+                    </div>
+                </div>
+                <p style="font-size:.85rem;color:var(--muted);margin:.4rem 0 0;">
+                    El teléfono multivaluado quedó como una columna simple; si un cliente necesita
+                    varios teléfonos, corresponde una tabla <code class="inline">clientes_telefonos</code>.
+                </p>
+                </details>
+            </div>
+        </article>
+
+        <!-- 3 -->
+        <article class="card">
+            <h3><span class="num">3</span> La entidad intermedia: por qué nace y qué lleva</h3>
+            <p class="concept">
+                Cuando la relación es <strong>N:M</strong>, una sola FK no alcanza. Por eso se crea una
+                <strong>tabla intermedia</strong> que tiene una FK hacia cada entidad y guarda los
+                atributos propios del hecho (fecha, cantidad, nota, etc.). En el DER se dibuja
+                <strong>igual que cualquier tabla</strong>: no tiene un símbolo nuevo.
+            </p>
+
+            <div class="der-wrap">
+                <div class="tblbox">
+                    <h4>clientes</h4>
+                    <div><span class="pk">dni</span> PK INT</div>
+                    <div>nombre VARCHAR(50)</div>
+                </div>
+                <div class="conector">1──N
+cliente_dni</div>
+                <div class="tblbox">
+                    <h4>compras (intermedia)</h4>
+                    <div><span class="pk">id_compra</span> PK AI INT</div>
+                    <div><span class="fk">cliente_dni</span> FK INT</div>
+                    <div><span class="fk">producto_codigo</span> FK INT</div>
+                    <div>fecha DATE</div>
+                    <div>cantidad INT</div>
+                </div>
+                <div class="conector">N──1
+producto_codigo</div>
+                <div class="tblbox">
+                    <h4>productos</h4>
+                    <div><span class="pk">codigo</span> PK AI INT</div>
+                    <div>nombre VARCHAR(50)</div>
+                    <div>precio DECIMAL(10,2)</div>
+                </div>
+            </div>
+
+            <div class="sub">Qué columnas lleva la intermedia</div>
+            <ol class="explain">
+                <li>Su propia <strong>PK</strong> (id_compra), para identificar cada fila.</li>
+                <li>Una <strong>FK</strong> hacia la primera entidad (cliente_dni → clientes.dni).</li>
+                <li>Una <strong>FK</strong> hacia la segunda entidad (producto_codigo → productos.codigo).</li>
+                <li>Los <strong>atributos del rombo</strong>: fecha, cantidad y los que pida el enunciado.</li>
+            </ol>
+
+            <div class="okbox">
+                <strong>En el MER</strong> la intermedia puede aparecer como rectángulo (COMPRA) y los
+                rombos que quedan son las dos relaciones 1:N (REALIZA e INCLUYE).
+            </div>
+            <div class="alerta">
+                <strong>No confundas:</strong> el rombo representa la relación; la tabla intermedia
+                representa la <strong>tabla que resuelve</strong> el N:M. Al pasar al DER, COMPRA se
+                convierte en <code class="inline">compras</code>.
+            </div>
+
+            <div class="exercise">
+                <h4>✍️ Ejercicio: explicá la intermedia de la tienda</h4>
+                <p class="ex-goal">
+                    Explicá por qué <strong>COMPRA termina siendo una tabla</strong> y no solo un rombo.
+                    Indicá: <strong>qué cardinalidad</strong> había entre clientes y productos,
+                    <strong>qué columnas</strong> lleva <code class="inline">compras</code>,
+                    <strong>cuáles son sus dos claves foráneas</strong> y <strong>qué dos relaciones
+                    1:N</strong> aparecen.
+                </p>
+                <textarea class="code-input" id="in-der_intermedia" spellcheck="false" placeholder="La relación original era ...&#10;La tabla compras lleva ...&#10;Sus FK son ...&#10;Las relaciones 1:N son ..."></textarea>
+                <div class="ex-actions">
+                    <button class="btn btn-primary" onclick="corregir('der_intermedia')">✅ Corregir</button>
+                    <button class="btn btn-ghost" onclick="limpiar('der_intermedia')">Limpiar</button>
+                </div>
+                <div class="result" id="res-der_intermedia"></div>
+            </div>
+        </article>
+
+        <!-- 4 -->
+        <article class="card">
+            <h3><span class="num">4</span> Tipos de dato y restricciones</h3>
+            <p class="concept">
+                Cada columna necesita un <strong>tipo</strong> y, si corresponde, una
+                <strong>restricción</strong>. Elegir bien evita datos imposibles: un precio no debería
+                ser texto, una fecha no debería ser un número suelto y una clave no debería repetirse.
+            </p>
+
+            <table class="datos">
+                <tr><th>Tipo / restricción</th><th>Para qué sirve</th><th>Ejemplo</th></tr>
+                <tr><td><code class="inline">INT</code></td><td>Números enteros</td><td>dni, stock, cantidad</td></tr>
+                <tr><td><code class="inline">DECIMAL(10,2)</code></td><td>Números con decimales exactos</td><td>precio, total</td></tr>
+                <tr><td><code class="inline">VARCHAR(n)</code></td><td>Texto corto de longitud variable</td><td>nombre, telefono</td></tr>
+                <tr><td><code class="inline">DATE</code></td><td>Fechas AAAA-MM-DD</td><td>fecha, fecha_nacimiento</td></tr>
+                <tr><td><code class="inline">PRIMARY KEY</code></td><td>Identifica cada fila</td><td>id_compra</td></tr>
+                <tr><td><code class="inline">FOREIGN KEY ... REFERENCES</code></td><td>Une con la PK de otra tabla</td><td>cliente_dni → clientes.dni</td></tr>
+                <tr><td><code class="inline">NOT NULL</code></td><td>Obliga a cargar el dato</td><td>nombre</td></tr>
+                <tr><td><code class="inline">DEFAULT 0</code></td><td>Valor si no se indica otro</td><td>stock</td></tr>
+            </table>
+
+            <div class="buenas">
+                <strong>Truco:</strong> preguntate qué operaciones vas a hacer con el dato. Si vas a
+                sumar o multiplicar → número; si vas a ordenar por fecha → DATE; si es un texto corto →
+                VARCHAR.
+            </div>
+            <div class="alerta">
+                <strong>Error clásico:</strong> guardar el <strong>total</strong> de una compra como
+                columna. Es un dato <strong>derivado</strong>: se calcula con
+                <code class="inline">precio * cantidad</code> en la consulta.
+            </div>
+
+            <div class="exercise">
+                <h4>✍️ Ejercicio: elegí tipos y marcas</h4>
+                <p class="ex-goal">
+                    Para la tabla <code class="inline">compras</code> de la tienda, escribí cada columna
+                    con su <strong>tipo</strong> y su <strong>marca</strong>:
+                    <code class="inline">id_compra</code> (clave automática),
+                    <code class="inline">cliente_dni</code> (FK a clientes),
+                    <code class="inline">producto_codigo</code> (FK a productos),
+                    <code class="inline">fecha</code> y <code class="inline">cantidad</code>.
+                    Agregá una columna <code class="inline">total</code> y explicá si se guarda o se calcula.
+                </p>
+                <textarea class="code-input" id="in-der_tipos" spellcheck="false" placeholder="id_compra ...&#10;cliente_dni ...&#10;producto_codigo ...&#10;fecha ...&#10;cantidad ...&#10;total ..."></textarea>
+                <div class="ex-actions">
+                    <button class="btn btn-primary" onclick="corregir('der_tipos')">✅ Corregir</button>
+                    <button class="btn btn-ghost" onclick="limpiar('der_tipos')">Limpiar</button>
+                </div>
+                <div class="result" id="res-der_tipos"></div>
+            </div>
+        </article>
+
+        <!-- Progreso -->
+        <div class="progress-card" id="progreso">
+            <h3>📊 Tu progreso en DER</h3>
+            <p style="margin:0;font-size:.9rem;color:#0c4a6e;">
+                Se guarda automáticamente en este navegador. Tocá un tema para ir directo a su ejercicio.
+            </p>
+            <div class="progress-top">
+                <div class="score-bar"><div class="score-fill" id="progreso-barra" style="width:0%"></div></div>
+                <span class="progress-pct" id="progreso-texto">0 de 4 completos</span>
+            </div>
+            <ul class="progress-list" id="progreso-lista"></ul>
+            <div class="quiz-actions">
+                <button class="btn btn-ghost" onclick="reiniciarTodo()">🔄 Reiniciar progreso</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Autoevaluación -->
+    <section id="quiz">
+        <h2 class="section-title">Autoevaluación · DER</h2>
+        <p class="section-sub">
+            Cinco preguntas sobre tablas, claves y relaciones. Marcá una opción y presioná
+            <strong>Calificar</strong>.
+        </p>
+        <div class="card">
+            <div class="quiz-question" data-answer="c">
+                <p class="q-text">1. Una relación N:M, ¿cómo se resuelve en el DER?</p>
+                <ul class="options-list">
+                    <li data-opt="a">Con una sola FK en cualquier tabla</li>
+                    <li data-opt="b">Eliminando una de las dos entidades</li>
+                    <li data-opt="c">Con una tabla intermedia que tiene dos FK</li>
+                    <li data-opt="d">Con un atributo derivado</li>
+                </ul>
+            </div>
+            <div class="quiz-question" data-answer="a">
+                <p class="q-text">2. La entidad intermedia, ¿cómo se dibuja en el DER?</p>
+                <ul class="options-list">
+                    <li data-opt="a">Como una tabla igual a las demás</li>
+                    <li data-opt="b">Como un rombo doble</li>
+                    <li data-opt="c">Como un óvalo punteado</li>
+                    <li data-opt="d">No se dibuja</li>
+                </ul>
+            </div>
+            <div class="quiz-question" data-answer="b">
+                <p class="q-text">3. ¿Qué hace <code class="inline">AUTO_INCREMENT</code>?</p>
+                <ul class="options-list">
+                    <li data-opt="a">Obliga a cargar el dato</li>
+                    <li data-opt="b">Hace que MySQL numere solo la columna</li>
+                    <li data-opt="c">Convierte el número en texto</li>
+                    <li data-opt="d">Borra las filas repetidas</li>
+                </ul>
+            </div>
+            <div class="quiz-question" data-answer="c">
+                <p class="q-text">4. ¿Qué garantiza una <code class="inline">PRIMARY KEY</code>?</p>
+                <ul class="options-list">
+                    <li data-opt="a">Que la columna sea siempre de texto</li>
+                    <li data-opt="b">Que se pueda repetir en varias filas</li>
+                    <li data-opt="c">Que identifique cada fila sin repetirse ni quedar vacía</li>
+                    <li data-opt="d">Que se calcule automáticamente</li>
+                </ul>
+            </div>
+            <div class="quiz-question" data-answer="b">
+                <p class="q-text">5. Un atributo multivaluado, ¿en qué se convierte en el DER?</p>
+                <ul class="options-list">
+                    <li data-opt="a">En una columna más de la entidad</li>
+                    <li data-opt="b">En una tabla propia con FK hacia la entidad</li>
+                    <li data-opt="c">En una PRIMARY KEY</li>
+                    <li data-opt="d">En un atributo derivado</li>
+                </ul>
+            </div>
+            <div class="quiz-actions">
+                <button class="btn btn-primary" onclick="calificarQuiz('quiz','score-banner')">✅ Calificar</button>
+                <button class="btn btn-ghost" onclick="reiniciarQuiz('quiz','score-banner')">🔄 Reiniciar</button>
+            </div>
+            <div id="score-banner"></div>
+        </div>
+    </section>
+
+    <div class="next-topic">
+        <p><strong>¿Ya tenés las tablas?</strong> Ahora se crean de verdad en MySQL con SQL.</p>
+        <a class="btn btn-primary" href="mysql.html">Siguiente: MySQL →</a>
+    </div>
+
+</main>
+
+<footer class="pie">
+    Curso interactivo · MER · DER · MySQL · Dia
+</footer>
+
+<script>
+window.GUIA = {
+    prefijo: 'der_',
+    temas: [
+        { id: 'der_tienda', nombre: '1. DER de la tienda' },
+        { id: 'der_pizzeria', nombre: '2. DER de la pizzería' },
+        { id: 'der_intermedia', nombre: '3. Entidad intermedia' },
+        { id: 'der_tipos', nombre: '4. Tipos y restricciones' }
+    ],
+    ejercicios: {
+        der_tienda: [
+            { d: 'Crea la tabla clientes', f: function (c) { return /clientes/.test(c); } },
+            { d: 'Crea la tabla productos', f: function (c) { return /productos/.test(c); } },
+            { d: 'Crea la tabla intermedia compras', f: function (c) { return /compras/.test(c); } },
+            { d: 'Marca la PK id_compra', f: function (c) { return /id_compra/.test(c); } },
+            { d: 'FK cliente_dni hacia clientes', f: function (c) { return /cliente_dni|cliente_id|id_cliente/.test(c); } },
+            { d: 'FK producto_codigo hacia productos', f: function (c) { return /producto_codigo|producto_cod|producto_id|id_producto/.test(c); } },
+            { d: 'Indica al menos 3 PRIMARY KEY / PK', f: function (c) { return (c.match(/primary key|\bpk\b/g) || []).length >= 3; } },
+            { d: 'Indica al menos 2 FOREIGN KEY / FK', f: function (c) { return (c.match(/\bfk\b|foreign key/g) || []).length >= 2; } },
+            { d: 'Usa tipos INT, VARCHAR, DECIMAL y DATE', f: function (c) { return /\bint\b/.test(c) && /varchar/.test(c) && /decimal/.test(c) && /\bdate\b/.test(c); } },
+            { d: 'Pone fecha y cantidad dentro de compras', f: function (c) { return /fecha/.test(c) && /cantidad/.test(c); } }
+        ],
+        der_pizzeria: [
+            { d: 'Crea la tabla clientes', f: function (c) { return /clientes/.test(c); } },
+            { d: 'Crea la tabla pizzas', f: function (c) { return /pizzas/.test(c); } },
+            { d: 'Crea la tabla intermedia pedidos', f: function (c) { return /pedidos/.test(c); } },
+            { d: 'Marca la PK id_cliente', f: function (c) { return /id_cliente/.test(c); } },
+            { d: 'Marca la PK id_pizza', f: function (c) { return /id_pizza/.test(c); } },
+            { d: 'Marca la PK id_pedido', f: function (c) { return /id_pedido/.test(c); } },
+            { d: 'Indica al menos 3 PRIMARY KEY / PK', f: function (c) { return (c.match(/primary key|\bpk\b/g) || []).length >= 3; } },
+            { d: 'Indica al menos 2 FOREIGN KEY / FK', f: function (c) { return (c.match(/\bfk\b|foreign key/g) || []).length >= 2; } },
+            { d: 'Usa tipos INT, VARCHAR, DECIMAL y DATE', f: function (c) { return /\bint\b/.test(c) && /varchar/.test(c) && /decimal/.test(c) && /\bdate\b/.test(c); } },
+            { d: 'Pone fecha y cantidad dentro de pedidos', f: function (c) { return /fecha/.test(c) && /cantidad/.test(c); } }
+        ],
+        der_intermedia: [
+            { d: 'Explica que la relación original era N:M', f: function (c) { return /\bn\s*:\s*m\b|\bm\s*:\s*n\b|muchos\s+a\s+muchos/.test(c); } },
+            { d: 'COMPRA termina siendo una tabla', f: function (c) { return /tabla[^\n]*compra|compra[^\n]*tabla/.test(c); } },
+            { d: 'La tabla compras lleva la PK id_compra', f: function (c) { return /id_compra/.test(c); } },
+            { d: 'Incluye las columnas fecha y cantidad', f: function (c) { return /fecha/.test(c) && /cantidad/.test(c); } },
+            { d: 'Menciona que tiene dos claves foráneas', f: function (c) { return /(dos|2)\s*(fk|claves foraneas|foreign key)/.test(c); } },
+            { d: 'FK hacia clientes (cliente_dni)', f: function (c) { return /cliente_dni|cliente_id|id_cliente/.test(c); } },
+            { d: 'FK hacia productos (producto_codigo)', f: function (c) { return /producto_codigo|producto_cod|producto_id|id_producto|codigo_producto/.test(c); } },
+            { d: 'Nombra dos relaciones 1:N', f: function (c) { return (c.match(/1\s*:\s*n/g) || []).length >= 2 || /dos relaciones/.test(c); } }
+        ],
+        der_tipos: [
+            { d: 'id_compra es INT y PRIMARY KEY', f: function (c) { return /id_compra[^\n]*(int[^\n]*(primary key|pk)|(primary key|pk)[^\n]*int)/.test(c); } },
+            { d: 'id_compra usa AUTO_INCREMENT', f: function (c) { return /id_compra[^\n]*auto_increment|auto_increment[^\n]*id_compra/.test(c); } },
+            { d: 'cliente_dni es FK y apunta a clientes', f: function (c) { return /cliente_dni[^\n]*(fk|foreign key|references)[^\n]*cliente|cliente_dni[^\n]*(fk|foreign key)/.test(c); } },
+            { d: 'producto_codigo es FK y apunta a productos', f: function (c) { return /producto_codigo[^\n]*(fk|foreign key|references)[^\n]*producto|producto_codigo[^\n]*(fk|foreign key)/.test(c); } },
+            { d: 'fecha es de tipo DATE', f: function (c) { return /fecha[^\n]*date/.test(c); } },
+            { d: 'cantidad es de tipo INT', f: function (c) { return /cantidad[^\n]*int/.test(c); } },
+            { d: 'Explica que total es derivado (se calcula, no se guarda)', f: function (c) { return /total[^\n]*(derivado|calcula|no se guarda)|precio\s*\*\s*cantidad/.test(c); } }
+        ]
+    }
+};
+</script>
+<script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dia · Dibujar el MER y el DER · Guía interactiva</title>
+    <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+
+<header class="hero hero-dia">
+    <h1>Dia: el diagrama en la pantalla</h1>
+    <p>Instalar el programa, usar la hoja ER y la hoja Database, guardar y exportar para entregar</p>
+    <span class="badge">Tema 4 de 4 · Herramienta de dibujo</span>
+    <br><a class="back-link" href="index.html">← Volver al inicio del curso</a>
+</header>
+
+<nav class="sumario">
+    <a href="index.html">🏠 Inicio</a>
+    <a href="mer.html">1 · MER</a>
+    <a href="der.html">2 · DER</a>
+    <a href="mysql.html">3 · MySQL</a>
+    <a href="dia.html" class="activo">4 · Dia</a>
+</nav>
+
+<main>
+
+    <section id="teoria">
+        <h2 class="section-title">Dia · Teoría y ejercitación</h2>
+        <p class="section-sub">
+            <strong>Dia</strong> es un programa libre y gratuito para armar diagramas. Acá aprendés a
+            instalarlo, a dibujar el <strong>MER</strong> con la hoja <strong>ER</strong>, a dibujar el
+            <strong>DER</strong> con la hoja <strong>Database</strong> y a <strong>guardar y exportar</strong>
+            el trabajo. Cada tema tiene su pestaña <strong>✍️ Ejercitación</strong>.
+        </p>
+
+        <!-- 1 -->
+        <article class="card">
+            <h3><span class="num">1</span> Qué es Dia y cómo se usa la pantalla</h3>
+            <p class="concept">
+                <strong>Dia</strong> es un editor de diagramas libre (una alternativa a Visio). Se usa para
+                pasar el MER y el DER del papel a la computadora. No genera la base de datos: sirve para
+                <strong>dibujar</strong> y <strong>exportar</strong> el diagrama.
+            </p>
+
+            <div class="sub">Instalación</div>
+            <table class="datos">
+                <tr><th>Sistema</th><th>Cómo se instala</th></tr>
+                <tr><td>Windows</td><td>Bajar el instalador desde <strong>dia-installer.de</strong> (sección Download) y ejecutarlo.</td></tr>
+                <tr><td>Linux</td><td><code class="inline">sudo apt install dia</code></td></tr>
+                <tr><td>Mac</td><td>Instalar con Homebrew o desde el sitio oficial.</td></tr>
+            </table>
+
+            <div class="sub">Las tres zonas de la pantalla</div>
+            <div class="figura-dia">
+                <div class="fd">
+                    <strong>Lienzo central</strong><br>
+                    La hoja blanca donde se arma el diagrama. Se hace zoom con Ctrl + rueda del mouse.
+                </div>
+                <div class="fd">
+                    <strong>Paleta izquierda</strong><br>
+                    Las figuras disponibles. Arriba hay un desplegable que cambia de <strong>hoja</strong>:
+                    ER, Database, Flowchart, etc.
+                </div>
+                <div class="fd">
+                    <strong>Barra de herramientas</strong><br>
+                    Arriba del lienzo: guardar, deshacer, zoom, texto, líneas y colores.
+                </div>
+            </div>
+
+            <div class="sub">El gesto básico: elegir y colocar</div>
+            <ol class="explain">
+                <li>Elegí la <strong>hoja</strong> en el desplegable de la paleta (por ejemplo, <strong>ER</strong>).</li>
+                <li>Hacé <strong>clic en una figura</strong> de la paleta.</li>
+                <li>Hacé <strong>clic en el lienzo</strong> para colocarla.</li>
+                <li>Hacé <strong>doble clic</strong> sobre la figura para escribir su nombre.</li>
+                <li>Arrastrá desde los <strong>bordes</strong> para conectarla con otra figura.</li>
+            </ol>
+
+            <div class="buenas">
+                <strong>Truco:</strong> si una figura no aparece, revisá la hoja seleccionada. La hoja
+                <strong>ER</strong> tiene las figuras del MER; la hoja <strong>Database</strong> tiene las
+                tablas del DER. No están mezcladas.
+            </div>
+            <div class="alerta">
+                <strong>Error clásico:</strong> dibujar todo en una hoja cualquiera sin mirar el desplegable.
+                Si no encontrás <em>Entity</em>, <em>Relationship</em> o <em>Table</em>, es porque estás en
+                la hoja equivocada.
+            </div>
+
+            <div class="exercise">
+                <h4>✍️ Ejercicio: reconocé la pantalla</h4>
+                <p class="ex-goal">
+                    Explicá con tus palabras: <strong>qué es Dia</strong>, cuáles son las
+                    <strong>tres zonas</strong> de la pantalla, <strong>dónde se elige la hoja</strong>,
+                    cómo se <strong>coloca una figura</strong> y cómo se <strong>escribe su nombre</strong>.
+                    Mencioná también cómo se instala en Windows o en Linux.
+                </p>
+                <details class="pista">
+                    <summary>Pista: cinco palabras clave</summary>
+                    <ol>
+                        <li>Lienzo central.</li>
+                        <li>Paleta izquierda.</li>
+                        <li>Desplegable de hoja.</li>
+                        <li>Clic en la figura y clic en el lienzo.</li>
+                        <li>Doble clic para el texto.</li>
+                    </ol>
+                </details>
+                <textarea class="code-input" id="in-dia_pantalla" spellcheck="false" placeholder="Dia es ...&#10;Las tres zonas son ...&#10;La hoja se elige en ...&#10;Una figura se coloca ...&#10;El nombre se escribe ...&#10;Se instala ..."></textarea>
+                <div class="ex-actions">
+                    <button class="btn btn-primary" onclick="corregir('dia_pantalla')">✅ Corregir</button>
+                    <button class="btn btn-ghost" onclick="limpiar('dia_pantalla')">Limpiar</button>
+                </div>
+                <div class="result" id="res-dia_pantalla"></div>
+            </div>
+        </article>
+
+        <!-- 2 -->
+        <article class="card">
+            <h3><span class="num">2</span> La hoja ER: dibujar el MER</h3>
+            <p class="concept">
+                En el desplegable de la paleta se elige la hoja <strong>ER</strong>. Ahí están las figuras
+                del modelo conceptual: <strong>Entity</strong>, <strong>Relationship</strong> y
+                <strong>Attribute</strong>. Con esas tres alcanza para dibujar el MER completo.
+            </p>
+
+            <table class="datos">
+                <tr><th>Qué querés dibujar</th><th>Hoja y figura en Dia</th><th>Forma</th></tr>
+                <tr><td>Entidad</td><td>Hoja <strong>ER</strong> → <strong>Entity</strong></td><td>Rectángulo</td></tr>
+                <tr><td>Relación</td><td>Hoja <strong>ER</strong> → <strong>Relationship</strong></td><td>Rombo</td></tr>
+                <tr><td>Atributo</td><td>Hoja <strong>ER</strong> → <strong>Attribute</strong></td><td>Óvalo</td></tr>
+                <tr><td>Línea que une</td><td>Herramienta de línea o arrastre desde el borde</td><td>Línea</td></tr>
+                <tr><td>Cardinalidad</td><td>Herramienta <strong>Texto</strong> (tecla T)</td><td>1:N, N:M</td></tr>
+            </table>
+
+            <div class="sub">El orden de dibujo que funciona</div>
+            <ol class="explain">
+                <li>Colocá las <strong>entidades</strong> (rectángulos) y escribí su nombre en MAYÚSCULAS.</li>
+                <li>Agregá los <strong>atributos</strong> (óvalos) alrededor de cada entidad y unilos con una línea.</li>
+                <li>Subrayá el <strong>atributo clave</strong>: doble clic en el texto y Ctrl + U.</li>
+                <li>Colocá el <strong>rombo</strong> de la relación entre las entidades que une.</li>
+                <li>Escribí la <strong>cardinalidad</strong> con la herramienta Texto, al lado de cada línea.</li>
+                <li>Si la relación es <strong>N:M</strong>, agregá la entidad intermedia como un rectángulo más.</li>
+            </ol>
+
+            <div class="sub">Los casos especiales</div>
+            <table class="datos">
+                <tr><th>Atributo</th><th>Cómo se dibuja en Dia</th></tr>
+                <tr><td>Clave</td><td>Óvalo con el nombre <strong>subrayado</strong> (Ctrl + U).</td></tr>
+                <tr><td>Multivaluado</td><td><strong>Doble óvalo</strong>: dos óvalos superpuestos.</td></tr>
+                <tr><td>Derivado</td><td>Óvalo con <strong>línea punteada</strong> (Formato → Línea → punteada).</td></tr>
+            </table>
+
+            <div class="buenas">
+                <strong>Prolijidad:</strong> alineá las entidades en una misma columna, dejá aire entre los
+                óvalos y usá el mismo tamaño de letra en todo el dibujo. Un MER ordenado se corrige mucho
+                más rápido.
+            </div>
+            <div class="alerta">
+                <strong>Error clásico:</strong> escribir la cardinalidad dentro del rombo. La cardinalidad
+                va <strong>sobre la línea</strong>, en cada extremo: 1 del lado de la entidad y N del lado
+                de la relación.
+            </div>
+
+            <div class="exercise">
+                <h4>✍️ Ejercicio: planificá el MER en la hoja ER</h4>
+                <p class="ex-goal">
+                    Para el caso de la <strong>tienda</strong> (CLIENTE, PRODUCTO y la compra con fecha y
+                    cantidad), escribí los pasos para dibujarlo en Dia: qué <strong>hoja</strong> elegís,
+                    qué <strong>figura</strong> usás para cada elemento, cómo marcás la
+                    <strong>clave</strong>, cómo ponés la <strong>cardinalidad</strong> y qué hacés con la
+                    <strong>entidad intermedia</strong>.
+                </p>
+                <textarea class="code-input" id="in-dia_mer" spellcheck="false" placeholder="Hoja: ...&#10;Entidades: figura ...&#10;Atributos: figura ...&#10;Relación: figura ...&#10;Clave: ...&#10;Cardinalidad: ...&#10;Entidad intermedia: ..."></textarea>
+                <div class="ex-actions">
+                    <button class="btn btn-primary" onclick="corregir('dia_mer')">✅ Corregir</button>
+                    <button class="btn btn-ghost" onclick="limpiar('dia_mer')">Limpiar</button>
+                </div>
+                <div class="result" id="res-dia_mer"></div>
+
+                <details class="pista" style="margin-top:.8rem;">
+                    <summary>Ver la solución esperada</summary>
+                    <ul class="explain">
+                        <li><strong>Hoja:</strong> ER, en el desplegable de la paleta.</li>
+                        <li><strong>Entidades:</strong> figura <em>Entity</em> (rectángulo) para CLIENTE y PRODUCTO.</li>
+                        <li><strong>Atributos:</strong> figura <em>Attribute</em> (óvalo), unidos con una línea.</li>
+                        <li><strong>Relación:</strong> figura <em>Relationship</em> (rombo) entre las entidades.</li>
+                        <li><strong>Clave:</strong> el atributo subrayado (Ctrl + U) dentro del óvalo.</li>
+                        <li><strong>Cardinalidad:</strong> herramienta Texto (T) y escribir 1:N o N:M sobre la línea.</li>
+                        <li><strong>Intermedia:</strong> un rectángulo más (COMPRA), porque la relación es N:M.</li>
+                    </ul>
+                </details>
+            </div>
+        </article>
+
+        <!-- 3 -->
+        <article class="card">
+            <h3><span class="num">3</span> La hoja Database: dibujar el DER</h3>
+            <p class="concept">
+                Para el DER se cambia a la hoja <strong>Database</strong>. Ahí están las figuras
+                <strong>Table</strong> (tabla con columnas) y <strong>Reference</strong> (la línea que une
+                una FK con su PK). Es la representación que después se convierte en
+                <code class="inline">CREATE TABLE</code>.
+            </p>
+
+            <table class="datos">
+                <tr><th>Qué querés dibujar</th><th>Hoja y figura en Dia</th></tr>
+                <tr><td>Tabla</td><td>Hoja <strong>Database</strong> → <strong>Table</strong></td></tr>
+                <tr><td>Columnas, tipos y PK</td><td>Doble clic en la tabla: editor de columnas</td></tr>
+                <tr><td>Unión FK → PK</td><td>Hoja <strong>Database</strong> → <strong>Reference</strong></td></tr>
+                <tr><td>Tabla intermedia</td><td>Otra <strong>Table</strong>, con dos FK</td></tr>
+            </table>
+
+            <div class="sub">Cómo se carga una tabla en Dia</div>
+            <ol class="explain">
+                <li>Colocá una figura <strong>Table</strong> en el lienzo.</li>
+                <li>Hacé <strong>doble clic</strong> y abrí el editor de columnas.</li>
+                <li>Escribí el <strong>nombre de cada columna</strong>, su <strong>tipo</strong> (INT, VARCHAR, DECIMAL, DATE) y tildá <strong>PRIMARY KEY</strong> donde corresponda.</li>
+                <li>Repetí con cada tabla: clientes, productos y compras.</li>
+                <li>Uní con <strong>Reference</strong> la FK de compras con la PK de clientes, y la otra FK con la PK de productos.</li>
+            </ol>
+
+            <div class="syntax">
+                <span class="syntax-label">Cómo se ve la intermedia en la hoja Database</span>
+                compras<br>
+                &nbsp;&nbsp;id_compra&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;INT&nbsp;&nbsp;PK<br>
+                &nbsp;&nbsp;cliente_dni&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;INT&nbsp;&nbsp;FK → clientes.dni<br>
+                &nbsp;&nbsp;producto_codigo&nbsp;INT&nbsp;&nbsp;FK → productos.codigo<br>
+                &nbsp;&nbsp;fecha&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DATE<br>
+                &nbsp;&nbsp;cantidad&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;INT
+            </div>
+
+            <div class="okbox">
+                <strong>La regla de la intermedia:</strong> la tabla <code class="inline">compras</code> no
+                tiene un símbolo especial. La reconocés porque tiene una <strong>PK propia</strong> y
+                <strong>dos FK</strong>, una hacia cada entidad de la relación N:M.
+            </div>
+            <div class="alerta">
+                <strong>Dia no genera el script SQL solo:</strong> dibuja el DER, pero el
+                <code class="inline">CREATE TABLE</code> se escribe aparte en MySQL. El diagrama es la guía;
+                el script es el que crea la base de verdad.
+            </div>
+
+            <div class="exercise">
+                <h4>✍️ Ejercicio: pasá la tienda a la hoja Database</h4>
+                <p class="ex-goal">
+                    Explicá cómo dibujás el DER de la tienda en Dia: qué <strong>hoja</strong> usás, qué
+                    figura para las <strong>tablas</strong>, cómo marcás la <strong>PK</strong>, cómo unís
+                    las <strong>FK</strong>, qué tabla es la <strong>intermedia</strong> y qué tipos de dato
+                    escribís en cada columna.
+                </p>
+                <textarea class="code-input" id="in-dia_der" spellcheck="false" placeholder="Hoja: ...&#10;Tablas: figura ...&#10;PK: ...&#10;FK y Reference: ...&#10;Intermedia: ...&#10;Tipos: ..."></textarea>
+                <div class="ex-actions">
+                    <button class="btn btn-primary" onclick="corregir('dia_der')">✅ Corregir</button>
+                    <button class="btn btn-ghost" onclick="limpiar('dia_der')">Limpiar</button>
+                </div>
+                <div class="result" id="res-dia_der"></div>
+            </div>
+        </article>
+
+        <!-- 4 -->
+        <article class="card">
+            <h3><span class="num">4</span> Guardar, exportar y entregar</h3>
+            <p class="concept">
+                Guardar y exportar no son lo mismo. <strong>Guardar</strong> crea un archivo
+                <code class="inline">.dia</code> que podés seguir editando. <strong>Exportar</strong> crea
+                una imagen o un PDF para entregar o mostrar. Siempre se guarda primero y se exporta después.
+            </p>
+
+            <table class="datos">
+                <tr><th>Acción</th><th>Menú</th><th>Qué obtiene</th></tr>
+                <tr><td>Guardar</td><td>Archivo → Guardar (Ctrl + S)</td><td>Un archivo <code class="inline">.dia</code> editable</td></tr>
+                <tr><td>Guardar como</td><td>Archivo → Guardar como</td><td>Una copia con otro nombre</td></tr>
+                <tr><td>Exportar</td><td>Archivo → Exportar</td><td>PNG, SVG, PDF u otro formato de imagen</td></tr>
+                <tr><td>Abrir un trabajo</td><td>Archivo → Abrir</td><td>El <code class="inline">.dia</code> con todas las capas</td></tr>
+            </table>
+
+            <div class="sub">Nombres de archivo que no fallan</div>
+            <ul class="explain">
+                <li>Minúsculas, sin espacios y sin ñ: <code class="inline">mer_tienda_ana.dia</code>.</li>
+                <li>Un archivo para el MER y otro para el DER.</li>
+                <li>Si entregás una imagen, exportá en <strong>PNG</strong> (se ve en cualquier lado) o <strong>PDF</strong> (no se deforma).</li>
+                <li>Antes de exportar, hacé <strong>zoom para ver todo el diagrama</strong> y comprobá que no quede nada cortado.</li>
+            </ul>
+
+            <div class="sub">Atajos que ahorran tiempo</div>
+            <table class="datos">
+                <tr><th>Atajo</th><th>Hace</th></tr>
+                <tr><td>Ctrl + S</td><td>Guardar</td></tr>
+                <tr><td>Ctrl + Z</td><td>Deshacer</td></tr>
+                <tr><td>Ctrl + D</td><td>Duplicar la figura seleccionada</td></tr>
+                <tr><td>Ctrl + rueda</td><td>Zoom</td></tr>
+                <tr><td>Supr</td><td>Borrar la figura seleccionada</td></tr>
+                <tr><td>T</td><td>Herramienta Texto</td></tr>
+            </table>
+
+            <div class="buenas">
+                <strong>Antes de cerrar:</strong> guardá el <code class="inline">.dia</code>, exportá el PDF
+                y abrí el PDF para verlo. Si el PDF se ve bien, el trabajo está listo para entregar.
+            </div>
+            <div class="alerta">
+                <strong>Error clásico:</strong> entregar solo la imagen y perder el
+                <code class="inline">.dia</code>. Si hay que corregir algo, sin el archivo editable se
+                empieza de nuevo.
+            </div>
+
+            <div class="exercise">
+                <h4>✍️ Ejercicio: prepará la entrega</h4>
+                <p class="ex-goal">
+                    Escribí el procedimiento completo: cómo <strong>guardás</strong> el trabajo editable,
+                    cómo <strong>exportás</strong> para entregar, qué <strong>formatos</strong> elegís, cómo
+                    nombrás los archivos y qué <strong>revisás</strong> antes de cerrar el programa.
+                </p>
+                <details class="pista">
+                    <summary>Pista: cuatro pasos</summary>
+                    <ol>
+                        <li>Archivo → Guardar (Ctrl + S) con nombre en minúsculas.</li>
+                        <li>Archivo → Exportar a PNG o PDF.</li>
+                        <li>Abrir el archivo exportado para controlarlo.</li>
+                        <li>Guardar el <code class="inline">.dia</code> y la imagen en la misma carpeta.</li>
+                    </ol>
+                </details>
+                <textarea class="code-input" id="in-dia_export" spellcheck="false" placeholder="Guardar: ...&#10;Exportar: ...&#10;Formatos: ...&#10;Nombre de archivo: ...&#10;Revisión final: ..."></textarea>
+                <div class="ex-actions">
+                    <button class="btn btn-primary" onclick="corregir('dia_export')">✅ Corregir</button>
+                    <button class="btn btn-ghost" onclick="limpiar('dia_export')">Limpiar</button>
+                </div>
+                <div class="result" id="res-dia_export"></div>
+            </div>
+        </article>
+
+        <!-- Progreso -->
+        <div class="progress-card" id="progreso">
+            <h3>📊 Tu progreso en Dia</h3>
+            <p style="margin:0;font-size:.9rem;color:#0c4a6e;">
+                Se guarda automáticamente en este navegador. Tocá un tema para ir directo a su ejercicio.
+            </p>
+            <div class="progress-top">
+                <div class="score-bar"><div class="score-fill" id="progreso-barra" style="width:0%"></div></div>
+                <span class="progress-pct" id="progreso-texto">0 de 4 completos</span>
+            </div>
+            <ul class="progress-list" id="progreso-lista"></ul>
+            <div class="quiz-actions">
+                <button class="btn btn-ghost" onclick="reiniciarTodo()">🔄 Reiniciar progreso</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Autoevaluación -->
+    <section id="quiz">
+        <h2 class="section-title">Autoevaluación · Dia</h2>
+        <p class="section-sub">
+            Ocho preguntas sobre la herramienta. Marcá una opción por pregunta y presioná
+            <strong>Calificar</strong>.
+        </p>
+        <div class="card">
+            <div class="quiz-question" data-answer="b">
+                <p class="q-text">1. ¿Qué es Dia?</p>
+                <ul class="options-list">
+                    <li data-opt="a">Un gestor de bases de datos como MySQL</li>
+                    <li data-opt="b">Un programa libre para dibujar diagramas</li>
+                    <li data-opt="c">Un lenguaje de consultas</li>
+                    <li data-opt="d">Un servidor web</li>
+                </ul>
+            </div>
+            <div class="quiz-question" data-answer="c">
+                <p class="q-text">2. ¿Dónde se elige la hoja de figuras (ER, Database…)?</p>
+                <ul class="options-list">
+                    <li data-opt="a">En el menú Archivo</li>
+                    <li data-opt="b">En la barra de título</li>
+                    <li data-opt="c">En el desplegable de arriba de la paleta izquierda</li>
+                    <li data-opt="d">Con clic derecho en el lienzo</li>
+                </ul>
+            </div>
+            <div class="quiz-question" data-answer="a">
+                <p class="q-text">3. ¿Qué hoja usás para dibujar el MER?</p>
+                <ul class="options-list">
+                    <li data-opt="a">ER</li>
+                    <li data-opt="b">Database</li>
+                    <li data-opt="c">Flowchart</li>
+                    <li data-opt="d">Network</li>
+                </ul>
+            </div>
+            <div class="quiz-question" data-answer="b">
+                <p class="q-text">4. En la hoja ER, ¿qué figura representa una relación?</p>
+                <ul class="options-list">
+                    <li data-opt="a">Entity (rectángulo)</li>
+                    <li data-opt="b">Relationship (rombo)</li>
+                    <li data-opt="c">Attribute (óvalo)</li>
+                    <li data-opt="d">Table</li>
+                </ul>
+            </div>
+            <div class="quiz-question" data-answer="c">
+                <p class="q-text">5. ¿Qué hoja usás para el DER con tablas y PK/FK?</p>
+                <ul class="options-list">
+                    <li data-opt="a">ER</li>
+                    <li data-opt="b">Assorted</li>
+                    <li data-opt="c">Database</li>
+                    <li data-opt="d">UML</li>
+                </ul>
+            </div>
+            <div class="quiz-question" data-answer="d">
+                <p class="q-text">6. ¿Qué formato conserva el diagrama editable?</p>
+                <ul class="options-list">
+                    <li data-opt="a">PNG</li>
+                    <li data-opt="b">PDF</li>
+                    <li data-opt="c">JPG</li>
+                    <li data-opt="d">.dia</li>
+                </ul>
+            </div>
+            <div class="quiz-question" data-answer="a">
+                <p class="q-text">7. ¿Para qué sirve exportar a PNG o PDF?</p>
+                <ul class="options-list">
+                    <li data-opt="a">Para entregar o mostrar el diagrama sin editar</li>
+                    <li data-opt="b">Para que MySQL cree las tablas</li>
+                    <li data-opt="c">Para cambiar la hoja de figuras</li>
+                    <li data-opt="d">Para editar el diagrama más rápido</li>
+                </ul>
+            </div>
+            <div class="quiz-question" data-answer="b">
+                <p class="q-text">8. ¿Qué hace Ctrl + Z en Dia?</p>
+                <ul class="options-list">
+                    <li data-opt="a">Guarda el archivo</li>
+                    <li data-opt="b">Deshace la última acción</li>
+                    <li data-opt="c">Duplica la figura</li>
+                    <li data-opt="d">Hace zoom</li>
+                </ul>
+            </div>
+            <div class="quiz-actions">
+                <button class="btn btn-primary" onclick="calificarQuiz('quiz','score-banner')">✅ Calificar</button>
+                <button class="btn btn-ghost" onclick="reiniciarQuiz('quiz','score-banner')">🔄 Reiniciar</button>
+            </div>
+            <div id="score-banner"></div>
+        </div>
+    </section>
+
+    <!-- Simulador -->
+    <section id="simuladores">
+        <h2 class="section-title">Simulador · ¿Qué figura uso?</h2>
+        <p class="section-sub">
+            Elegí qué querés dibujar y mirá la hoja, la figura y los pasos exactos dentro de Dia.
+        </p>
+        <div class="card sim">
+            <h3>🧰 La paleta de Dia, paso a paso</h3>
+            <div class="num-btns" id="dia-btns">
+                <button type="button" data-f="entidad">Entidad</button>
+                <button type="button" data-f="atributo">Atributo</button>
+                <button type="button" data-f="relacion">Relación</button>
+                <button type="button" data-f="cardinalidad">Cardinalidad</button>
+                <button type="button" data-f="tabla">Tabla</button>
+                <button type="button" data-f="fk">Clave foránea</button>
+                <button type="button" data-f="exportar">Exportar</button>
+            </div>
+            <div class="sim-panel" id="dia-out"></div>
+            <div class="sim-msg ok" id="dia-msg"></div>
+        </div>
+    </section>
+
+    <div class="next-topic">
+        <p><strong>¿Terminaste el recorrido?</strong> Volvé al inicio para repasar cualquier tema o abrí la guía completa en una sola página.</p>
+        <a class="btn btn-primary" href="index.html">🏠 Volver al inicio</a>
+    </div>
+
+</main>
+
+<footer class="pie">
+    Curso interactivo · MER · DER · MySQL · Dia
+</footer>
+
+<script>
+window.GUIA = {
+    prefijo: 'dia_',
+    temas: [
+        { id: 'dia_pantalla', nombre: '1. Pantalla e instalación' },
+        { id: 'dia_mer', nombre: '2. Hoja ER' },
+        { id: 'dia_der', nombre: '3. Hoja Database' },
+        { id: 'dia_export', nombre: '4. Guardar y exportar' }
+    ],
+    ejercicios: {
+        dia_pantalla: [
+            { d: 'Explica que Dia sirve para dibujar diagramas', f: function (c) { return /dia[^\n]*(diagrama|dibuj)|(diagrama|dibuj)[^\n]*dia/.test(c); } },
+            { d: 'Nombra el lienzo central', f: function (c) { return /lienzo/.test(c); } },
+            { d: 'Nombra la paleta izquierda', f: function (c) { return /paleta/.test(c); } },
+            { d: 'Ubica la hoja en el desplegable de la paleta', f: function (c) { return /hoja[^\n]*(desplegable|paleta|lista)|desplegable[^\n]*hoja/.test(c); } },
+            { d: 'Coloca la figura con clic en la figura y clic en el lienzo', f: function (c) { return /clic[^\n]*figura|figura[^\n]*clic/.test(c) && /lienzo/.test(c); } },
+            { d: 'Escribe el nombre con doble clic', f: function (c) { return /doble\s*clic/.test(c); } },
+            { d: 'Menciona la instalación (dia-installer.de o apt install dia)', f: function (c) { return /dia-installer\.de|apt\s+install\s+dia/.test(c); } }
+        ],
+        dia_mer: [
+            { d: 'Elige la hoja ER', f: function (c) { return /\bhoja\s+er\b|hoja[^\n]*\ber\b/.test(c); } },
+            { d: 'Usa Entity para las entidades', f: function (c) { return /entit(y|ies)|entidad/.test(c); } },
+            { d: 'Usa Attribute para los atributos', f: function (c) { return /attribut|atributo|ovalo/.test(c); } },
+            { d: 'Usa Relationship para la relación', f: function (c) { return /relationship|rombo/.test(c); } },
+            { d: 'Marca la clave subrayando el atributo', f: function (c) { return /subray|ctrl\s*\+\s*u/.test(c); } },
+            { d: 'Escribe la cardinalidad con la herramienta Texto', f: function (c) { return /cardinalidad[^\n]*(texto|herramienta|t\b)|texto[^\n]*cardinalidad/.test(c); } },
+            { d: 'Agrega la entidad intermedia como un rectángulo', f: function (c) { return /intermedia/.test(c) && /rectangulo|entity|entidad/.test(c); } },
+            { d: 'Menciona la cardinalidad N:M o 1:N', f: function (c) { return /\bn\s*:\s*m\b|\b1\s*:\s*n\b|muchos\s+a\s+muchos/.test(c); } }
+        ],
+        dia_der: [
+            { d: 'Elige la hoja Database', f: function (c) { return /hoja[^\n]*database|database[^\n]*hoja/.test(c); } },
+            { d: 'Usa la figura Table para las tablas', f: function (c) { return /\btable\b|tabla[^\n]*figura|figura[^\n]*tabla/.test(c); } },
+            { d: 'Marca la PK en el editor de columnas', f: function (c) { return /primary\s*key|\bpk\b/.test(c); } },
+            { d: 'Une las FK con Reference', f: function (c) { return /reference|referencia/.test(c); } },
+            { d: 'Identifica compras como tabla intermedia', f: function (c) { return /compras[^\n]*intermedia|intermedia[^\n]*compras/.test(c); } },
+            { d: 'Indica las dos FK de la intermedia', f: function (c) { return /(dos|2)\s*(fk|foreign\s*key|claves)/.test(c) || (/cliente_dni/.test(c) && /producto_codigo/.test(c)); } },
+            { d: 'Usa los tipos INT, VARCHAR, DECIMAL y DATE', f: function (c) { return /int/.test(c) && /varchar/.test(c) && /decimal/.test(c) && /date/.test(c); } }
+        ],
+        dia_export: [
+            { d: 'Guarda con Archivo → Guardar o Ctrl + S', f: function (c) { return /guardar|ctrl\s*\+\s*s/.test(c); } },
+            { d: 'Exporta desde el menú Archivo', f: function (c) { return /export/.test(c) && /archivo/.test(c); } },
+            { d: 'Menciona los formatos PNG y PDF', f: function (c) { return /png/.test(c) && /pdf/.test(c); } },
+            { d: 'Distingue el .dia editable de la imagen exportada', f: function (c) { return /\.dia|archivo editable|editable/.test(c); } },
+            { d: 'Usa nombres en minúsculas y sin espacios', f: function (c) { return /minuscula|sin\s+espacios|guion\s*bajo/.test(c); } },
+            { d: 'Revisa el archivo exportado antes de entregar', f: function (c) { return /revis|abrir|control|comprobar/.test(c); } }
+        ]
+    }
+};
+</script>
+<script src="app.js"></script>
+<script>
+/* ================= SIMULADOR: QUÉ FIGURA USO ================= */
+(function () {
+    var out = document.getElementById('dia-out');
+    var msg = document.getElementById('dia-msg');
+    var btns = document.getElementById('dia-btns');
+    if (!out || !msg || !btns) return;
+
+    var casos = {
+        entidad: {
+            hoja: 'ER',
+            figura: 'Entity',
+            forma: 'Rectángulo',
+            pasos: [
+                'Elegí la hoja ER en el desplegable de la paleta.',
+                'Clic en Entity y después clic en el lienzo.',
+                'Doble clic y escribí CLIENTE en mayúsculas.',
+                'Repetí para PRODUCTO.'
+            ]
+        },
+        atributo: {
+            hoja: 'ER',
+            figura: 'Attribute',
+            forma: 'Óvalo',
+            pasos: [
+                'Con la hoja ER activa, elegí Attribute.',
+                'Colocá el óvalo cerca de su entidad.',
+                'Doble clic y escribí el nombre (nombre, precio…).',
+                'Uní el óvalo con la entidad usando una línea.'
+            ]
+        },
+        relacion: {
+            hoja: 'ER',
+            figura: 'Relationship',
+            forma: 'Rombo',
+            pasos: [
+                'Elegí Relationship en la hoja ER.',
+                'Colocá el rombo entre las dos entidades.',
+                'Escribí el verbo: COMPRA, PIDE, CURSA.',
+                'Uní el rombo con cada entidad mediante una línea.'
+            ]
+        },
+        cardinalidad: {
+            hoja: 'ER',
+            figura: 'Texto (tecla T)',
+            forma: 'Número o par 1:N',
+            pasos: [
+                'Elegí la herramienta Texto (tecla T).',
+                'Hacé clic sobre la línea que une entidad y relación.',
+                'Escribí 1 en el extremo de la entidad.',
+                'Escribí N en el extremo de la relación. Si es N:M, usá N y M.'
+            ]
+        },
+        tabla: {
+            hoja: 'Database',
+            figura: 'Table',
+            forma: 'Caja con columnas',
+            pasos: [
+                'Cambiá a la hoja Database.',
+                'Colocá una figura Table en el lienzo.',
+                'Doble clic para abrir el editor de columnas.',
+                'Cargá nombre, tipo y tildá PRIMARY KEY donde corresponda.'
+            ]
+        },
+        fk: {
+            hoja: 'Database',
+            figura: 'Reference',
+            forma: 'Línea entre tablas',
+            pasos: [
+                'Colocá las tres tablas: clientes, productos y compras.',
+                'Elegí Reference en la hoja Database.',
+                'Uní compras.cliente_dni con clientes.dni.',
+                'Uní compras.producto_codigo con productos.codigo.'
+            ]
+        },
+        exportar: {
+            hoja: 'Archivo',
+            figura: 'Guardar + Exportar',
+            forma: '.dia y PDF/PNG',
+            pasos: [
+                'Archivo → Guardar (Ctrl + S) para conservar el .dia editable.',
+                'Archivo → Exportar y elegí PNG o PDF.',
+                'Poné un nombre en minúsculas, sin espacios: mer_tienda.dia.',
+                'Abrí el archivo exportado y revisá que no falte nada.'
+            ]
+        }
+    };
+
+    function mostrar(clave) {
+        var caso = casos[clave];
+        if (!caso) return;
+        out.innerHTML =
+            '<div class="der-wrap">' +
+                '<div class="tblbox"><h4>Hoja</h4><div>' + caso.hoja + '</div></div>' +
+                '<div class="conector">→</div>' +
+                '<div class="tblbox"><h4>Figura</h4><div>' + caso.figura + '</div></div>' +
+                '<div class="conector">→</div>' +
+                '<div class="tblbox"><h4>Resultado</h4><div>' + caso.forma + '</div></div>' +
+            '</div>';
+        msg.className = 'sim-msg ok';
+        msg.innerHTML = '<strong>Pasos:</strong> ' + caso.pasos.join(' ');
+        btns.querySelectorAll('button').forEach(function (b) {
+            b.classList.toggle('active', b.dataset.f === clave);
+        });
+    }
+
+    btns.addEventListener('click', function (e) {
+        var b = e.target.closest('button[data-f]');
+        if (b) mostrar(b.dataset.f);
+    });
+
+    mostrar('entidad');
+})();
+</script>
+</body>
+</html>

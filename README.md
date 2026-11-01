@@ -1,29 +1,37 @@
-# MER · DER · Base de Datos — Guia interactiva
+# MER · DER · Base de Datos · Dia — Curso interactivo
 
-Pagina unica (HTML + CSS + JS, sin dependencias) para aprender el camino
-completo: **Modelo Entidad-Relacion -> Diagrama relacional -> Base de datos
-MySQL -> programa Dia**.
+Curso en HTML + CSS + JS, sin dependencias ni instalación, para aprender el
+camino completo: **Modelo Entidad-Relación → Diagrama relacional → Base de
+datos MySQL → programa Dia**.
 
-## Secciones (barra de navegacion)
+## Estructura
 
-| Seccion | Contenido |
-|---------|-----------|
-| MER | Simbologia completa con diagramas SVG y ejemplo vertical de la tienda |
-| DER | Tablas estilo Workbench con PK / FK / AUTO_INCREMENT |
-| BD | Como crear base y tablas en MySQL + script `tiendita.sql` completo |
-| Dia | Guia de uso del programa Dia (hojas ER y Database) |
-| Ejercicios | Biblioteca, Veterinaria y Escuela con respuestas interactivas |
+| Página | Contenido |
+|--------|-----------|
+| `index.html` | Portada del curso y accesos a los cuatro temas |
+| `mer.html` | MER: simbología completa, cardinalidades y ejemplos |
+| `der.html` | DER: tablas con PK / FK / AUTO_INCREMENT y paso del MER al DER |
+| `mysql.html` | Crear la base, insertar datos, consultar, relaciones y consultas de varias tablas |
+| `dia.html` | Uso del programa Dia: pantalla, hoja ER, hoja Database y exportación |
+| `guia_completa.html` | Guía completa original de una sola página (material de consulta) |
+| `guia_anterior.html` | Versión anterior de la guía de una sola página (se conserva por historial) |
+
+`estilos.css` y `app.js` son compartidos por las cinco páginas del curso.
 
 ## Ejercicios
 
-- Cada ejercicio tiene campos para escribir la solucion.
-- **Guardar**: persiste las respuestas en el navegador (localStorage).
-- **Enviar por mail**: abre el cliente de correo con todo armado
-  (configurar el mail destino en el recuadro verde).
-- **Descargar copia .txt**: respaldo de las respuestas.
+- Cada tema trae teoría y ejercitación en pestañas separadas.
+- La corrección es automática y se hace en la misma página: no hay descargas
+  ni subidas de archivos.
+- El corrector revisa la **estructura** de la respuesta (palabras clave,
+  tablas, columnas, cláusulas). **No ejecuta SQL** ni se conecta a una base.
+- Cada tema tiene además un cuestionario de opción múltiple.
+- El progreso se guarda en el navegador (`localStorage`) y se puede reiniciar
+  desde el botón **Reiniciar progreso**.
 
 ## Uso
 
-No requiere servidor ni instalacion: abrir `index.html` en cualquier
-navegador. Para publicarlo, activar GitHub Pages (Settings > Pages >
-branch `main`, carpeta raiz).
+No requiere servidor: abrir `index.html` en cualquier navegador.
+
+Para publicarlo con GitHub Pages: *Settings → Pages → branch `main`,
+carpeta raíz*.
